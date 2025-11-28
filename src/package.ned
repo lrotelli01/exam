@@ -1,0 +1,3 @@
+package exam;
+
+@license(LGPL);
