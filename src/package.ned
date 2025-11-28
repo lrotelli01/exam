@@ -1,3 +1,3 @@
-package exam;
+package progetto;
 
 @license(LGPL);
