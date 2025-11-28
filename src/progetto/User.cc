@@ -9,7 +9,7 @@ void User::initialize()
     lambda = par("lambda");
     readProbability = par("readProbability");
     numTables = par("numTables");
-    tableDistribution = par("tableDistribution").stdString();
+    tableDistribution = par("tableDistribution").stringValue();
     serviceTime = par("serviceTime");
     
     // Inizializzazione variabili

@@ -1,5 +1,5 @@
+#include <algorithm> // <--- AGGIUNGI QUESTA RIGA
 #include "Table.h"
-
 Define_Module(Table);
 
 Table::Table()
