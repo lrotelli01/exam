@@ -8,7 +8,7 @@ simple User
         double readProbability;        // Probabilità di operazione di lettura (p)
         int numTables;                 // Numero totale di tabelle (M)
         string tableDistribution;      // "uniform" o "lognormal" per scegliere la distribuzione di m
-        double serviceTime;            // Durata fissa dell'operazione (S secondi)
+        double serviceTime @unit(s);   // Durata fissa dell'operazione (S secondi)
         double lognormalM = default(0.5);
         double lognormalS = default(1.0);
         

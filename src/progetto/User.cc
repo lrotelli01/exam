@@ -130,7 +130,7 @@ void User::sendAccessRequest(int tableId, bool isRead)
 {
     // Crea un nuovo messaggio per la richiesta
     cMessage *request = new cMessage();
-    
+
     // Imposta il nome del messaggio per debugging
     if (isRead) {
         request->setName("ReadRequest");
@@ -139,21 +139,21 @@ void User::sendAccessRequest(int tableId, bool isRead)
         request->setName("WriteRequest");
         request->setKind(1);  // 1 = WRITE
     }
-    
+
     // Aggiungi informazioni sulla richiesta come parametri
     // Puoi usare cMessage::addPar() o una struttura dati personalizzata
     cMsgPar *userIdPar = new cMsgPar("userId");
     userIdPar->setLongValue(userId);
     request->addPar(userIdPar);
-    
+
     cMsgPar *arrivalTimePar = new cMsgPar("arrivalTime");
     arrivalTimePar->setDoubleValue(simTime().dbl());
     request->addPar(arrivalTimePar);
-    
+
     cMsgPar *serviceTimePar = new cMsgPar("serviceTime");
     serviceTimePar->setDoubleValue(serviceTime);
     request->addPar(serviceTimePar);
-    
+
     // Invia il messaggio al gate della tabella appropriata
     send(request, "tableOut", tableId);
 }
@@ -164,16 +164,16 @@ void User::processTableResponse(cMessage *msg)
     double arrivalTime = msg->par("arrivalTime").doubleValue();
     double completionTime = simTime().dbl();
     double waitTime = completionTime - arrivalTime;
-    
+
     totalWaitTime += waitTime;
     waitTimeVector.record(waitTime);
-    
+
     bool isRead = (msg->getKind() == 0);  // 0 = READ, 1 = WRITE
-    
-    EV_DEBUG << "User " << userId << " received response for " 
-             << (isRead ? "READ" : "WRITE") << " at time " << simTime() 
+
+    EV_DEBUG << "User " << userId << " received response for "
+             << (isRead ? "READ" : "WRITE") << " at time " << simTime()
              << ", wait time: " << waitTime << "s" << endl;
-    
+
     // Elimina il messaggio
     delete msg;
 }
