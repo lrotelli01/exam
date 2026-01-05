@@ -1,8 +1,8 @@
 version 3
-run Lognormal-116-20260105-17:01:35-25149
+run Lognormal-116-20260105-17:15:26-28123
 attr configname Lognormal
-attr datetime 20260105-17:01:35
-attr datetimef 20260105-170135
+attr datetime 20260105-17:15:26
+attr datetimef 20260105-171526
 attr experiment Lognormal
 attr inifile omnetpp.ini
 attr iterationvars "$N=200, $p=0.8"
@@ -10,7 +10,7 @@ attr iterationvarsd N=200/p=0.8
 attr iterationvarsf N=200,p=0.8-
 attr measurement "$N=200, $p=0.8"
 attr network progetto.DatabaseNetwork
-attr processid 25149
+attr processid 28123
 attr repetition 1
 attr replication #1
 attr resultdir results
@@ -3047,7 +3047,7 @@ scalar DatabaseNetwork.table[0] table.throughput 0.7274
 scalar DatabaseNetwork.table[0] table.maxQueueLength 2
 scalar DatabaseNetwork.table[0] table.avgQueueLength 1.000962331592
 scalar DatabaseNetwork.table[0] table.avgWaitingTime 0.0014058101382866
-scalar DatabaseNetwork.table[0] table.utilization 0.99993836230414
+scalar DatabaseNetwork.table[0] table.utilization 0.071076304797075
 par DatabaseNetwork.table[1] typename "\"progetto.Table\""
 par DatabaseNetwork.table[1] tableId 1
 scalar DatabaseNetwork.table[1] table.totalServed 15153
@@ -3057,7 +3057,7 @@ scalar DatabaseNetwork.table[1] table.throughput 1.5153
 scalar DatabaseNetwork.table[1] table.maxQueueLength 4
 scalar DatabaseNetwork.table[1] table.avgQueueLength 1.0055434567412
 scalar DatabaseNetwork.table[1] table.avgWaitingTime 0.0030299661632806
-scalar DatabaseNetwork.table[1] table.utilization 0.99989997077323
+scalar DatabaseNetwork.table[1] table.utilization 0.14438031841952
 par DatabaseNetwork.table[2] typename "\"progetto.Table\""
 par DatabaseNetwork.table[2] tableId 2
 scalar DatabaseNetwork.table[2] table.totalServed 14125
@@ -3067,7 +3067,7 @@ scalar DatabaseNetwork.table[2] table.throughput 1.4125
 scalar DatabaseNetwork.table[2] table.maxQueueLength 4
 scalar DatabaseNetwork.table[2] table.avgQueueLength 1.0051681415929
 scalar DatabaseNetwork.table[2] table.avgWaitingTime 0.0029004367143727
-scalar DatabaseNetwork.table[2] table.utilization 0.99995486302135
+scalar DatabaseNetwork.table[2] table.utilization 0.13511310621805
 par DatabaseNetwork.table[3] typename "\"progetto.Table\""
 par DatabaseNetwork.table[3] tableId 3
 scalar DatabaseNetwork.table[3] table.totalServed 11715
@@ -3077,7 +3077,7 @@ scalar DatabaseNetwork.table[3] table.throughput 1.1715
 scalar DatabaseNetwork.table[3] table.maxQueueLength 3
 scalar DatabaseNetwork.table[3] table.avgQueueLength 1.0031583440034
 scalar DatabaseNetwork.table[3] table.avgWaitingTime 0.0023458807482209
-scalar DatabaseNetwork.table[3] table.utilization 0.99998585228451
+scalar DatabaseNetwork.table[3] table.utilization 0.11293266263171
 par DatabaseNetwork.table[4] typename "\"progetto.Table\""
 par DatabaseNetwork.table[4] tableId 4
 scalar DatabaseNetwork.table[4] table.totalServed 9388
@@ -3087,7 +3087,7 @@ scalar DatabaseNetwork.table[4] table.throughput 0.9388
 scalar DatabaseNetwork.table[4] table.maxQueueLength 2
 scalar DatabaseNetwork.table[4] table.avgQueueLength 1.0013845989988
 scalar DatabaseNetwork.table[4] table.avgWaitingTime 0.0016991179824114
-scalar DatabaseNetwork.table[4] table.utilization 1
+scalar DatabaseNetwork.table[4] table.utilization 0.091035487355254
 par DatabaseNetwork.table[5] typename "\"progetto.Table\""
 par DatabaseNetwork.table[5] tableId 5
 scalar DatabaseNetwork.table[5] table.totalServed 7516
@@ -3097,7 +3097,7 @@ scalar DatabaseNetwork.table[5] table.throughput 0.7516
 scalar DatabaseNetwork.table[5] table.maxQueueLength 2
 scalar DatabaseNetwork.table[5] table.avgQueueLength 1.0011974454497
 scalar DatabaseNetwork.table[5] table.avgWaitingTime 0.0014649006151516
-scalar DatabaseNetwork.table[5] table.utilization 0.99991096647028
+scalar DatabaseNetwork.table[5] table.utilization 0.073511255749781
 par DatabaseNetwork.table[6] typename "\"progetto.Table\""
 par DatabaseNetwork.table[6] tableId 6
 scalar DatabaseNetwork.table[6] table.totalServed 6202
@@ -3107,7 +3107,7 @@ scalar DatabaseNetwork.table[6] table.throughput 0.6202
 scalar DatabaseNetwork.table[6] table.maxQueueLength 2
 scalar DatabaseNetwork.table[6] table.avgQueueLength 1.0011286681716
 scalar DatabaseNetwork.table[6] table.avgWaitingTime 0.0011674071923825
-scalar DatabaseNetwork.table[6] table.utilization 0.99972227891064
+scalar DatabaseNetwork.table[6] table.utilization 0.060780039490166
 par DatabaseNetwork.table[7] typename "\"progetto.Table\""
 par DatabaseNetwork.table[7] tableId 7
 scalar DatabaseNetwork.table[7] table.totalServed 4971
@@ -3117,7 +3117,7 @@ scalar DatabaseNetwork.table[7] table.throughput 0.4971
 scalar DatabaseNetwork.table[7] table.maxQueueLength 2
 scalar DatabaseNetwork.table[7] table.avgQueueLength 1.0002011667673
 scalar DatabaseNetwork.table[7] table.avgWaitingTime 0.00090993098477054
-scalar DatabaseNetwork.table[7] table.utilization 0.99986722761431
+scalar DatabaseNetwork.table[7] table.utilization 0.049011976528316
 par DatabaseNetwork.table[8] typename "\"progetto.Table\""
 par DatabaseNetwork.table[8] tableId 8
 scalar DatabaseNetwork.table[8] table.totalServed 4188
@@ -3127,7 +3127,7 @@ scalar DatabaseNetwork.table[8] table.throughput 0.4188
 scalar DatabaseNetwork.table[8] table.maxQueueLength 2
 scalar DatabaseNetwork.table[8] table.avgQueueLength 1.0002387774594
 scalar DatabaseNetwork.table[8] table.avgWaitingTime 0.00065582852951166
-scalar DatabaseNetwork.table[8] table.utilization 0.99994371710507
+scalar DatabaseNetwork.table[8] table.utilization 0.041361551020955
 par DatabaseNetwork.table[9] typename "\"progetto.Table\""
 par DatabaseNetwork.table[9] tableId 9
 scalar DatabaseNetwork.table[9] table.totalServed 3351
@@ -3137,7 +3137,7 @@ scalar DatabaseNetwork.table[9] table.throughput 0.3351
 scalar DatabaseNetwork.table[9] table.maxQueueLength 2
 scalar DatabaseNetwork.table[9] table.avgQueueLength 1.0002984183826
 scalar DatabaseNetwork.table[9] table.avgWaitingTime 0.00060955048298331
-scalar DatabaseNetwork.table[9] table.utilization 0.9997461969464
+scalar DatabaseNetwork.table[9] table.utilization 0.033226415761999
 par DatabaseNetwork.table[10] typename "\"progetto.Table\""
 par DatabaseNetwork.table[10] tableId 10
 scalar DatabaseNetwork.table[10] table.totalServed 2889
@@ -3147,7 +3147,7 @@ scalar DatabaseNetwork.table[10] table.throughput 0.2889
 scalar DatabaseNetwork.table[10] table.maxQueueLength 1
 scalar DatabaseNetwork.table[10] table.avgQueueLength 1
 scalar DatabaseNetwork.table[10] table.avgWaitingTime 0.00045672457275055
-scalar DatabaseNetwork.table[10] table.utilization 0.99961300102352
+scalar DatabaseNetwork.table[10] table.utilization 0.028644306568813
 par DatabaseNetwork.table[11] typename "\"progetto.Table\""
 par DatabaseNetwork.table[11] tableId 11
 scalar DatabaseNetwork.table[11] table.totalServed 2392
@@ -3157,7 +3157,7 @@ scalar DatabaseNetwork.table[11] table.throughput 0.2392
 scalar DatabaseNetwork.table[11] table.maxQueueLength 1
 scalar DatabaseNetwork.table[11] table.avgQueueLength 1
 scalar DatabaseNetwork.table[11] table.avgWaitingTime 0.00047871766364673
-scalar DatabaseNetwork.table[11] table.utilization 0.99985292002171
+scalar DatabaseNetwork.table[11] table.utilization 0.023783258566447
 par DatabaseNetwork.table[12] typename "\"progetto.Table\""
 par DatabaseNetwork.table[12] tableId 12
 scalar DatabaseNetwork.table[12] table.totalServed 2146
@@ -3167,7 +3167,7 @@ scalar DatabaseNetwork.table[12] table.throughput 0.2146
 scalar DatabaseNetwork.table[12] table.maxQueueLength 1
 scalar DatabaseNetwork.table[12] table.avgQueueLength 1
 scalar DatabaseNetwork.table[12] table.avgWaitingTime 0.00046154816044136
-scalar DatabaseNetwork.table[12] table.utilization 0.99991495330028
+scalar DatabaseNetwork.table[12] table.utilization 0.021296181031583
 par DatabaseNetwork.table[13] typename "\"progetto.Table\""
 par DatabaseNetwork.table[13] tableId 13
 scalar DatabaseNetwork.table[13] table.totalServed 1826
@@ -3177,7 +3177,7 @@ scalar DatabaseNetwork.table[13] table.throughput 0.1826
 scalar DatabaseNetwork.table[13] table.maxQueueLength 2
 scalar DatabaseNetwork.table[13] table.avgQueueLength 1.000547645126
 scalar DatabaseNetwork.table[13] table.avgWaitingTime 0.00036143607117023
-scalar DatabaseNetwork.table[13] table.utilization 0.99884478531944
+scalar DatabaseNetwork.table[13] table.utilization 0.018180316289039
 par DatabaseNetwork.table[14] typename "\"progetto.Table\""
 par DatabaseNetwork.table[14] tableId 14
 scalar DatabaseNetwork.table[14] table.totalServed 1496
@@ -3187,7 +3187,7 @@ scalar DatabaseNetwork.table[14] table.throughput 0.1496
 scalar DatabaseNetwork.table[14] table.maxQueueLength 1
 scalar DatabaseNetwork.table[14] table.avgQueueLength 1
 scalar DatabaseNetwork.table[14] table.avgWaitingTime 0.00015198779959898
-scalar DatabaseNetwork.table[14] table.utilization 0.99959102586497
+scalar DatabaseNetwork.table[14] table.utilization 0.014916707472423
 par DatabaseNetwork.table[15] typename "\"progetto.Table\""
 par DatabaseNetwork.table[15] tableId 15
 scalar DatabaseNetwork.table[15] table.totalServed 1371
@@ -3197,7 +3197,7 @@ scalar DatabaseNetwork.table[15] table.throughput 0.1371
 scalar DatabaseNetwork.table[15] table.maxQueueLength 1
 scalar DatabaseNetwork.table[15] table.avgQueueLength 1
 scalar DatabaseNetwork.table[15] table.avgWaitingTime 0.00019845707071659
-scalar DatabaseNetwork.table[15] table.utilization 0.99834719650794
+scalar DatabaseNetwork.table[15] table.utilization 0.013664539595287
 par DatabaseNetwork.table[16] typename "\"progetto.Table\""
 par DatabaseNetwork.table[16] tableId 16
 scalar DatabaseNetwork.table[16] table.totalServed 1170
@@ -3207,7 +3207,7 @@ scalar DatabaseNetwork.table[16] table.throughput 0.117
 scalar DatabaseNetwork.table[16] table.maxQueueLength 1
 scalar DatabaseNetwork.table[16] table.avgQueueLength 1
 scalar DatabaseNetwork.table[16] table.avgWaitingTime 0.00023897345492134
-scalar DatabaseNetwork.table[16] table.utilization 0.99986592310551
+scalar DatabaseNetwork.table[16] table.utilization 0.01164627704271
 par DatabaseNetwork.table[17] typename "\"progetto.Table\""
 par DatabaseNetwork.table[17] tableId 17
 scalar DatabaseNetwork.table[17] table.totalServed 1057
@@ -3217,7 +3217,7 @@ scalar DatabaseNetwork.table[17] table.throughput 0.1057
 scalar DatabaseNetwork.table[17] table.maxQueueLength 1
 scalar DatabaseNetwork.table[17] table.avgQueueLength 1
 scalar DatabaseNetwork.table[17] table.avgWaitingTime 0.00037999450158761
-scalar DatabaseNetwork.table[17] table.utilization 0.99976902212364
+scalar DatabaseNetwork.table[17] table.utilization 0.010531261280629
 par DatabaseNetwork.table[18] typename "\"progetto.Table\""
 par DatabaseNetwork.table[18] tableId 18
 scalar DatabaseNetwork.table[18] table.totalServed 891
@@ -3227,7 +3227,7 @@ scalar DatabaseNetwork.table[18] table.throughput 0.0891
 scalar DatabaseNetwork.table[18] table.maxQueueLength 1
 scalar DatabaseNetwork.table[18] table.avgQueueLength 1
 scalar DatabaseNetwork.table[18] table.avgWaitingTime 4.3577668156656e-05
-scalar DatabaseNetwork.table[18] table.utilization 0.99927867614936
+scalar DatabaseNetwork.table[18] table.utilization 0.0088887144690053
 par DatabaseNetwork.table[19] typename "\"progetto.Table\""
 par DatabaseNetwork.table[19] tableId 19
 scalar DatabaseNetwork.table[19] table.totalServed 815
@@ -3237,7 +3237,7 @@ scalar DatabaseNetwork.table[19] table.throughput 0.0815
 scalar DatabaseNetwork.table[19] table.maxQueueLength 1
 scalar DatabaseNetwork.table[19] table.avgQueueLength 1
 scalar DatabaseNetwork.table[19] table.avgWaitingTime 8.5320770665406e-05
-scalar DatabaseNetwork.table[19] table.utilization 0.99936993144258
+scalar DatabaseNetwork.table[19] table.utilization 0.008148015644139
 par DatabaseNetwork typename "\"progetto.DatabaseNetwork\""
 par DatabaseNetwork numUsers 200
 par DatabaseNetwork numTables 20

@@ -110,8 +110,6 @@ void Table::handleMessage(cMessage *msg)
         delete orig; // original request received from user
         removeEvent(msg);
         delete msg; // serviceDone event
-        
-        bool wasBusy = (activeReaders > 0 || writeActive);
 
         if (isRead) {
             activeReaders--;
@@ -120,9 +118,9 @@ void Table::handleMessage(cMessage *msg)
             writeActive = false;
         }
         
-        // Se ora è idle (nessun reader attivo, no write), aggiorna contatori
-        bool nowBusy = (activeReaders > 0 || writeActive);
-        if (wasBusy && !nowBusy) {
+        // Se ora è idle (nessun reader attivo, no write), accumula il tempo busy
+        bool nowIdle = (activeReaders == 0 && !writeActive);
+        if (nowIdle) {
             totalBusyTime += simTime() - lastStateChange;
             lastStateChange = simTime();
         }
@@ -224,9 +222,8 @@ void Table::startServiceForRequest(cMessage *req)
         writeActive = true;
     }
     
-    // Se prima era idle e ora è busy, aggiorna contatori
+    // Se prima era idle e ora diventa busy, segna l'inizio del periodo busy
     if (!wasBusy) {
-        totalBusyTime += simTime() - lastStateChange;
         lastStateChange = simTime();
     }
 
