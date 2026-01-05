@@ -1,0 +1,49 @@
+ # OMNeT++ generated files
+*.o
+*.so
+*.a
+*.dylib
+*.exe
+*.dll
+*_m.cc
+*_m.h
+*_sm.cc
+*_sm.h
+.tkenvrc
+.tkenvlog
+.cmdenv-log
+.qtenvrc
+
+# Simulation results
+results/
+*.sca
+*.vec
+*.vci
+*.log
+
+simulations/results/
+*.vec
+*.sca
+*.vci
+# Build artifacts
+out/
+src/exam
+src/exam_dbg
+.qtenvrc
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Graphs and reports
+*.png
+*.pdf
+analysis_report.txt
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

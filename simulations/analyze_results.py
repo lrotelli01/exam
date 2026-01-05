@@ -109,7 +109,8 @@ def aggregate_statistics(data):
         'avg_wait_time': statistics.mean(wait_times) if wait_times else 0,
         'std_wait_time': statistics.stdev(wait_times) if len(wait_times) > 1 else 0,
         'throughput_per_user': statistics.mean(throughputs) if throughputs else 0,
-        'system_throughput': total_accesses / 10000 if total_accesses > 0 else 0,  # req/s
+        # CORRETTO: usa somma throughput tabelle invece di total_accesses/10000
+        'system_throughput': sum(table_throughputs) if table_throughputs else (total_accesses / 10000),
         # Statistiche tabelle
         'avg_table_throughput': statistics.mean(table_throughputs) if table_throughputs else 0,
         'max_table_throughput': max(table_throughputs) if table_throughputs else 0,
