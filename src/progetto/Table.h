@@ -29,6 +29,14 @@ private:
     long totalReads;
     long totalWrites;
     simtime_t busyTimeStart; // optional to measure utilization
+    simtime_t totalBusyTime;
+    simtime_t lastStateChange;
+    
+    // Statistiche code
+    int maxQueueLength;
+    double totalQueueLength;
+    int queueLengthSamples;
+    double totalWaitingTime;
 
 protected:
     virtual void initialize() override;

@@ -1,8 +1,8 @@
 version 3
-run Uniform-0-20260105-16:25:55-14352
+run Uniform-2-20260105-16:25:28-14448
 attr configname Uniform
-attr datetime 20260105-16:25:55
-attr datetimef 20260105-162555
+attr datetime 20260105-16:25:28
+attr datetimef 20260105-162528
 attr experiment Uniform
 attr inifile omnetpp.ini
 attr iterationvars "$N=50, $p=0.5"
@@ -10,12 +10,12 @@ attr iterationvarsd N=50/p=0.5
 attr iterationvarsf N=50,p=0.5-
 attr measurement "$N=50, $p=0.5"
 attr network progetto.DatabaseNetwork
-attr processid 14352
-attr repetition 0
-attr replication #0
+attr processid 14448
+attr repetition 2
+attr replication #2
 attr resultdir results
-attr runnumber 0
-attr seedset 0
+attr runnumber 2
+attr seedset 2
 itervar N 50
 itervar p 0.5
 config description "Uniform distribution - varia N e p"
@@ -26,9 +26,9 @@ config network progetto.DatabaseNetwork
 config sim-time-limit 10000s
 config cpu-time-limit 3600s
 config repeat 5
-config seed-set 0
-config output-vector-file "results/Uniform-$N=50, $p=0.5-0.vec"
-config output-scalar-file "results/Uniform-$N=50, $p=0.5-0.sca"
+config seed-set 2
+config output-vector-file "results/Uniform-$N=50, $p=0.5-2.vec"
+config output-scalar-file "results/Uniform-$N=50, $p=0.5-2.sca"
 config result-dir results
 config **.vector-recording true
 config **.scalar-recording true
@@ -46,11 +46,11 @@ par DatabaseNetwork.user[0] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[0] lognormalM 0.5
 par DatabaseNetwork.user[0] lognormalS 1
-scalar DatabaseNetwork.user[0] totalAccesses 475
-scalar DatabaseNetwork.user[0] totalReads 234
-scalar DatabaseNetwork.user[0] totalWrites 241
-scalar DatabaseNetwork.user[0] averageWaitTime 0.10041572254188
-scalar DatabaseNetwork.user[0] accessesPerSecond 0.0475
+scalar DatabaseNetwork.user[0] totalAccesses 517
+scalar DatabaseNetwork.user[0] totalReads 236
+scalar DatabaseNetwork.user[0] totalWrites 281
+scalar DatabaseNetwork.user[0] averageWaitTime 0.10116222845464
+scalar DatabaseNetwork.user[0] accessesPerSecond 0.0517
 par DatabaseNetwork.user[1] typename "\"progetto.User\""
 par DatabaseNetwork.user[1] userId 1
 par DatabaseNetwork.user[1] lambda 0.05
@@ -61,11 +61,11 @@ par DatabaseNetwork.user[1] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[1] lognormalM 0.5
 par DatabaseNetwork.user[1] lognormalS 1
-scalar DatabaseNetwork.user[1] totalAccesses 488
-scalar DatabaseNetwork.user[1] totalReads 243
-scalar DatabaseNetwork.user[1] totalWrites 245
-scalar DatabaseNetwork.user[1] averageWaitTime 0.10024021564768
-scalar DatabaseNetwork.user[1] accessesPerSecond 0.0488
+scalar DatabaseNetwork.user[1] totalAccesses 460
+scalar DatabaseNetwork.user[1] totalReads 217
+scalar DatabaseNetwork.user[1] totalWrites 243
+scalar DatabaseNetwork.user[1] averageWaitTime 0.1000991850418
+scalar DatabaseNetwork.user[1] accessesPerSecond 0.046
 par DatabaseNetwork.user[2] typename "\"progetto.User\""
 par DatabaseNetwork.user[2] userId 2
 par DatabaseNetwork.user[2] lambda 0.05
@@ -76,11 +76,11 @@ par DatabaseNetwork.user[2] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[2] lognormalM 0.5
 par DatabaseNetwork.user[2] lognormalS 1
-scalar DatabaseNetwork.user[2] totalAccesses 488
-scalar DatabaseNetwork.user[2] totalReads 260
-scalar DatabaseNetwork.user[2] totalWrites 228
-scalar DatabaseNetwork.user[2] averageWaitTime 0.10077812044841
-scalar DatabaseNetwork.user[2] accessesPerSecond 0.0488
+scalar DatabaseNetwork.user[2] totalAccesses 503
+scalar DatabaseNetwork.user[2] totalReads 270
+scalar DatabaseNetwork.user[2] totalWrites 233
+scalar DatabaseNetwork.user[2] averageWaitTime 0.10090873395413
+scalar DatabaseNetwork.user[2] accessesPerSecond 0.0503
 par DatabaseNetwork.user[3] typename "\"progetto.User\""
 par DatabaseNetwork.user[3] userId 3
 par DatabaseNetwork.user[3] lambda 0.05
@@ -91,11 +91,11 @@ par DatabaseNetwork.user[3] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[3] lognormalM 0.5
 par DatabaseNetwork.user[3] lognormalS 1
-scalar DatabaseNetwork.user[3] totalAccesses 524
-scalar DatabaseNetwork.user[3] totalReads 282
-scalar DatabaseNetwork.user[3] totalWrites 242
-scalar DatabaseNetwork.user[3] averageWaitTime 0.10023831733936
-scalar DatabaseNetwork.user[3] accessesPerSecond 0.0524
+scalar DatabaseNetwork.user[3] totalAccesses 546
+scalar DatabaseNetwork.user[3] totalReads 253
+scalar DatabaseNetwork.user[3] totalWrites 293
+scalar DatabaseNetwork.user[3] averageWaitTime 0.10080103046182
+scalar DatabaseNetwork.user[3] accessesPerSecond 0.0546
 par DatabaseNetwork.user[4] typename "\"progetto.User\""
 par DatabaseNetwork.user[4] userId 4
 par DatabaseNetwork.user[4] lambda 0.05
@@ -106,11 +106,11 @@ par DatabaseNetwork.user[4] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[4] lognormalM 0.5
 par DatabaseNetwork.user[4] lognormalS 1
-scalar DatabaseNetwork.user[4] totalAccesses 504
-scalar DatabaseNetwork.user[4] totalReads 238
-scalar DatabaseNetwork.user[4] totalWrites 266
-scalar DatabaseNetwork.user[4] averageWaitTime 0.10010645713249
-scalar DatabaseNetwork.user[4] accessesPerSecond 0.0504
+scalar DatabaseNetwork.user[4] totalAccesses 522
+scalar DatabaseNetwork.user[4] totalReads 258
+scalar DatabaseNetwork.user[4] totalWrites 264
+scalar DatabaseNetwork.user[4] averageWaitTime 0.1006233639058
+scalar DatabaseNetwork.user[4] accessesPerSecond 0.0522
 par DatabaseNetwork.user[5] typename "\"progetto.User\""
 par DatabaseNetwork.user[5] userId 5
 par DatabaseNetwork.user[5] lambda 0.05
@@ -121,11 +121,11 @@ par DatabaseNetwork.user[5] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[5] lognormalM 0.5
 par DatabaseNetwork.user[5] lognormalS 1
-scalar DatabaseNetwork.user[5] totalAccesses 521
-scalar DatabaseNetwork.user[5] totalReads 254
-scalar DatabaseNetwork.user[5] totalWrites 267
-scalar DatabaseNetwork.user[5] averageWaitTime 0.10039300927142
-scalar DatabaseNetwork.user[5] accessesPerSecond 0.0521
+scalar DatabaseNetwork.user[5] totalAccesses 500
+scalar DatabaseNetwork.user[5] totalReads 268
+scalar DatabaseNetwork.user[5] totalWrites 232
+scalar DatabaseNetwork.user[5] averageWaitTime 0.10092750002191
+scalar DatabaseNetwork.user[5] accessesPerSecond 0.05
 par DatabaseNetwork.user[6] typename "\"progetto.User\""
 par DatabaseNetwork.user[6] userId 6
 par DatabaseNetwork.user[6] lambda 0.05
@@ -136,11 +136,11 @@ par DatabaseNetwork.user[6] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[6] lognormalM 0.5
 par DatabaseNetwork.user[6] lognormalS 1
-scalar DatabaseNetwork.user[6] totalAccesses 534
+scalar DatabaseNetwork.user[6] totalAccesses 530
 scalar DatabaseNetwork.user[6] totalReads 261
-scalar DatabaseNetwork.user[6] totalWrites 273
-scalar DatabaseNetwork.user[6] averageWaitTime 0.10076171802936
-scalar DatabaseNetwork.user[6] accessesPerSecond 0.0534
+scalar DatabaseNetwork.user[6] totalWrites 269
+scalar DatabaseNetwork.user[6] averageWaitTime 0.10101319714691
+scalar DatabaseNetwork.user[6] accessesPerSecond 0.053
 par DatabaseNetwork.user[7] typename "\"progetto.User\""
 par DatabaseNetwork.user[7] userId 7
 par DatabaseNetwork.user[7] lambda 0.05
@@ -151,11 +151,11 @@ par DatabaseNetwork.user[7] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[7] lognormalM 0.5
 par DatabaseNetwork.user[7] lognormalS 1
-scalar DatabaseNetwork.user[7] totalAccesses 472
-scalar DatabaseNetwork.user[7] totalReads 245
-scalar DatabaseNetwork.user[7] totalWrites 227
-scalar DatabaseNetwork.user[7] averageWaitTime 0.10084997405818
-scalar DatabaseNetwork.user[7] accessesPerSecond 0.0472
+scalar DatabaseNetwork.user[7] totalAccesses 442
+scalar DatabaseNetwork.user[7] totalReads 210
+scalar DatabaseNetwork.user[7] totalWrites 232
+scalar DatabaseNetwork.user[7] averageWaitTime 0.10069428277249
+scalar DatabaseNetwork.user[7] accessesPerSecond 0.0442
 par DatabaseNetwork.user[8] typename "\"progetto.User\""
 par DatabaseNetwork.user[8] userId 8
 par DatabaseNetwork.user[8] lambda 0.05
@@ -166,11 +166,11 @@ par DatabaseNetwork.user[8] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[8] lognormalM 0.5
 par DatabaseNetwork.user[8] lognormalS 1
-scalar DatabaseNetwork.user[8] totalAccesses 502
-scalar DatabaseNetwork.user[8] totalReads 264
-scalar DatabaseNetwork.user[8] totalWrites 238
-scalar DatabaseNetwork.user[8] averageWaitTime 0.10037679987778
-scalar DatabaseNetwork.user[8] accessesPerSecond 0.0502
+scalar DatabaseNetwork.user[8] totalAccesses 513
+scalar DatabaseNetwork.user[8] totalReads 286
+scalar DatabaseNetwork.user[8] totalWrites 227
+scalar DatabaseNetwork.user[8] averageWaitTime 0.10049859924628
+scalar DatabaseNetwork.user[8] accessesPerSecond 0.0513
 par DatabaseNetwork.user[9] typename "\"progetto.User\""
 par DatabaseNetwork.user[9] userId 9
 par DatabaseNetwork.user[9] lambda 0.05
@@ -181,11 +181,11 @@ par DatabaseNetwork.user[9] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[9] lognormalM 0.5
 par DatabaseNetwork.user[9] lognormalS 1
-scalar DatabaseNetwork.user[9] totalAccesses 493
-scalar DatabaseNetwork.user[9] totalReads 247
+scalar DatabaseNetwork.user[9] totalAccesses 505
+scalar DatabaseNetwork.user[9] totalReads 259
 scalar DatabaseNetwork.user[9] totalWrites 246
-scalar DatabaseNetwork.user[9] averageWaitTime 0.10114568741291
-scalar DatabaseNetwork.user[9] accessesPerSecond 0.0493
+scalar DatabaseNetwork.user[9] averageWaitTime 0.10039685090974
+scalar DatabaseNetwork.user[9] accessesPerSecond 0.0505
 par DatabaseNetwork.user[10] typename "\"progetto.User\""
 par DatabaseNetwork.user[10] userId 10
 par DatabaseNetwork.user[10] lambda 0.05
@@ -196,11 +196,11 @@ par DatabaseNetwork.user[10] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[10] lognormalM 0.5
 par DatabaseNetwork.user[10] lognormalS 1
-scalar DatabaseNetwork.user[10] totalAccesses 492
-scalar DatabaseNetwork.user[10] totalReads 239
-scalar DatabaseNetwork.user[10] totalWrites 253
-scalar DatabaseNetwork.user[10] averageWaitTime 0.10082112947112
-scalar DatabaseNetwork.user[10] accessesPerSecond 0.0492
+scalar DatabaseNetwork.user[10] totalAccesses 495
+scalar DatabaseNetwork.user[10] totalReads 255
+scalar DatabaseNetwork.user[10] totalWrites 240
+scalar DatabaseNetwork.user[10] averageWaitTime 0.10037749624771
+scalar DatabaseNetwork.user[10] accessesPerSecond 0.0495
 par DatabaseNetwork.user[11] typename "\"progetto.User\""
 par DatabaseNetwork.user[11] userId 11
 par DatabaseNetwork.user[11] lambda 0.05
@@ -211,11 +211,11 @@ par DatabaseNetwork.user[11] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[11] lognormalM 0.5
 par DatabaseNetwork.user[11] lognormalS 1
-scalar DatabaseNetwork.user[11] totalAccesses 510
-scalar DatabaseNetwork.user[11] totalReads 276
-scalar DatabaseNetwork.user[11] totalWrites 234
-scalar DatabaseNetwork.user[11] averageWaitTime 0.10004676338406
-scalar DatabaseNetwork.user[11] accessesPerSecond 0.051
+scalar DatabaseNetwork.user[11] totalAccesses 475
+scalar DatabaseNetwork.user[11] totalReads 243
+scalar DatabaseNetwork.user[11] totalWrites 232
+scalar DatabaseNetwork.user[11] averageWaitTime 0.10010958963924
+scalar DatabaseNetwork.user[11] accessesPerSecond 0.0475
 par DatabaseNetwork.user[12] typename "\"progetto.User\""
 par DatabaseNetwork.user[12] userId 12
 par DatabaseNetwork.user[12] lambda 0.05
@@ -226,11 +226,11 @@ par DatabaseNetwork.user[12] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[12] lognormalM 0.5
 par DatabaseNetwork.user[12] lognormalS 1
-scalar DatabaseNetwork.user[12] totalAccesses 502
-scalar DatabaseNetwork.user[12] totalReads 250
-scalar DatabaseNetwork.user[12] totalWrites 252
-scalar DatabaseNetwork.user[12] averageWaitTime 0.10026829680871
-scalar DatabaseNetwork.user[12] accessesPerSecond 0.0502
+scalar DatabaseNetwork.user[12] totalAccesses 489
+scalar DatabaseNetwork.user[12] totalReads 235
+scalar DatabaseNetwork.user[12] totalWrites 254
+scalar DatabaseNetwork.user[12] averageWaitTime 0.10035589173846
+scalar DatabaseNetwork.user[12] accessesPerSecond 0.0489
 par DatabaseNetwork.user[13] typename "\"progetto.User\""
 par DatabaseNetwork.user[13] userId 13
 par DatabaseNetwork.user[13] lambda 0.05
@@ -241,11 +241,11 @@ par DatabaseNetwork.user[13] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[13] lognormalM 0.5
 par DatabaseNetwork.user[13] lognormalS 1
-scalar DatabaseNetwork.user[13] totalAccesses 515
-scalar DatabaseNetwork.user[13] totalReads 262
-scalar DatabaseNetwork.user[13] totalWrites 253
-scalar DatabaseNetwork.user[13] averageWaitTime 0.10045848053355
-scalar DatabaseNetwork.user[13] accessesPerSecond 0.0515
+scalar DatabaseNetwork.user[13] totalAccesses 531
+scalar DatabaseNetwork.user[13] totalReads 270
+scalar DatabaseNetwork.user[13] totalWrites 261
+scalar DatabaseNetwork.user[13] averageWaitTime 0.10047211884844
+scalar DatabaseNetwork.user[13] accessesPerSecond 0.0531
 par DatabaseNetwork.user[14] typename "\"progetto.User\""
 par DatabaseNetwork.user[14] userId 14
 par DatabaseNetwork.user[14] lambda 0.05
@@ -256,11 +256,11 @@ par DatabaseNetwork.user[14] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[14] lognormalM 0.5
 par DatabaseNetwork.user[14] lognormalS 1
-scalar DatabaseNetwork.user[14] totalAccesses 468
-scalar DatabaseNetwork.user[14] totalReads 242
-scalar DatabaseNetwork.user[14] totalWrites 226
-scalar DatabaseNetwork.user[14] averageWaitTime 0.10018188593953
-scalar DatabaseNetwork.user[14] accessesPerSecond 0.0468
+scalar DatabaseNetwork.user[14] totalAccesses 507
+scalar DatabaseNetwork.user[14] totalReads 241
+scalar DatabaseNetwork.user[14] totalWrites 266
+scalar DatabaseNetwork.user[14] averageWaitTime 0.10088958210899
+scalar DatabaseNetwork.user[14] accessesPerSecond 0.0507
 par DatabaseNetwork.user[15] typename "\"progetto.User\""
 par DatabaseNetwork.user[15] userId 15
 par DatabaseNetwork.user[15] lambda 0.05
@@ -271,11 +271,11 @@ par DatabaseNetwork.user[15] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[15] lognormalM 0.5
 par DatabaseNetwork.user[15] lognormalS 1
-scalar DatabaseNetwork.user[15] totalAccesses 529
-scalar DatabaseNetwork.user[15] totalReads 260
-scalar DatabaseNetwork.user[15] totalWrites 269
-scalar DatabaseNetwork.user[15] averageWaitTime 0.10051879886074
-scalar DatabaseNetwork.user[15] accessesPerSecond 0.0529
+scalar DatabaseNetwork.user[15] totalAccesses 452
+scalar DatabaseNetwork.user[15] totalReads 233
+scalar DatabaseNetwork.user[15] totalWrites 219
+scalar DatabaseNetwork.user[15] averageWaitTime 0.10080833684312
+scalar DatabaseNetwork.user[15] accessesPerSecond 0.0452
 par DatabaseNetwork.user[16] typename "\"progetto.User\""
 par DatabaseNetwork.user[16] userId 16
 par DatabaseNetwork.user[16] lambda 0.05
@@ -286,11 +286,11 @@ par DatabaseNetwork.user[16] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[16] lognormalM 0.5
 par DatabaseNetwork.user[16] lognormalS 1
-scalar DatabaseNetwork.user[16] totalAccesses 493
-scalar DatabaseNetwork.user[16] totalReads 258
-scalar DatabaseNetwork.user[16] totalWrites 235
-scalar DatabaseNetwork.user[16] averageWaitTime 0.10073574687917
-scalar DatabaseNetwork.user[16] accessesPerSecond 0.0493
+scalar DatabaseNetwork.user[16] totalAccesses 522
+scalar DatabaseNetwork.user[16] totalReads 242
+scalar DatabaseNetwork.user[16] totalWrites 280
+scalar DatabaseNetwork.user[16] averageWaitTime 0.10015056378997
+scalar DatabaseNetwork.user[16] accessesPerSecond 0.0522
 par DatabaseNetwork.user[17] typename "\"progetto.User\""
 par DatabaseNetwork.user[17] userId 17
 par DatabaseNetwork.user[17] lambda 0.05
@@ -301,11 +301,11 @@ par DatabaseNetwork.user[17] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[17] lognormalM 0.5
 par DatabaseNetwork.user[17] lognormalS 1
-scalar DatabaseNetwork.user[17] totalAccesses 494
-scalar DatabaseNetwork.user[17] totalReads 255
-scalar DatabaseNetwork.user[17] totalWrites 239
-scalar DatabaseNetwork.user[17] averageWaitTime 0.10057867774599
-scalar DatabaseNetwork.user[17] accessesPerSecond 0.0494
+scalar DatabaseNetwork.user[17] totalAccesses 518
+scalar DatabaseNetwork.user[17] totalReads 267
+scalar DatabaseNetwork.user[17] totalWrites 251
+scalar DatabaseNetwork.user[17] averageWaitTime 0.10042169462543
+scalar DatabaseNetwork.user[17] accessesPerSecond 0.0518
 par DatabaseNetwork.user[18] typename "\"progetto.User\""
 par DatabaseNetwork.user[18] userId 18
 par DatabaseNetwork.user[18] lambda 0.05
@@ -316,11 +316,11 @@ par DatabaseNetwork.user[18] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[18] lognormalM 0.5
 par DatabaseNetwork.user[18] lognormalS 1
-scalar DatabaseNetwork.user[18] totalAccesses 497
-scalar DatabaseNetwork.user[18] totalReads 256
-scalar DatabaseNetwork.user[18] totalWrites 241
-scalar DatabaseNetwork.user[18] averageWaitTime 0.10036260095503
-scalar DatabaseNetwork.user[18] accessesPerSecond 0.0497
+scalar DatabaseNetwork.user[18] totalAccesses 486
+scalar DatabaseNetwork.user[18] totalReads 252
+scalar DatabaseNetwork.user[18] totalWrites 234
+scalar DatabaseNetwork.user[18] averageWaitTime 0.10021965613477
+scalar DatabaseNetwork.user[18] accessesPerSecond 0.0486
 par DatabaseNetwork.user[19] typename "\"progetto.User\""
 par DatabaseNetwork.user[19] userId 19
 par DatabaseNetwork.user[19] lambda 0.05
@@ -331,11 +331,11 @@ par DatabaseNetwork.user[19] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[19] lognormalM 0.5
 par DatabaseNetwork.user[19] lognormalS 1
-scalar DatabaseNetwork.user[19] totalAccesses 510
-scalar DatabaseNetwork.user[19] totalReads 253
-scalar DatabaseNetwork.user[19] totalWrites 257
-scalar DatabaseNetwork.user[19] averageWaitTime 0.10060865660953
-scalar DatabaseNetwork.user[19] accessesPerSecond 0.051
+scalar DatabaseNetwork.user[19] totalAccesses 517
+scalar DatabaseNetwork.user[19] totalReads 267
+scalar DatabaseNetwork.user[19] totalWrites 250
+scalar DatabaseNetwork.user[19] averageWaitTime 0.10012049904988
+scalar DatabaseNetwork.user[19] accessesPerSecond 0.0517
 par DatabaseNetwork.user[20] typename "\"progetto.User\""
 par DatabaseNetwork.user[20] userId 20
 par DatabaseNetwork.user[20] lambda 0.05
@@ -346,11 +346,11 @@ par DatabaseNetwork.user[20] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[20] lognormalM 0.5
 par DatabaseNetwork.user[20] lognormalS 1
-scalar DatabaseNetwork.user[20] totalAccesses 499
-scalar DatabaseNetwork.user[20] totalReads 242
-scalar DatabaseNetwork.user[20] totalWrites 257
-scalar DatabaseNetwork.user[20] averageWaitTime 0.10075607790767
-scalar DatabaseNetwork.user[20] accessesPerSecond 0.0499
+scalar DatabaseNetwork.user[20] totalAccesses 529
+scalar DatabaseNetwork.user[20] totalReads 264
+scalar DatabaseNetwork.user[20] totalWrites 265
+scalar DatabaseNetwork.user[20] averageWaitTime 0.10015634627535
+scalar DatabaseNetwork.user[20] accessesPerSecond 0.0529
 par DatabaseNetwork.user[21] typename "\"progetto.User\""
 par DatabaseNetwork.user[21] userId 21
 par DatabaseNetwork.user[21] lambda 0.05
@@ -361,11 +361,11 @@ par DatabaseNetwork.user[21] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[21] lognormalM 0.5
 par DatabaseNetwork.user[21] lognormalS 1
-scalar DatabaseNetwork.user[21] totalAccesses 494
-scalar DatabaseNetwork.user[21] totalReads 253
-scalar DatabaseNetwork.user[21] totalWrites 241
-scalar DatabaseNetwork.user[21] averageWaitTime 0.10052026498594
-scalar DatabaseNetwork.user[21] accessesPerSecond 0.0494
+scalar DatabaseNetwork.user[21] totalAccesses 511
+scalar DatabaseNetwork.user[21] totalReads 250
+scalar DatabaseNetwork.user[21] totalWrites 261
+scalar DatabaseNetwork.user[21] averageWaitTime 0.10101015694425
+scalar DatabaseNetwork.user[21] accessesPerSecond 0.0511
 par DatabaseNetwork.user[22] typename "\"progetto.User\""
 par DatabaseNetwork.user[22] userId 22
 par DatabaseNetwork.user[22] lambda 0.05
@@ -377,9 +377,9 @@ attr unit s
 par DatabaseNetwork.user[22] lognormalM 0.5
 par DatabaseNetwork.user[22] lognormalS 1
 scalar DatabaseNetwork.user[22] totalAccesses 479
-scalar DatabaseNetwork.user[22] totalReads 254
-scalar DatabaseNetwork.user[22] totalWrites 225
-scalar DatabaseNetwork.user[22] averageWaitTime 0.10092224612134
+scalar DatabaseNetwork.user[22] totalReads 258
+scalar DatabaseNetwork.user[22] totalWrites 221
+scalar DatabaseNetwork.user[22] averageWaitTime 0.10089434429043
 scalar DatabaseNetwork.user[22] accessesPerSecond 0.0479
 par DatabaseNetwork.user[23] typename "\"progetto.User\""
 par DatabaseNetwork.user[23] userId 23
@@ -391,11 +391,11 @@ par DatabaseNetwork.user[23] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[23] lognormalM 0.5
 par DatabaseNetwork.user[23] lognormalS 1
-scalar DatabaseNetwork.user[23] totalAccesses 517
-scalar DatabaseNetwork.user[23] totalReads 238
-scalar DatabaseNetwork.user[23] totalWrites 279
-scalar DatabaseNetwork.user[23] averageWaitTime 0.10045429007603
-scalar DatabaseNetwork.user[23] accessesPerSecond 0.0517
+scalar DatabaseNetwork.user[23] totalAccesses 533
+scalar DatabaseNetwork.user[23] totalReads 253
+scalar DatabaseNetwork.user[23] totalWrites 280
+scalar DatabaseNetwork.user[23] averageWaitTime 0.10009030062052
+scalar DatabaseNetwork.user[23] accessesPerSecond 0.0533
 par DatabaseNetwork.user[24] typename "\"progetto.User\""
 par DatabaseNetwork.user[24] userId 24
 par DatabaseNetwork.user[24] lambda 0.05
@@ -406,11 +406,11 @@ par DatabaseNetwork.user[24] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[24] lognormalM 0.5
 par DatabaseNetwork.user[24] lognormalS 1
-scalar DatabaseNetwork.user[24] totalAccesses 472
-scalar DatabaseNetwork.user[24] totalReads 232
-scalar DatabaseNetwork.user[24] totalWrites 240
-scalar DatabaseNetwork.user[24] averageWaitTime 0.10039973928381
-scalar DatabaseNetwork.user[24] accessesPerSecond 0.0472
+scalar DatabaseNetwork.user[24] totalAccesses 530
+scalar DatabaseNetwork.user[24] totalReads 298
+scalar DatabaseNetwork.user[24] totalWrites 232
+scalar DatabaseNetwork.user[24] averageWaitTime 0.10062055282412
+scalar DatabaseNetwork.user[24] accessesPerSecond 0.053
 par DatabaseNetwork.user[25] typename "\"progetto.User\""
 par DatabaseNetwork.user[25] userId 25
 par DatabaseNetwork.user[25] lambda 0.05
@@ -421,11 +421,11 @@ par DatabaseNetwork.user[25] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[25] lognormalM 0.5
 par DatabaseNetwork.user[25] lognormalS 1
-scalar DatabaseNetwork.user[25] totalAccesses 503
-scalar DatabaseNetwork.user[25] totalReads 258
-scalar DatabaseNetwork.user[25] totalWrites 245
-scalar DatabaseNetwork.user[25] averageWaitTime 0.10022078888631
-scalar DatabaseNetwork.user[25] accessesPerSecond 0.0503
+scalar DatabaseNetwork.user[25] totalAccesses 465
+scalar DatabaseNetwork.user[25] totalReads 232
+scalar DatabaseNetwork.user[25] totalWrites 233
+scalar DatabaseNetwork.user[25] averageWaitTime 0.10052914105462
+scalar DatabaseNetwork.user[25] accessesPerSecond 0.0465
 par DatabaseNetwork.user[26] typename "\"progetto.User\""
 par DatabaseNetwork.user[26] userId 26
 par DatabaseNetwork.user[26] lambda 0.05
@@ -436,11 +436,11 @@ par DatabaseNetwork.user[26] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[26] lognormalM 0.5
 par DatabaseNetwork.user[26] lognormalS 1
-scalar DatabaseNetwork.user[26] totalAccesses 474
-scalar DatabaseNetwork.user[26] totalReads 249
-scalar DatabaseNetwork.user[26] totalWrites 225
-scalar DatabaseNetwork.user[26] averageWaitTime 0.1006480220106
-scalar DatabaseNetwork.user[26] accessesPerSecond 0.0474
+scalar DatabaseNetwork.user[26] totalAccesses 457
+scalar DatabaseNetwork.user[26] totalReads 234
+scalar DatabaseNetwork.user[26] totalWrites 223
+scalar DatabaseNetwork.user[26] averageWaitTime 0.10040474156431
+scalar DatabaseNetwork.user[26] accessesPerSecond 0.0457
 par DatabaseNetwork.user[27] typename "\"progetto.User\""
 par DatabaseNetwork.user[27] userId 27
 par DatabaseNetwork.user[27] lambda 0.05
@@ -451,11 +451,11 @@ par DatabaseNetwork.user[27] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[27] lognormalM 0.5
 par DatabaseNetwork.user[27] lognormalS 1
-scalar DatabaseNetwork.user[27] totalAccesses 470
-scalar DatabaseNetwork.user[27] totalReads 222
-scalar DatabaseNetwork.user[27] totalWrites 248
-scalar DatabaseNetwork.user[27] averageWaitTime 0.10009238567613
-scalar DatabaseNetwork.user[27] accessesPerSecond 0.047
+scalar DatabaseNetwork.user[27] totalAccesses 514
+scalar DatabaseNetwork.user[27] totalReads 236
+scalar DatabaseNetwork.user[27] totalWrites 278
+scalar DatabaseNetwork.user[27] averageWaitTime 0.10025867222815
+scalar DatabaseNetwork.user[27] accessesPerSecond 0.0514
 par DatabaseNetwork.user[28] typename "\"progetto.User\""
 par DatabaseNetwork.user[28] userId 28
 par DatabaseNetwork.user[28] lambda 0.05
@@ -466,11 +466,11 @@ par DatabaseNetwork.user[28] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[28] lognormalM 0.5
 par DatabaseNetwork.user[28] lognormalS 1
-scalar DatabaseNetwork.user[28] totalAccesses 518
-scalar DatabaseNetwork.user[28] totalReads 257
-scalar DatabaseNetwork.user[28] totalWrites 261
-scalar DatabaseNetwork.user[28] averageWaitTime 0.100385425519
-scalar DatabaseNetwork.user[28] accessesPerSecond 0.0518
+scalar DatabaseNetwork.user[28] totalAccesses 520
+scalar DatabaseNetwork.user[28] totalReads 277
+scalar DatabaseNetwork.user[28] totalWrites 243
+scalar DatabaseNetwork.user[28] averageWaitTime 0.10046090857887
+scalar DatabaseNetwork.user[28] accessesPerSecond 0.052
 par DatabaseNetwork.user[29] typename "\"progetto.User\""
 par DatabaseNetwork.user[29] userId 29
 par DatabaseNetwork.user[29] lambda 0.05
@@ -481,11 +481,11 @@ par DatabaseNetwork.user[29] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[29] lognormalM 0.5
 par DatabaseNetwork.user[29] lognormalS 1
-scalar DatabaseNetwork.user[29] totalAccesses 502
-scalar DatabaseNetwork.user[29] totalReads 249
-scalar DatabaseNetwork.user[29] totalWrites 253
-scalar DatabaseNetwork.user[29] averageWaitTime 0.10036511117872
-scalar DatabaseNetwork.user[29] accessesPerSecond 0.0502
+scalar DatabaseNetwork.user[29] totalAccesses 519
+scalar DatabaseNetwork.user[29] totalReads 281
+scalar DatabaseNetwork.user[29] totalWrites 238
+scalar DatabaseNetwork.user[29] averageWaitTime 0.10055038180877
+scalar DatabaseNetwork.user[29] accessesPerSecond 0.0519
 par DatabaseNetwork.user[30] typename "\"progetto.User\""
 par DatabaseNetwork.user[30] userId 30
 par DatabaseNetwork.user[30] lambda 0.05
@@ -496,11 +496,11 @@ par DatabaseNetwork.user[30] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[30] lognormalM 0.5
 par DatabaseNetwork.user[30] lognormalS 1
-scalar DatabaseNetwork.user[30] totalAccesses 523
-scalar DatabaseNetwork.user[30] totalReads 262
-scalar DatabaseNetwork.user[30] totalWrites 261
-scalar DatabaseNetwork.user[30] averageWaitTime 0.10047019749697
-scalar DatabaseNetwork.user[30] accessesPerSecond 0.0523
+scalar DatabaseNetwork.user[30] totalAccesses 537
+scalar DatabaseNetwork.user[30] totalReads 268
+scalar DatabaseNetwork.user[30] totalWrites 269
+scalar DatabaseNetwork.user[30] averageWaitTime 0.10037884787091
+scalar DatabaseNetwork.user[30] accessesPerSecond 0.0537
 par DatabaseNetwork.user[31] typename "\"progetto.User\""
 par DatabaseNetwork.user[31] userId 31
 par DatabaseNetwork.user[31] lambda 0.05
@@ -511,11 +511,11 @@ par DatabaseNetwork.user[31] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[31] lognormalM 0.5
 par DatabaseNetwork.user[31] lognormalS 1
-scalar DatabaseNetwork.user[31] totalAccesses 507
-scalar DatabaseNetwork.user[31] totalReads 253
-scalar DatabaseNetwork.user[31] totalWrites 254
-scalar DatabaseNetwork.user[31] averageWaitTime 0.10025055769664
-scalar DatabaseNetwork.user[31] accessesPerSecond 0.0507
+scalar DatabaseNetwork.user[31] totalAccesses 447
+scalar DatabaseNetwork.user[31] totalReads 229
+scalar DatabaseNetwork.user[31] totalWrites 218
+scalar DatabaseNetwork.user[31] averageWaitTime 0.10020527137338
+scalar DatabaseNetwork.user[31] accessesPerSecond 0.0447
 par DatabaseNetwork.user[32] typename "\"progetto.User\""
 par DatabaseNetwork.user[32] userId 32
 par DatabaseNetwork.user[32] lambda 0.05
@@ -526,11 +526,11 @@ par DatabaseNetwork.user[32] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[32] lognormalM 0.5
 par DatabaseNetwork.user[32] lognormalS 1
-scalar DatabaseNetwork.user[32] totalAccesses 512
-scalar DatabaseNetwork.user[32] totalReads 258
-scalar DatabaseNetwork.user[32] totalWrites 254
-scalar DatabaseNetwork.user[32] averageWaitTime 0.10026888831603
-scalar DatabaseNetwork.user[32] accessesPerSecond 0.0512
+scalar DatabaseNetwork.user[32] totalAccesses 484
+scalar DatabaseNetwork.user[32] totalReads 243
+scalar DatabaseNetwork.user[32] totalWrites 241
+scalar DatabaseNetwork.user[32] averageWaitTime 0.10067892856081
+scalar DatabaseNetwork.user[32] accessesPerSecond 0.0484
 par DatabaseNetwork.user[33] typename "\"progetto.User\""
 par DatabaseNetwork.user[33] userId 33
 par DatabaseNetwork.user[33] lambda 0.05
@@ -541,11 +541,11 @@ par DatabaseNetwork.user[33] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[33] lognormalM 0.5
 par DatabaseNetwork.user[33] lognormalS 1
-scalar DatabaseNetwork.user[33] totalAccesses 522
-scalar DatabaseNetwork.user[33] totalReads 262
-scalar DatabaseNetwork.user[33] totalWrites 260
-scalar DatabaseNetwork.user[33] averageWaitTime 0.10069896817803
-scalar DatabaseNetwork.user[33] accessesPerSecond 0.0522
+scalar DatabaseNetwork.user[33] totalAccesses 482
+scalar DatabaseNetwork.user[33] totalReads 235
+scalar DatabaseNetwork.user[33] totalWrites 247
+scalar DatabaseNetwork.user[33] averageWaitTime 0.10019799984136
+scalar DatabaseNetwork.user[33] accessesPerSecond 0.0482
 par DatabaseNetwork.user[34] typename "\"progetto.User\""
 par DatabaseNetwork.user[34] userId 34
 par DatabaseNetwork.user[34] lambda 0.05
@@ -556,11 +556,11 @@ par DatabaseNetwork.user[34] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[34] lognormalM 0.5
 par DatabaseNetwork.user[34] lognormalS 1
-scalar DatabaseNetwork.user[34] totalAccesses 506
-scalar DatabaseNetwork.user[34] totalReads 255
-scalar DatabaseNetwork.user[34] totalWrites 251
-scalar DatabaseNetwork.user[34] averageWaitTime 0.1007373503996
-scalar DatabaseNetwork.user[34] accessesPerSecond 0.0506
+scalar DatabaseNetwork.user[34] totalAccesses 481
+scalar DatabaseNetwork.user[34] totalReads 223
+scalar DatabaseNetwork.user[34] totalWrites 258
+scalar DatabaseNetwork.user[34] averageWaitTime 0.10075151064552
+scalar DatabaseNetwork.user[34] accessesPerSecond 0.0481
 par DatabaseNetwork.user[35] typename "\"progetto.User\""
 par DatabaseNetwork.user[35] userId 35
 par DatabaseNetwork.user[35] lambda 0.05
@@ -571,11 +571,11 @@ par DatabaseNetwork.user[35] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[35] lognormalM 0.5
 par DatabaseNetwork.user[35] lognormalS 1
-scalar DatabaseNetwork.user[35] totalAccesses 476
-scalar DatabaseNetwork.user[35] totalReads 249
-scalar DatabaseNetwork.user[35] totalWrites 227
-scalar DatabaseNetwork.user[35] averageWaitTime 0.10037868801893
-scalar DatabaseNetwork.user[35] accessesPerSecond 0.0476
+scalar DatabaseNetwork.user[35] totalAccesses 512
+scalar DatabaseNetwork.user[35] totalReads 255
+scalar DatabaseNetwork.user[35] totalWrites 257
+scalar DatabaseNetwork.user[35] averageWaitTime 0.10016774992075
+scalar DatabaseNetwork.user[35] accessesPerSecond 0.0512
 par DatabaseNetwork.user[36] typename "\"progetto.User\""
 par DatabaseNetwork.user[36] userId 36
 par DatabaseNetwork.user[36] lambda 0.05
@@ -586,11 +586,11 @@ par DatabaseNetwork.user[36] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[36] lognormalM 0.5
 par DatabaseNetwork.user[36] lognormalS 1
-scalar DatabaseNetwork.user[36] totalAccesses 511
-scalar DatabaseNetwork.user[36] totalReads 268
-scalar DatabaseNetwork.user[36] totalWrites 243
-scalar DatabaseNetwork.user[36] averageWaitTime 0.10103284799658
-scalar DatabaseNetwork.user[36] accessesPerSecond 0.0511
+scalar DatabaseNetwork.user[36] totalAccesses 532
+scalar DatabaseNetwork.user[36] totalReads 271
+scalar DatabaseNetwork.user[36] totalWrites 261
+scalar DatabaseNetwork.user[36] averageWaitTime 0.1003425821735
+scalar DatabaseNetwork.user[36] accessesPerSecond 0.0532
 par DatabaseNetwork.user[37] typename "\"progetto.User\""
 par DatabaseNetwork.user[37] userId 37
 par DatabaseNetwork.user[37] lambda 0.05
@@ -601,11 +601,11 @@ par DatabaseNetwork.user[37] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[37] lognormalM 0.5
 par DatabaseNetwork.user[37] lognormalS 1
-scalar DatabaseNetwork.user[37] totalAccesses 481
-scalar DatabaseNetwork.user[37] totalReads 243
+scalar DatabaseNetwork.user[37] totalAccesses 537
+scalar DatabaseNetwork.user[37] totalReads 299
 scalar DatabaseNetwork.user[37] totalWrites 238
-scalar DatabaseNetwork.user[37] averageWaitTime 0.10013989863382
-scalar DatabaseNetwork.user[37] accessesPerSecond 0.0481
+scalar DatabaseNetwork.user[37] averageWaitTime 0.10019804256903
+scalar DatabaseNetwork.user[37] accessesPerSecond 0.0537
 par DatabaseNetwork.user[38] typename "\"progetto.User\""
 par DatabaseNetwork.user[38] userId 38
 par DatabaseNetwork.user[38] lambda 0.05
@@ -616,11 +616,11 @@ par DatabaseNetwork.user[38] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[38] lognormalM 0.5
 par DatabaseNetwork.user[38] lognormalS 1
-scalar DatabaseNetwork.user[38] totalAccesses 539
-scalar DatabaseNetwork.user[38] totalReads 286
-scalar DatabaseNetwork.user[38] totalWrites 253
-scalar DatabaseNetwork.user[38] averageWaitTime 0.10047050250373
-scalar DatabaseNetwork.user[38] accessesPerSecond 0.0539
+scalar DatabaseNetwork.user[38] totalAccesses 478
+scalar DatabaseNetwork.user[38] totalReads 244
+scalar DatabaseNetwork.user[38] totalWrites 234
+scalar DatabaseNetwork.user[38] averageWaitTime 0.10053351100007
+scalar DatabaseNetwork.user[38] accessesPerSecond 0.0478
 par DatabaseNetwork.user[39] typename "\"progetto.User\""
 par DatabaseNetwork.user[39] userId 39
 par DatabaseNetwork.user[39] lambda 0.05
@@ -631,11 +631,11 @@ par DatabaseNetwork.user[39] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[39] lognormalM 0.5
 par DatabaseNetwork.user[39] lognormalS 1
-scalar DatabaseNetwork.user[39] totalAccesses 475
-scalar DatabaseNetwork.user[39] totalReads 235
-scalar DatabaseNetwork.user[39] totalWrites 240
-scalar DatabaseNetwork.user[39] averageWaitTime 0.1008084958685
-scalar DatabaseNetwork.user[39] accessesPerSecond 0.0475
+scalar DatabaseNetwork.user[39] totalAccesses 578
+scalar DatabaseNetwork.user[39] totalReads 290
+scalar DatabaseNetwork.user[39] totalWrites 288
+scalar DatabaseNetwork.user[39] averageWaitTime 0.10036041026233
+scalar DatabaseNetwork.user[39] accessesPerSecond 0.0578
 par DatabaseNetwork.user[40] typename "\"progetto.User\""
 par DatabaseNetwork.user[40] userId 40
 par DatabaseNetwork.user[40] lambda 0.05
@@ -646,11 +646,11 @@ par DatabaseNetwork.user[40] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[40] lognormalM 0.5
 par DatabaseNetwork.user[40] lognormalS 1
-scalar DatabaseNetwork.user[40] totalAccesses 491
-scalar DatabaseNetwork.user[40] totalReads 228
-scalar DatabaseNetwork.user[40] totalWrites 263
-scalar DatabaseNetwork.user[40] averageWaitTime 0.10009616279191
-scalar DatabaseNetwork.user[40] accessesPerSecond 0.0491
+scalar DatabaseNetwork.user[40] totalAccesses 484
+scalar DatabaseNetwork.user[40] totalReads 241
+scalar DatabaseNetwork.user[40] totalWrites 243
+scalar DatabaseNetwork.user[40] averageWaitTime 0.10013055373962
+scalar DatabaseNetwork.user[40] accessesPerSecond 0.0484
 par DatabaseNetwork.user[41] typename "\"progetto.User\""
 par DatabaseNetwork.user[41] userId 41
 par DatabaseNetwork.user[41] lambda 0.05
@@ -661,11 +661,11 @@ par DatabaseNetwork.user[41] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[41] lognormalM 0.5
 par DatabaseNetwork.user[41] lognormalS 1
-scalar DatabaseNetwork.user[41] totalAccesses 494
-scalar DatabaseNetwork.user[41] totalReads 274
-scalar DatabaseNetwork.user[41] totalWrites 220
-scalar DatabaseNetwork.user[41] averageWaitTime 0.10007753795513
-scalar DatabaseNetwork.user[41] accessesPerSecond 0.0494
+scalar DatabaseNetwork.user[41] totalAccesses 485
+scalar DatabaseNetwork.user[41] totalReads 238
+scalar DatabaseNetwork.user[41] totalWrites 247
+scalar DatabaseNetwork.user[41] averageWaitTime 0.10017759612717
+scalar DatabaseNetwork.user[41] accessesPerSecond 0.0485
 par DatabaseNetwork.user[42] typename "\"progetto.User\""
 par DatabaseNetwork.user[42] userId 42
 par DatabaseNetwork.user[42] lambda 0.05
@@ -676,11 +676,11 @@ par DatabaseNetwork.user[42] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[42] lognormalM 0.5
 par DatabaseNetwork.user[42] lognormalS 1
-scalar DatabaseNetwork.user[42] totalAccesses 499
-scalar DatabaseNetwork.user[42] totalReads 261
-scalar DatabaseNetwork.user[42] totalWrites 238
-scalar DatabaseNetwork.user[42] averageWaitTime 0.10060028639315
-scalar DatabaseNetwork.user[42] accessesPerSecond 0.0499
+scalar DatabaseNetwork.user[42] totalAccesses 471
+scalar DatabaseNetwork.user[42] totalReads 227
+scalar DatabaseNetwork.user[42] totalWrites 244
+scalar DatabaseNetwork.user[42] averageWaitTime 0.10101068867334
+scalar DatabaseNetwork.user[42] accessesPerSecond 0.0471
 par DatabaseNetwork.user[43] typename "\"progetto.User\""
 par DatabaseNetwork.user[43] userId 43
 par DatabaseNetwork.user[43] lambda 0.05
@@ -691,11 +691,11 @@ par DatabaseNetwork.user[43] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[43] lognormalM 0.5
 par DatabaseNetwork.user[43] lognormalS 1
-scalar DatabaseNetwork.user[43] totalAccesses 455
-scalar DatabaseNetwork.user[43] totalReads 231
-scalar DatabaseNetwork.user[43] totalWrites 224
-scalar DatabaseNetwork.user[43] averageWaitTime 0.10033188599197
-scalar DatabaseNetwork.user[43] accessesPerSecond 0.0455
+scalar DatabaseNetwork.user[43] totalAccesses 487
+scalar DatabaseNetwork.user[43] totalReads 238
+scalar DatabaseNetwork.user[43] totalWrites 249
+scalar DatabaseNetwork.user[43] averageWaitTime 0.10030382141565
+scalar DatabaseNetwork.user[43] accessesPerSecond 0.0487
 par DatabaseNetwork.user[44] typename "\"progetto.User\""
 par DatabaseNetwork.user[44] userId 44
 par DatabaseNetwork.user[44] lambda 0.05
@@ -706,11 +706,11 @@ par DatabaseNetwork.user[44] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[44] lognormalM 0.5
 par DatabaseNetwork.user[44] lognormalS 1
-scalar DatabaseNetwork.user[44] totalAccesses 505
-scalar DatabaseNetwork.user[44] totalReads 236
-scalar DatabaseNetwork.user[44] totalWrites 269
-scalar DatabaseNetwork.user[44] averageWaitTime 0.10113796077932
-scalar DatabaseNetwork.user[44] accessesPerSecond 0.0505
+scalar DatabaseNetwork.user[44] totalAccesses 503
+scalar DatabaseNetwork.user[44] totalReads 250
+scalar DatabaseNetwork.user[44] totalWrites 253
+scalar DatabaseNetwork.user[44] averageWaitTime 0.10028420454614
+scalar DatabaseNetwork.user[44] accessesPerSecond 0.0503
 par DatabaseNetwork.user[45] typename "\"progetto.User\""
 par DatabaseNetwork.user[45] userId 45
 par DatabaseNetwork.user[45] lambda 0.05
@@ -721,11 +721,11 @@ par DatabaseNetwork.user[45] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[45] lognormalM 0.5
 par DatabaseNetwork.user[45] lognormalS 1
-scalar DatabaseNetwork.user[45] totalAccesses 472
-scalar DatabaseNetwork.user[45] totalReads 218
-scalar DatabaseNetwork.user[45] totalWrites 254
-scalar DatabaseNetwork.user[45] averageWaitTime 0.10073108829832
-scalar DatabaseNetwork.user[45] accessesPerSecond 0.0472
+scalar DatabaseNetwork.user[45] totalAccesses 488
+scalar DatabaseNetwork.user[45] totalReads 229
+scalar DatabaseNetwork.user[45] totalWrites 259
+scalar DatabaseNetwork.user[45] averageWaitTime 0.1007180491834
+scalar DatabaseNetwork.user[45] accessesPerSecond 0.0488
 par DatabaseNetwork.user[46] typename "\"progetto.User\""
 par DatabaseNetwork.user[46] userId 46
 par DatabaseNetwork.user[46] lambda 0.05
@@ -736,11 +736,11 @@ par DatabaseNetwork.user[46] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[46] lognormalM 0.5
 par DatabaseNetwork.user[46] lognormalS 1
-scalar DatabaseNetwork.user[46] totalAccesses 494
-scalar DatabaseNetwork.user[46] totalReads 255
-scalar DatabaseNetwork.user[46] totalWrites 239
-scalar DatabaseNetwork.user[46] averageWaitTime 0.10087943923494
-scalar DatabaseNetwork.user[46] accessesPerSecond 0.0494
+scalar DatabaseNetwork.user[46] totalAccesses 490
+scalar DatabaseNetwork.user[46] totalReads 243
+scalar DatabaseNetwork.user[46] totalWrites 247
+scalar DatabaseNetwork.user[46] averageWaitTime 0.10058642098373
+scalar DatabaseNetwork.user[46] accessesPerSecond 0.049
 par DatabaseNetwork.user[47] typename "\"progetto.User\""
 par DatabaseNetwork.user[47] userId 47
 par DatabaseNetwork.user[47] lambda 0.05
@@ -751,11 +751,11 @@ par DatabaseNetwork.user[47] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[47] lognormalM 0.5
 par DatabaseNetwork.user[47] lognormalS 1
-scalar DatabaseNetwork.user[47] totalAccesses 495
-scalar DatabaseNetwork.user[47] totalReads 248
-scalar DatabaseNetwork.user[47] totalWrites 247
-scalar DatabaseNetwork.user[47] averageWaitTime 0.10022435850268
-scalar DatabaseNetwork.user[47] accessesPerSecond 0.0495
+scalar DatabaseNetwork.user[47] totalAccesses 479
+scalar DatabaseNetwork.user[47] totalReads 222
+scalar DatabaseNetwork.user[47] totalWrites 257
+scalar DatabaseNetwork.user[47] averageWaitTime 0.10049384273796
+scalar DatabaseNetwork.user[47] accessesPerSecond 0.0479
 par DatabaseNetwork.user[48] typename "\"progetto.User\""
 par DatabaseNetwork.user[48] userId 48
 par DatabaseNetwork.user[48] lambda 0.05
@@ -766,11 +766,11 @@ par DatabaseNetwork.user[48] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[48] lognormalM 0.5
 par DatabaseNetwork.user[48] lognormalS 1
-scalar DatabaseNetwork.user[48] totalAccesses 500
-scalar DatabaseNetwork.user[48] totalReads 258
-scalar DatabaseNetwork.user[48] totalWrites 242
-scalar DatabaseNetwork.user[48] averageWaitTime 0.10067012840653
-scalar DatabaseNetwork.user[48] accessesPerSecond 0.05
+scalar DatabaseNetwork.user[48] totalAccesses 530
+scalar DatabaseNetwork.user[48] totalReads 272
+scalar DatabaseNetwork.user[48] totalWrites 258
+scalar DatabaseNetwork.user[48] averageWaitTime 0.10036451009988
+scalar DatabaseNetwork.user[48] accessesPerSecond 0.053
 par DatabaseNetwork.user[49] typename "\"progetto.User\""
 par DatabaseNetwork.user[49] userId 49
 par DatabaseNetwork.user[49] lambda 0.05
@@ -781,111 +781,111 @@ par DatabaseNetwork.user[49] serviceTime 0.1s
 attr unit s
 par DatabaseNetwork.user[49] lognormalM 0.5
 par DatabaseNetwork.user[49] lognormalS 1
-scalar DatabaseNetwork.user[49] totalAccesses 508
-scalar DatabaseNetwork.user[49] totalReads 262
-scalar DatabaseNetwork.user[49] totalWrites 246
-scalar DatabaseNetwork.user[49] averageWaitTime 0.10064372250009
-scalar DatabaseNetwork.user[49] accessesPerSecond 0.0508
+scalar DatabaseNetwork.user[49] totalAccesses 499
+scalar DatabaseNetwork.user[49] totalReads 250
+scalar DatabaseNetwork.user[49] totalWrites 249
+scalar DatabaseNetwork.user[49] averageWaitTime 0.10039042428076
+scalar DatabaseNetwork.user[49] accessesPerSecond 0.0499
 par DatabaseNetwork.table[0] typename "\"progetto.Table\""
 par DatabaseNetwork.table[0] tableId 0
-scalar DatabaseNetwork.table[0] table.totalServed 1234
-scalar DatabaseNetwork.table[0] table.totalReads 611
-scalar DatabaseNetwork.table[0] table.totalWrites 623
+scalar DatabaseNetwork.table[0] table.totalServed 1217
+scalar DatabaseNetwork.table[0] table.totalReads 615
+scalar DatabaseNetwork.table[0] table.totalWrites 602
 par DatabaseNetwork.table[1] typename "\"progetto.Table\""
 par DatabaseNetwork.table[1] tableId 1
-scalar DatabaseNetwork.table[1] table.totalServed 1242
-scalar DatabaseNetwork.table[1] table.totalReads 622
-scalar DatabaseNetwork.table[1] table.totalWrites 620
+scalar DatabaseNetwork.table[1] table.totalServed 1187
+scalar DatabaseNetwork.table[1] table.totalReads 599
+scalar DatabaseNetwork.table[1] table.totalWrites 588
 par DatabaseNetwork.table[2] typename "\"progetto.Table\""
 par DatabaseNetwork.table[2] tableId 2
-scalar DatabaseNetwork.table[2] table.totalServed 1244
-scalar DatabaseNetwork.table[2] table.totalReads 628
-scalar DatabaseNetwork.table[2] table.totalWrites 616
+scalar DatabaseNetwork.table[2] table.totalServed 1195
+scalar DatabaseNetwork.table[2] table.totalReads 597
+scalar DatabaseNetwork.table[2] table.totalWrites 598
 par DatabaseNetwork.table[3] typename "\"progetto.Table\""
 par DatabaseNetwork.table[3] tableId 3
-scalar DatabaseNetwork.table[3] table.totalServed 1302
-scalar DatabaseNetwork.table[3] table.totalReads 658
-scalar DatabaseNetwork.table[3] table.totalWrites 644
+scalar DatabaseNetwork.table[3] table.totalServed 1237
+scalar DatabaseNetwork.table[3] table.totalReads 602
+scalar DatabaseNetwork.table[3] table.totalWrites 635
 par DatabaseNetwork.table[4] typename "\"progetto.Table\""
 par DatabaseNetwork.table[4] tableId 4
-scalar DatabaseNetwork.table[4] table.totalServed 1245
-scalar DatabaseNetwork.table[4] table.totalReads 610
-scalar DatabaseNetwork.table[4] table.totalWrites 635
+scalar DatabaseNetwork.table[4] table.totalServed 1347
+scalar DatabaseNetwork.table[4] table.totalReads 666
+scalar DatabaseNetwork.table[4] table.totalWrites 681
 par DatabaseNetwork.table[5] typename "\"progetto.Table\""
 par DatabaseNetwork.table[5] tableId 5
-scalar DatabaseNetwork.table[5] table.totalServed 1271
-scalar DatabaseNetwork.table[5] table.totalReads 633
-scalar DatabaseNetwork.table[5] table.totalWrites 638
+scalar DatabaseNetwork.table[5] table.totalServed 1267
+scalar DatabaseNetwork.table[5] table.totalReads 610
+scalar DatabaseNetwork.table[5] table.totalWrites 657
 par DatabaseNetwork.table[6] typename "\"progetto.Table\""
 par DatabaseNetwork.table[6] tableId 6
-scalar DatabaseNetwork.table[6] table.totalServed 1276
-scalar DatabaseNetwork.table[6] table.totalReads 625
-scalar DatabaseNetwork.table[6] table.totalWrites 651
+scalar DatabaseNetwork.table[6] table.totalServed 1261
+scalar DatabaseNetwork.table[6] table.totalReads 627
+scalar DatabaseNetwork.table[6] table.totalWrites 634
 par DatabaseNetwork.table[7] typename "\"progetto.Table\""
 par DatabaseNetwork.table[7] tableId 7
-scalar DatabaseNetwork.table[7] table.totalServed 1186
-scalar DatabaseNetwork.table[7] table.totalReads 630
-scalar DatabaseNetwork.table[7] table.totalWrites 556
+scalar DatabaseNetwork.table[7] table.totalServed 1279
+scalar DatabaseNetwork.table[7] table.totalReads 646
+scalar DatabaseNetwork.table[7] table.totalWrites 633
 par DatabaseNetwork.table[8] typename "\"progetto.Table\""
 par DatabaseNetwork.table[8] tableId 8
-scalar DatabaseNetwork.table[8] table.totalServed 1215
-scalar DatabaseNetwork.table[8] table.totalReads 635
-scalar DatabaseNetwork.table[8] table.totalWrites 580
+scalar DatabaseNetwork.table[8] table.totalServed 1286
+scalar DatabaseNetwork.table[8] table.totalReads 648
+scalar DatabaseNetwork.table[8] table.totalWrites 638
 par DatabaseNetwork.table[9] typename "\"progetto.Table\""
 par DatabaseNetwork.table[9] tableId 9
-scalar DatabaseNetwork.table[9] table.totalServed 1228
-scalar DatabaseNetwork.table[9] table.totalReads 621
-scalar DatabaseNetwork.table[9] table.totalWrites 607
+scalar DatabaseNetwork.table[9] table.totalServed 1255
+scalar DatabaseNetwork.table[9] table.totalReads 618
+scalar DatabaseNetwork.table[9] table.totalWrites 637
 par DatabaseNetwork.table[10] typename "\"progetto.Table\""
 par DatabaseNetwork.table[10] tableId 10
-scalar DatabaseNetwork.table[10] table.totalServed 1254
-scalar DatabaseNetwork.table[10] table.totalReads 635
-scalar DatabaseNetwork.table[10] table.totalWrites 619
+scalar DatabaseNetwork.table[10] table.totalServed 1259
+scalar DatabaseNetwork.table[10] table.totalReads 656
+scalar DatabaseNetwork.table[10] table.totalWrites 603
 par DatabaseNetwork.table[11] typename "\"progetto.Table\""
 par DatabaseNetwork.table[11] tableId 11
-scalar DatabaseNetwork.table[11] table.totalServed 1320
-scalar DatabaseNetwork.table[11] table.totalReads 667
-scalar DatabaseNetwork.table[11] table.totalWrites 653
+scalar DatabaseNetwork.table[11] table.totalServed 1246
+scalar DatabaseNetwork.table[11] table.totalReads 606
+scalar DatabaseNetwork.table[11] table.totalWrites 640
 par DatabaseNetwork.table[12] typename "\"progetto.Table\""
 par DatabaseNetwork.table[12] tableId 12
-scalar DatabaseNetwork.table[12] table.totalServed 1231
-scalar DatabaseNetwork.table[12] table.totalReads 627
-scalar DatabaseNetwork.table[12] table.totalWrites 604
+scalar DatabaseNetwork.table[12] table.totalServed 1247
+scalar DatabaseNetwork.table[12] table.totalReads 638
+scalar DatabaseNetwork.table[12] table.totalWrites 609
 par DatabaseNetwork.table[13] typename "\"progetto.Table\""
 par DatabaseNetwork.table[13] tableId 13
-scalar DatabaseNetwork.table[13] table.totalServed 1234
-scalar DatabaseNetwork.table[13] table.totalReads 614
-scalar DatabaseNetwork.table[13] table.totalWrites 620
+scalar DatabaseNetwork.table[13] table.totalServed 1198
+scalar DatabaseNetwork.table[13] table.totalReads 611
+scalar DatabaseNetwork.table[13] table.totalWrites 587
 par DatabaseNetwork.table[14] typename "\"progetto.Table\""
 par DatabaseNetwork.table[14] tableId 14
-scalar DatabaseNetwork.table[14] table.totalServed 1220
-scalar DatabaseNetwork.table[14] table.totalReads 625
-scalar DatabaseNetwork.table[14] table.totalWrites 595
+scalar DatabaseNetwork.table[14] table.totalServed 1264
+scalar DatabaseNetwork.table[14] table.totalReads 644
+scalar DatabaseNetwork.table[14] table.totalWrites 620
 par DatabaseNetwork.table[15] typename "\"progetto.Table\""
 par DatabaseNetwork.table[15] tableId 15
-scalar DatabaseNetwork.table[15] table.totalServed 1228
-scalar DatabaseNetwork.table[15] table.totalReads 588
-scalar DatabaseNetwork.table[15] table.totalWrites 640
+scalar DatabaseNetwork.table[15] table.totalServed 1214
+scalar DatabaseNetwork.table[15] table.totalReads 634
+scalar DatabaseNetwork.table[15] table.totalWrites 580
 par DatabaseNetwork.table[16] typename "\"progetto.Table\""
 par DatabaseNetwork.table[16] tableId 16
-scalar DatabaseNetwork.table[16] table.totalServed 1263
-scalar DatabaseNetwork.table[16] table.totalReads 662
-scalar DatabaseNetwork.table[16] table.totalWrites 601
+scalar DatabaseNetwork.table[16] table.totalServed 1282
+scalar DatabaseNetwork.table[16] table.totalReads 626
+scalar DatabaseNetwork.table[16] table.totalWrites 656
 par DatabaseNetwork.table[17] typename "\"progetto.Table\""
 par DatabaseNetwork.table[17] tableId 17
-scalar DatabaseNetwork.table[17] table.totalServed 1259
-scalar DatabaseNetwork.table[17] table.totalReads 638
+scalar DatabaseNetwork.table[17] table.totalServed 1268
+scalar DatabaseNetwork.table[17] table.totalReads 647
 scalar DatabaseNetwork.table[17] table.totalWrites 621
 par DatabaseNetwork.table[18] typename "\"progetto.Table\""
 par DatabaseNetwork.table[18] tableId 18
-scalar DatabaseNetwork.table[18] table.totalServed 1259
-scalar DatabaseNetwork.table[18] table.totalReads 644
-scalar DatabaseNetwork.table[18] table.totalWrites 615
+scalar DatabaseNetwork.table[18] table.totalServed 1272
+scalar DatabaseNetwork.table[18] table.totalReads 611
+scalar DatabaseNetwork.table[18] table.totalWrites 661
 par DatabaseNetwork.table[19] typename "\"progetto.Table\""
 par DatabaseNetwork.table[19] tableId 19
-scalar DatabaseNetwork.table[19] table.totalServed 1193
-scalar DatabaseNetwork.table[19] table.totalReads 602
-scalar DatabaseNetwork.table[19] table.totalWrites 591
+scalar DatabaseNetwork.table[19] table.totalServed 1290
+scalar DatabaseNetwork.table[19] table.totalReads 672
+scalar DatabaseNetwork.table[19] table.totalWrites 618
 par DatabaseNetwork typename "\"progetto.DatabaseNetwork\""
 par DatabaseNetwork numUsers 50
 par DatabaseNetwork numTables 20

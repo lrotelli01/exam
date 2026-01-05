@@ -10,6 +10,13 @@ Table::Table()
     totalReads = 0;
     totalWrites = 0;
     busyTimeStart = SIMTIME_ZERO;
+    totalBusyTime = SIMTIME_ZERO;
+    totalIdleTime = SIMTIME_ZERO;
+    lastStateChange = SIMTIME_ZERO;
+    maxQueueLength = 0;
+    totalQueueLength = 0;
+    queueLengthSamples = 0;
+    totalWaitingTime = 0.0;
 }
 
 Table::~Table()
@@ -45,6 +52,13 @@ void Table::initialize()
     totalWrites = 0;
 
     busyTimeStart = SIMTIME_ZERO;
+    totalBusyTime = SIMTIME_ZERO;
+    totalIdleTime = SIMTIME_ZERO;
+    lastStateChange = simTime();
+    maxQueueLength = 0;
+    totalQueueLength = 0;
+    queueLengthSamples = 0;
+    totalWaitingTime = 0.0;
 
     EV_INFO << "Table " << tableId << " initialized" << endl;
 }
@@ -98,12 +112,21 @@ void Table::handleMessage(cMessage *msg)
         delete orig; // original request received from user
         removeEvent(msg);
         delete msg; // serviceDone event
+        
+        bool wasBusy = (activeReaders > 0 || writeActive);
 
         if (isRead) {
             activeReaders--;
             if (activeReaders < 0) activeReaders = 0; // safety
         } else {
             writeActive = false;
+        }
+        
+        // Se ora è idle (nessun reader attivo, no write), aggiorna contatori
+        bool nowBusy = (activeReaders > 0 || writeActive);
+        if (wasBusy && !nowBusy) {
+            totalBusyTime += simTime() - lastStateChange;
+            lastStateChange = simTime();
         }
 
         // Try to start next services in queue
@@ -115,6 +138,12 @@ void Table::handleMessage(cMessage *msg)
                  << (msg->hasPar("userId") ? msg->par("userId").longValue() : -1) << " at " << simTime() << endl;
 
         requestQueue.push(msg);
+        
+        // Aggiorna statistiche lunghezza coda
+        int qlen = requestQueue.size();
+        if (qlen > maxQueueLength) maxQueueLength = qlen;
+        totalQueueLength += qlen;
+        queueLengthSamples++;
 
         // Try to start service if possible
         processQueue();
@@ -177,13 +206,30 @@ void Table::startServiceForRequest(cMessage *req)
     // determine service time: prefer 'serviceTime' parameter on the request, else default 1.0
     double serviceTime = 1.0;
     if (req->hasPar("serviceTime")) serviceTime = req->par("serviceTime").doubleValue();
+    
+    // Calcola tempo di attesa in coda
+    if (req->hasPar("arrivalTime")) {
+        double arrTime = req->par("arrivalTime").doubleValue();
+        double waitTime = simTime().dbl() - arrTime;
+        totalWaitingTime += waitTime;
+    }
 
     // update state before scheduling
     bool isRead = (req->getKind() == 0);
+    
+    // Track busy time: se era idle (0 readers, no write), ora diventa busy
+    bool wasBusy = (activeReaders > 0 || writeActive);
+    
     if (isRead) {
         activeReaders++;
     } else {
         writeActive = true;
+    }
+    
+    // Se prima era idle e ora è busy, aggiorna contatori
+    if (!wasBusy) {
+        totalBusyTime += simTime() - lastStateChange;
+        lastStateChange = simTime();
     }
 
     scheduleAt(simTime() + serviceTime, done);
@@ -204,4 +250,30 @@ void Table::finish()
     recordScalar("table.totalServed", totalServed);
     recordScalar("table.totalReads", totalReads);
     recordScalar("table.totalWrites", totalWrites);
+    
+    // Throughput: accessi per secondo
+    double simDuration = simTime().dbl();
+    if (simDuration > 0) {
+        recordScalar("table.throughput", totalServed / simDuration);
+    }
+    
+    // Statistiche code
+    recordScalar("table.maxQueueLength", maxQueueLength);
+    if (queueLengthSamples > 0) {
+        recordScalar("table.avgQueueLength", totalQueueLength / queueLengthSamples);
+    }
+    
+    // Tempo medio di attesa
+    if (totalServed > 0) {
+        recordScalar("table.avgWaitingTime", totalWaitingTime / totalServed);
+    }
+    
+    // Utilizzo (frazione di tempo in cui la tabella era occupata)
+    simtime_t busyTime = totalBusyTime;
+    if (activeReaders > 0 || writeActive) {
+        busyTime += simTime() - lastStateChange;
+    }
+    if (simDuration > 0) {
+        recordScalar("table.utilization", busyTime.dbl() / simDuration);
+    }
 }
