@@ -12,7 +12,8 @@ def parse_sca_file(filepath):
     """Legge un file .sca e estrae le statistiche"""
     data = {
         'config': {},
-        'users': []
+        'users': [],
+        'tables': []
     }
     
     with open(filepath, 'r') as f:
@@ -35,7 +36,7 @@ def parse_sca_file(filepath):
                     if len(data['users']) <= user_id:
                         data['users'].extend([{} for _ in range(user_id - len(data['users']) + 1)])
             
-            # Statistiche scalari
+            # Statistiche scalari utenti
             if line.startswith('scalar DatabaseNetwork.user['):
                 match = re.search(r'user\[(\d+)\]\s+(\w+)\s+([\d.]+)', line)
                 if match:
@@ -47,17 +48,31 @@ def parse_sca_file(filepath):
                         data['users'].extend([{} for _ in range(user_id - len(data['users']) + 1)])
                     
                     data['users'][user_id][stat_name] = value
+            
+            # Statistiche scalari tabelle
+            if line.startswith('scalar DatabaseNetwork.table['):
+                match = re.search(r'table\[(\d+)\]\s+([\w.]+)\s+([\d.eE+-]+)', line)
+                if match:
+                    table_id = int(match.group(1))
+                    stat_name = match.group(2)
+                    value = float(match.group(3))
+                    
+                    if len(data['tables']) <= table_id:
+                        data['tables'].extend([{} for _ in range(table_id - len(data['tables']) + 1)])
+                    
+                    data['tables'][table_id][stat_name] = value
     
     return data
 
 def aggregate_statistics(data):
-    """Calcola statistiche aggregate su tutti gli utenti"""
+    """Calcola statistiche aggregate su tutti gli utenti e tabelle"""
     total_accesses = 0
     total_reads = 0
     total_writes = 0
     wait_times = []
     throughputs = []
     
+    # Statistiche utenti
     for user in data['users']:
         if 'totalAccesses' in user:
             total_accesses += user.get('totalAccesses', 0)
@@ -68,6 +83,25 @@ def aggregate_statistics(data):
             if 'accessesPerSecond' in user:
                 throughputs.append(user['accessesPerSecond'])
     
+    # Statistiche tabelle
+    table_throughputs = []
+    table_utilizations = []
+    table_queue_lengths = []
+    table_max_queues = []
+    table_wait_times = []
+    
+    for table in data['tables']:
+        if 'table.throughput' in table:
+            table_throughputs.append(table['table.throughput'])
+        if 'table.utilization' in table:
+            table_utilizations.append(table['table.utilization'])
+        if 'table.avgQueueLength' in table:
+            table_queue_lengths.append(table['table.avgQueueLength'])
+        if 'table.maxQueueLength' in table:
+            table_max_queues.append(table['table.maxQueueLength'])
+        if 'table.avgWaitingTime' in table:
+            table_wait_times.append(table['table.avgWaitingTime'])
+    
     result = {
         'total_accesses': total_accesses,
         'total_reads': total_reads,
@@ -75,7 +109,16 @@ def aggregate_statistics(data):
         'avg_wait_time': statistics.mean(wait_times) if wait_times else 0,
         'std_wait_time': statistics.stdev(wait_times) if len(wait_times) > 1 else 0,
         'throughput_per_user': statistics.mean(throughputs) if throughputs else 0,
-        'system_throughput': total_accesses / 10000 if total_accesses > 0 else 0  # req/s
+        'system_throughput': total_accesses / 10000 if total_accesses > 0 else 0,  # req/s
+        # Statistiche tabelle
+        'avg_table_throughput': statistics.mean(table_throughputs) if table_throughputs else 0,
+        'max_table_throughput': max(table_throughputs) if table_throughputs else 0,
+        'min_table_throughput': min(table_throughputs) if table_throughputs else 0,
+        'avg_table_utilization': statistics.mean(table_utilizations) if table_utilizations else 0,
+        'max_table_utilization': max(table_utilizations) if table_utilizations else 0,
+        'avg_queue_length': statistics.mean(table_queue_lengths) if table_queue_lengths else 0,
+        'max_queue_length': max(table_max_queues) if table_max_queues else 0,
+        'table_wait_time': statistics.mean(table_wait_times) if table_wait_times else 0
     }
     
     return result
@@ -131,6 +174,12 @@ def main():
         std_wait = statistics.stdev([r['avg_wait_time'] for r in runs]) if len(runs) > 1 else 0
         std_throughput = statistics.stdev([r['system_throughput'] for r in runs]) if len(runs) > 1 else 0
         
+        # Statistiche tabelle
+        avg_table_util = statistics.mean([r['avg_table_utilization'] for r in runs])
+        max_table_util = statistics.mean([r['max_table_utilization'] for r in runs])
+        avg_queue = statistics.mean([r['avg_queue_length'] for r in runs])
+        max_queue = statistics.mean([r['max_queue_length'] for r in runs])
+        
         # Estrai parametri
         N = runs[0]['config'].get('N', '?')
         p = runs[0]['config'].get('p', '?')
@@ -144,6 +193,8 @@ def main():
         print(f"  Scritture: {avg_writes:.0f} ({avg_writes/avg_accesses*100:.1f}%)")
         print(f"  Throughput sistema: {avg_throughput:.4f} ± {std_throughput:.4f} req/s")
         print(f"  Tempo attesa medio: {avg_wait*1000:.2f} ± {std_wait*1000:.2f} ms")
+        print(f"  Utilization tabelle: {avg_table_util*100:.1f}% (max: {max_table_util*100:.1f}%)")
+        print(f"  Lunghezza coda: {avg_queue:.2f} (max: {max_queue:.0f})")
     
     print("\n" + "=" * 80)
     print("\nRiepilogo confronto Uniform vs Lognormal:")
