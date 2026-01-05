@@ -11,7 +11,6 @@ Table::Table()
     totalWrites = 0;
     busyTimeStart = SIMTIME_ZERO;
     totalBusyTime = SIMTIME_ZERO;
-    totalIdleTime = SIMTIME_ZERO;
     lastStateChange = SIMTIME_ZERO;
     maxQueueLength = 0;
     totalQueueLength = 0;
@@ -53,7 +52,6 @@ void Table::initialize()
 
     busyTimeStart = SIMTIME_ZERO;
     totalBusyTime = SIMTIME_ZERO;
-    totalIdleTime = SIMTIME_ZERO;
     lastStateChange = simTime();
     maxQueueLength = 0;
     totalQueueLength = 0;

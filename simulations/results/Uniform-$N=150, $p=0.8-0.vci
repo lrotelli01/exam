@@ -1,0 +1,1240 @@
+file 8981073 1767628868                                         
+version 3
+run Uniform-90-20260105-17:01:08-25051
+attr configname Uniform
+attr datetime 20260105-17:01:08
+attr datetimef 20260105-170108
+attr experiment Uniform
+attr inifile omnetpp.ini
+attr iterationvars "$N=150, $p=0.8"
+attr iterationvarsd N=150/p=0.8
+attr iterationvarsf N=150,p=0.8-
+attr measurement "$N=150, $p=0.8"
+attr network progetto.DatabaseNetwork
+attr processid 25051
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 90
+attr seedset 0
+itervar N 150
+itervar p 0.8
+config description "Uniform distribution - varia N e p"
+config *.user[*].tableDistribution "\"uniform\""
+config *.numUsers 150
+config *.user[*].readProbability 0.8
+config network progetto.DatabaseNetwork
+config sim-time-limit 10000s
+config cpu-time-limit 3600s
+config repeat 5
+config seed-set 0
+config output-vector-file "results/Uniform-$N=150, $p=0.8-0.vec"
+config output-scalar-file "results/Uniform-$N=150, $p=0.8-0.sca"
+config result-dir results
+config **.vector-recording true
+config **.scalar-recording true
+config *.numTables 20
+config *.user[*].lambda 0.05
+config *.user[*].serviceTime 0.1s
+
+vector 0 DatabaseNetwork.user[0] AccessInterval ETV
+vector 1 DatabaseNetwork.user[1] AccessInterval ETV
+vector 2 DatabaseNetwork.user[2] AccessInterval ETV
+vector 3 DatabaseNetwork.user[3] AccessInterval ETV
+vector 4 DatabaseNetwork.user[4] AccessInterval ETV
+vector 5 DatabaseNetwork.user[5] AccessInterval ETV
+vector 6 DatabaseNetwork.user[6] AccessInterval ETV
+vector 7 DatabaseNetwork.user[7] AccessInterval ETV
+vector 8 DatabaseNetwork.user[8] AccessInterval ETV
+vector 9 DatabaseNetwork.user[9] AccessInterval ETV
+vector 10 DatabaseNetwork.user[10] AccessInterval ETV
+vector 11 DatabaseNetwork.user[11] AccessInterval ETV
+vector 12 DatabaseNetwork.user[12] AccessInterval ETV
+vector 13 DatabaseNetwork.user[13] AccessInterval ETV
+vector 14 DatabaseNetwork.user[14] AccessInterval ETV
+vector 15 DatabaseNetwork.user[15] AccessInterval ETV
+vector 16 DatabaseNetwork.user[16] AccessInterval ETV
+vector 17 DatabaseNetwork.user[17] AccessInterval ETV
+vector 18 DatabaseNetwork.user[18] AccessInterval ETV
+vector 19 DatabaseNetwork.user[19] AccessInterval ETV
+vector 20 DatabaseNetwork.user[20] AccessInterval ETV
+vector 21 DatabaseNetwork.user[21] AccessInterval ETV
+vector 22 DatabaseNetwork.user[22] AccessInterval ETV
+vector 23 DatabaseNetwork.user[23] AccessInterval ETV
+vector 24 DatabaseNetwork.user[24] AccessInterval ETV
+vector 25 DatabaseNetwork.user[25] AccessInterval ETV
+vector 26 DatabaseNetwork.user[26] AccessInterval ETV
+vector 27 DatabaseNetwork.user[27] AccessInterval ETV
+vector 28 DatabaseNetwork.user[28] AccessInterval ETV
+vector 29 DatabaseNetwork.user[29] AccessInterval ETV
+vector 30 DatabaseNetwork.user[30] AccessInterval ETV
+vector 31 DatabaseNetwork.user[31] AccessInterval ETV
+vector 32 DatabaseNetwork.user[32] AccessInterval ETV
+vector 33 DatabaseNetwork.user[33] AccessInterval ETV
+vector 34 DatabaseNetwork.user[34] AccessInterval ETV
+vector 35 DatabaseNetwork.user[35] AccessInterval ETV
+vector 36 DatabaseNetwork.user[36] AccessInterval ETV
+vector 37 DatabaseNetwork.user[37] AccessInterval ETV
+vector 38 DatabaseNetwork.user[38] AccessInterval ETV
+vector 39 DatabaseNetwork.user[39] AccessInterval ETV
+vector 40 DatabaseNetwork.user[40] AccessInterval ETV
+vector 41 DatabaseNetwork.user[41] AccessInterval ETV
+vector 42 DatabaseNetwork.user[42] AccessInterval ETV
+vector 43 DatabaseNetwork.user[43] AccessInterval ETV
+vector 44 DatabaseNetwork.user[44] AccessInterval ETV
+vector 45 DatabaseNetwork.user[45] AccessInterval ETV
+vector 46 DatabaseNetwork.user[46] AccessInterval ETV
+vector 47 DatabaseNetwork.user[47] AccessInterval ETV
+vector 48 DatabaseNetwork.user[48] AccessInterval ETV
+vector 49 DatabaseNetwork.user[49] AccessInterval ETV
+vector 50 DatabaseNetwork.user[50] AccessInterval ETV
+vector 51 DatabaseNetwork.user[51] AccessInterval ETV
+vector 52 DatabaseNetwork.user[52] AccessInterval ETV
+vector 53 DatabaseNetwork.user[53] AccessInterval ETV
+vector 54 DatabaseNetwork.user[54] AccessInterval ETV
+vector 55 DatabaseNetwork.user[55] AccessInterval ETV
+vector 56 DatabaseNetwork.user[56] AccessInterval ETV
+vector 57 DatabaseNetwork.user[57] AccessInterval ETV
+vector 58 DatabaseNetwork.user[58] AccessInterval ETV
+vector 59 DatabaseNetwork.user[59] AccessInterval ETV
+vector 60 DatabaseNetwork.user[60] AccessInterval ETV
+vector 61 DatabaseNetwork.user[61] AccessInterval ETV
+vector 62 DatabaseNetwork.user[62] AccessInterval ETV
+vector 63 DatabaseNetwork.user[63] AccessInterval ETV
+vector 64 DatabaseNetwork.user[64] AccessInterval ETV
+vector 65 DatabaseNetwork.user[65] AccessInterval ETV
+vector 66 DatabaseNetwork.user[66] AccessInterval ETV
+vector 67 DatabaseNetwork.user[67] AccessInterval ETV
+vector 68 DatabaseNetwork.user[68] AccessInterval ETV
+vector 69 DatabaseNetwork.user[69] AccessInterval ETV
+vector 70 DatabaseNetwork.user[70] AccessInterval ETV
+vector 71 DatabaseNetwork.user[71] AccessInterval ETV
+vector 72 DatabaseNetwork.user[72] AccessInterval ETV
+vector 73 DatabaseNetwork.user[73] AccessInterval ETV
+vector 74 DatabaseNetwork.user[74] AccessInterval ETV
+vector 75 DatabaseNetwork.user[75] AccessInterval ETV
+vector 76 DatabaseNetwork.user[76] AccessInterval ETV
+vector 77 DatabaseNetwork.user[77] AccessInterval ETV
+vector 78 DatabaseNetwork.user[78] AccessInterval ETV
+vector 79 DatabaseNetwork.user[79] AccessInterval ETV
+vector 80 DatabaseNetwork.user[80] AccessInterval ETV
+vector 81 DatabaseNetwork.user[81] AccessInterval ETV
+vector 82 DatabaseNetwork.user[82] AccessInterval ETV
+vector 83 DatabaseNetwork.user[83] AccessInterval ETV
+vector 84 DatabaseNetwork.user[84] AccessInterval ETV
+vector 85 DatabaseNetwork.user[85] AccessInterval ETV
+vector 86 DatabaseNetwork.user[86] AccessInterval ETV
+vector 87 DatabaseNetwork.user[87] AccessInterval ETV
+vector 88 DatabaseNetwork.user[88] AccessInterval ETV
+vector 89 DatabaseNetwork.user[89] AccessInterval ETV
+vector 90 DatabaseNetwork.user[90] AccessInterval ETV
+vector 91 DatabaseNetwork.user[91] AccessInterval ETV
+vector 92 DatabaseNetwork.user[92] AccessInterval ETV
+vector 93 DatabaseNetwork.user[93] AccessInterval ETV
+vector 94 DatabaseNetwork.user[94] AccessInterval ETV
+vector 95 DatabaseNetwork.user[95] AccessInterval ETV
+vector 96 DatabaseNetwork.user[96] AccessInterval ETV
+vector 97 DatabaseNetwork.user[97] AccessInterval ETV
+vector 98 DatabaseNetwork.user[98] AccessInterval ETV
+vector 99 DatabaseNetwork.user[99] AccessInterval ETV
+vector 100 DatabaseNetwork.user[100] AccessInterval ETV
+vector 101 DatabaseNetwork.user[101] AccessInterval ETV
+vector 102 DatabaseNetwork.user[102] AccessInterval ETV
+vector 103 DatabaseNetwork.user[103] AccessInterval ETV
+vector 104 DatabaseNetwork.user[104] AccessInterval ETV
+vector 105 DatabaseNetwork.user[105] AccessInterval ETV
+vector 106 DatabaseNetwork.user[106] AccessInterval ETV
+vector 107 DatabaseNetwork.user[107] AccessInterval ETV
+vector 108 DatabaseNetwork.user[108] AccessInterval ETV
+vector 109 DatabaseNetwork.user[109] AccessInterval ETV
+vector 110 DatabaseNetwork.user[110] AccessInterval ETV
+vector 111 DatabaseNetwork.user[111] AccessInterval ETV
+vector 112 DatabaseNetwork.user[112] AccessInterval ETV
+vector 113 DatabaseNetwork.user[113] AccessInterval ETV
+vector 114 DatabaseNetwork.user[114] AccessInterval ETV
+vector 115 DatabaseNetwork.user[115] AccessInterval ETV
+vector 116 DatabaseNetwork.user[116] AccessInterval ETV
+vector 117 DatabaseNetwork.user[117] AccessInterval ETV
+vector 118 DatabaseNetwork.user[118] AccessInterval ETV
+vector 119 DatabaseNetwork.user[119] AccessInterval ETV
+vector 120 DatabaseNetwork.user[120] AccessInterval ETV
+vector 121 DatabaseNetwork.user[121] AccessInterval ETV
+vector 122 DatabaseNetwork.user[122] AccessInterval ETV
+vector 123 DatabaseNetwork.user[123] AccessInterval ETV
+vector 124 DatabaseNetwork.user[124] AccessInterval ETV
+vector 125 DatabaseNetwork.user[125] AccessInterval ETV
+vector 126 DatabaseNetwork.user[126] AccessInterval ETV
+vector 127 DatabaseNetwork.user[127] AccessInterval ETV
+vector 128 DatabaseNetwork.user[128] AccessInterval ETV
+vector 129 DatabaseNetwork.user[129] AccessInterval ETV
+vector 130 DatabaseNetwork.user[130] AccessInterval ETV
+vector 131 DatabaseNetwork.user[131] AccessInterval ETV
+vector 132 DatabaseNetwork.user[132] AccessInterval ETV
+vector 133 DatabaseNetwork.user[133] AccessInterval ETV
+vector 134 DatabaseNetwork.user[134] AccessInterval ETV
+vector 135 DatabaseNetwork.user[135] AccessInterval ETV
+vector 136 DatabaseNetwork.user[136] AccessInterval ETV
+vector 137 DatabaseNetwork.user[137] AccessInterval ETV
+vector 138 DatabaseNetwork.user[138] AccessInterval ETV
+vector 139 DatabaseNetwork.user[139] AccessInterval ETV
+vector 140 DatabaseNetwork.user[140] AccessInterval ETV
+vector 141 DatabaseNetwork.user[141] AccessInterval ETV
+vector 142 DatabaseNetwork.user[142] AccessInterval ETV
+vector 143 DatabaseNetwork.user[143] AccessInterval ETV
+vector 144 DatabaseNetwork.user[144] AccessInterval ETV
+vector 145 DatabaseNetwork.user[145] AccessInterval ETV
+vector 146 DatabaseNetwork.user[146] AccessInterval ETV
+vector 147 DatabaseNetwork.user[147] AccessInterval ETV
+vector 148 DatabaseNetwork.user[148] AccessInterval ETV
+vector 149 DatabaseNetwork.user[149] AccessInterval ETV
+vector 150 DatabaseNetwork.user[133] ReadAccesses ETV
+vector 151 DatabaseNetwork.user[133] WaitTime ETV
+vector 152 DatabaseNetwork.user[68] ReadAccesses ETV
+vector 153 DatabaseNetwork.user[149] ReadAccesses ETV
+vector 154 DatabaseNetwork.user[32] WriteAccesses ETV
+vector 155 DatabaseNetwork.user[68] WaitTime ETV
+vector 156 DatabaseNetwork.user[149] WaitTime ETV
+vector 157 DatabaseNetwork.user[32] WaitTime ETV
+vector 158 DatabaseNetwork.user[101] ReadAccesses ETV
+vector 159 DatabaseNetwork.user[101] WaitTime ETV
+vector 160 DatabaseNetwork.user[145] WriteAccesses ETV
+vector 161 DatabaseNetwork.user[15] ReadAccesses ETV
+vector 162 DatabaseNetwork.user[86] WriteAccesses ETV
+vector 163 DatabaseNetwork.user[145] WaitTime ETV
+vector 164 DatabaseNetwork.user[15] WaitTime ETV
+vector 165 DatabaseNetwork.user[86] WaitTime ETV
+vector 166 DatabaseNetwork.user[28] WriteAccesses ETV
+vector 167 DatabaseNetwork.user[28] WaitTime ETV
+vector 168 DatabaseNetwork.user[32] ReadAccesses ETV
+vector 169 DatabaseNetwork.user[30] ReadAccesses ETV
+vector 170 DatabaseNetwork.user[30] WaitTime ETV
+vector 171 DatabaseNetwork.user[138] WriteAccesses ETV
+vector 172 DatabaseNetwork.user[134] ReadAccesses ETV
+vector 173 DatabaseNetwork.user[85] ReadAccesses ETV
+vector 174 DatabaseNetwork.user[138] WaitTime ETV
+vector 175 DatabaseNetwork.user[134] WaitTime ETV
+vector 176 DatabaseNetwork.user[106] ReadAccesses ETV
+vector 177 DatabaseNetwork.user[85] WaitTime ETV
+vector 178 DatabaseNetwork.user[57] ReadAccesses ETV
+vector 179 DatabaseNetwork.user[106] WaitTime ETV
+vector 180 DatabaseNetwork.user[57] WaitTime ETV
+vector 181 DatabaseNetwork.user[122] ReadAccesses ETV
+vector 182 DatabaseNetwork.user[122] WaitTime ETV
+vector 183 DatabaseNetwork.user[48] ReadAccesses ETV
+vector 184 DatabaseNetwork.user[48] WaitTime ETV
+vector 185 DatabaseNetwork.user[94] WriteAccesses ETV
+vector 186 DatabaseNetwork.user[94] WaitTime ETV
+vector 187 DatabaseNetwork.user[67] ReadAccesses ETV
+vector 188 DatabaseNetwork.user[126] ReadAccesses ETV
+vector 189 DatabaseNetwork.user[67] WaitTime ETV
+vector 190 DatabaseNetwork.user[37] ReadAccesses ETV
+vector 191 DatabaseNetwork.user[126] WaitTime ETV
+vector 192 DatabaseNetwork.user[52] WriteAccesses ETV
+vector 193 DatabaseNetwork.user[37] WaitTime ETV
+vector 194 DatabaseNetwork.user[52] WaitTime ETV
+vector 195 DatabaseNetwork.user[71] ReadAccesses ETV
+vector 196 DatabaseNetwork.user[71] WaitTime ETV
+vector 197 DatabaseNetwork.user[120] ReadAccesses ETV
+vector 198 DatabaseNetwork.user[110] ReadAccesses ETV
+vector 199 DatabaseNetwork.user[120] WaitTime ETV
+vector 200 DatabaseNetwork.user[110] WaitTime ETV
+vector 201 DatabaseNetwork.user[91] ReadAccesses ETV
+vector 202 DatabaseNetwork.user[91] WaitTime ETV
+vector 203 DatabaseNetwork.user[61] ReadAccesses ETV
+vector 204 DatabaseNetwork.user[61] WaitTime ETV
+vector 205 DatabaseNetwork.user[128] ReadAccesses ETV
+vector 206 DatabaseNetwork.user[128] WaitTime ETV
+vector 207 DatabaseNetwork.user[108] ReadAccesses ETV
+vector 208 DatabaseNetwork.user[92] ReadAccesses ETV
+vector 209 DatabaseNetwork.user[108] WaitTime ETV
+vector 210 DatabaseNetwork.user[92] WaitTime ETV
+vector 211 DatabaseNetwork.user[65] ReadAccesses ETV
+vector 212 DatabaseNetwork.user[65] WaitTime ETV
+vector 213 DatabaseNetwork.user[73] WriteAccesses ETV
+vector 214 DatabaseNetwork.user[73] WaitTime ETV
+vector 215 DatabaseNetwork.user[118] WriteAccesses ETV
+vector 216 DatabaseNetwork.user[118] WaitTime ETV
+vector 217 DatabaseNetwork.user[114] ReadAccesses ETV
+vector 218 DatabaseNetwork.user[114] WaitTime ETV
+vector 219 DatabaseNetwork.user[60] ReadAccesses ETV
+vector 220 DatabaseNetwork.user[60] WaitTime ETV
+vector 221 DatabaseNetwork.user[17] ReadAccesses ETV
+vector 222 DatabaseNetwork.user[17] WaitTime ETV
+vector 223 DatabaseNetwork.user[13] ReadAccesses ETV
+vector 224 DatabaseNetwork.user[13] WaitTime ETV
+vector 225 DatabaseNetwork.user[96] WriteAccesses ETV
+vector 226 DatabaseNetwork.user[125] WriteAccesses ETV
+vector 227 DatabaseNetwork.user[96] WaitTime ETV
+vector 228 DatabaseNetwork.user[125] WaitTime ETV
+vector 229 DatabaseNetwork.user[69] WriteAccesses ETV
+vector 230 DatabaseNetwork.user[99] ReadAccesses ETV
+vector 231 DatabaseNetwork.user[69] WaitTime ETV
+vector 232 DatabaseNetwork.user[99] WaitTime ETV
+vector 233 DatabaseNetwork.user[28] ReadAccesses ETV
+vector 234 DatabaseNetwork.user[29] ReadAccesses ETV
+vector 235 DatabaseNetwork.user[121] ReadAccesses ETV
+vector 236 DatabaseNetwork.user[29] WaitTime ETV
+vector 237 DatabaseNetwork.user[121] WaitTime ETV
+vector 238 DatabaseNetwork.user[52] ReadAccesses ETV
+vector 239 DatabaseNetwork.user[138] ReadAccesses ETV
+vector 240 DatabaseNetwork.user[93] ReadAccesses ETV
+vector 241 DatabaseNetwork.user[80] ReadAccesses ETV
+vector 242 DatabaseNetwork.user[93] WaitTime ETV
+vector 243 DatabaseNetwork.user[80] WaitTime ETV
+vector 244 DatabaseNetwork.user[98] WriteAccesses ETV
+vector 245 DatabaseNetwork.user[98] WaitTime ETV
+vector 246 DatabaseNetwork.user[33] ReadAccesses ETV
+vector 247 DatabaseNetwork.user[130] WriteAccesses ETV
+vector 248 DatabaseNetwork.user[33] WaitTime ETV
+vector 249 DatabaseNetwork.user[130] WaitTime ETV
+vector 250 DatabaseNetwork.user[18] ReadAccesses ETV
+vector 251 DatabaseNetwork.user[11] ReadAccesses ETV
+vector 252 DatabaseNetwork.user[13] WriteAccesses ETV
+vector 253 DatabaseNetwork.user[75] ReadAccesses ETV
+vector 254 DatabaseNetwork.user[18] WaitTime ETV
+vector 255 DatabaseNetwork.user[11] WaitTime ETV
+vector 256 DatabaseNetwork.user[75] WaitTime ETV
+vector 257 DatabaseNetwork.user[25] WriteAccesses ETV
+vector 258 DatabaseNetwork.user[25] WaitTime ETV
+vector 259 DatabaseNetwork.user[115] ReadAccesses ETV
+vector 260 DatabaseNetwork.user[58] ReadAccesses ETV
+vector 261 DatabaseNetwork.user[115] WaitTime ETV
+vector 262 DatabaseNetwork.user[58] WaitTime ETV
+vector 263 DatabaseNetwork.user[61] WriteAccesses ETV
+vector 264 DatabaseNetwork.user[8] ReadAccesses ETV
+vector 265 DatabaseNetwork.user[8] WaitTime ETV
+vector 266 DatabaseNetwork.user[82] ReadAccesses ETV
+vector 267 DatabaseNetwork.user[12] WriteAccesses ETV
+vector 268 DatabaseNetwork.user[102] ReadAccesses ETV
+vector 269 DatabaseNetwork.user[82] WaitTime ETV
+vector 270 DatabaseNetwork.user[12] WaitTime ETV
+vector 271 DatabaseNetwork.user[102] WaitTime ETV
+vector 272 DatabaseNetwork.user[79] WriteAccesses ETV
+vector 273 DatabaseNetwork.user[147] ReadAccesses ETV
+vector 274 DatabaseNetwork.user[79] WaitTime ETV
+vector 275 DatabaseNetwork.user[147] WaitTime ETV
+vector 276 DatabaseNetwork.user[64] WriteAccesses ETV
+vector 277 DatabaseNetwork.user[134] WriteAccesses ETV
+vector 278 DatabaseNetwork.user[64] WaitTime ETV
+vector 279 DatabaseNetwork.user[44] ReadAccesses ETV
+vector 280 DatabaseNetwork.user[44] WaitTime ETV
+vector 281 DatabaseNetwork.user[116] ReadAccesses ETV
+vector 282 DatabaseNetwork.user[142] ReadAccesses ETV
+vector 283 DatabaseNetwork.user[116] WaitTime ETV
+vector 284 DatabaseNetwork.user[142] WaitTime ETV
+vector 285 DatabaseNetwork.user[59] WriteAccesses ETV
+vector 286 DatabaseNetwork.user[41] ReadAccesses ETV
+vector 287 DatabaseNetwork.user[117] ReadAccesses ETV
+vector 288 DatabaseNetwork.user[59] WaitTime ETV
+vector 289 DatabaseNetwork.user[41] WaitTime ETV
+vector 290 DatabaseNetwork.user[117] WaitTime ETV
+vector 291 DatabaseNetwork.user[19] ReadAccesses ETV
+vector 292 DatabaseNetwork.user[23] ReadAccesses ETV
+vector 293 DatabaseNetwork.user[69] ReadAccesses ETV
+vector 294 DatabaseNetwork.user[19] WaitTime ETV
+vector 295 DatabaseNetwork.user[23] WaitTime ETV
+vector 296 DatabaseNetwork.user[68] WriteAccesses ETV
+vector 297 DatabaseNetwork.user[143] ReadAccesses ETV
+vector 298 DatabaseNetwork.user[143] WaitTime ETV
+vector 299 DatabaseNetwork.user[45] ReadAccesses ETV
+vector 300 DatabaseNetwork.user[56] ReadAccesses ETV
+vector 301 DatabaseNetwork.user[45] WaitTime ETV
+vector 302 DatabaseNetwork.user[56] WaitTime ETV
+vector 303 DatabaseNetwork.user[22] ReadAccesses ETV
+vector 304 DatabaseNetwork.user[22] WaitTime ETV
+vector 305 DatabaseNetwork.user[98] ReadAccesses ETV
+vector 306 DatabaseNetwork.user[53] WriteAccesses ETV
+vector 307 DatabaseNetwork.user[53] WaitTime ETV
+vector 308 DatabaseNetwork.user[6] WriteAccesses ETV
+vector 309 DatabaseNetwork.user[6] WaitTime ETV
+vector 310 DatabaseNetwork.user[0] WriteAccesses ETV
+vector 311 DatabaseNetwork.user[0] WaitTime ETV
+vector 312 DatabaseNetwork.user[79] ReadAccesses ETV
+vector 313 DatabaseNetwork.user[130] ReadAccesses ETV
+vector 314 DatabaseNetwork.user[18] WriteAccesses ETV
+vector 315 DatabaseNetwork.user[24] ReadAccesses ETV
+vector 316 DatabaseNetwork.user[66] ReadAccesses ETV
+vector 317 DatabaseNetwork.user[142] WriteAccesses ETV
+vector 318 DatabaseNetwork.user[100] WriteAccesses ETV
+vector 319 DatabaseNetwork.user[66] WaitTime ETV
+vector 320 DatabaseNetwork.user[24] WaitTime ETV
+vector 321 DatabaseNetwork.user[100] WaitTime ETV
+vector 322 DatabaseNetwork.user[113] ReadAccesses ETV
+vector 323 DatabaseNetwork.user[51] ReadAccesses ETV
+vector 324 DatabaseNetwork.user[113] WaitTime ETV
+vector 325 DatabaseNetwork.user[51] WaitTime ETV
+vector 326 DatabaseNetwork.user[23] WriteAccesses ETV
+vector 327 DatabaseNetwork.user[1] ReadAccesses ETV
+vector 328 DatabaseNetwork.user[1] WaitTime ETV
+vector 329 DatabaseNetwork.user[86] ReadAccesses ETV
+vector 330 DatabaseNetwork.user[4] WriteAccesses ETV
+vector 331 DatabaseNetwork.user[4] WaitTime ETV
+vector 332 DatabaseNetwork.user[146] ReadAccesses ETV
+vector 333 DatabaseNetwork.user[146] WaitTime ETV
+vector 334 DatabaseNetwork.user[97] ReadAccesses ETV
+vector 335 DatabaseNetwork.user[97] WaitTime ETV
+vector 336 DatabaseNetwork.user[72] ReadAccesses ETV
+vector 337 DatabaseNetwork.user[81] WriteAccesses ETV
+vector 338 DatabaseNetwork.user[72] WaitTime ETV
+vector 339 DatabaseNetwork.user[81] WaitTime ETV
+vector 340 DatabaseNetwork.user[74] ReadAccesses ETV
+vector 341 DatabaseNetwork.user[70] ReadAccesses ETV
+vector 342 DatabaseNetwork.user[74] WaitTime ETV
+vector 343 DatabaseNetwork.user[70] WaitTime ETV
+vector 344 DatabaseNetwork.user[25] ReadAccesses ETV
+vector 345 DatabaseNetwork.user[135] WriteAccesses ETV
+vector 346 DatabaseNetwork.user[119] ReadAccesses ETV
+vector 347 DatabaseNetwork.user[9] WriteAccesses ETV
+vector 348 DatabaseNetwork.user[135] WaitTime ETV
+vector 349 DatabaseNetwork.user[119] WaitTime ETV
+vector 350 DatabaseNetwork.user[9] WaitTime ETV
+vector 351 DatabaseNetwork.user[103] ReadAccesses ETV
+vector 352 DatabaseNetwork.user[109] ReadAccesses ETV
+vector 353 DatabaseNetwork.user[103] WaitTime ETV
+vector 354 DatabaseNetwork.user[109] WaitTime ETV
+vector 355 DatabaseNetwork.user[50] ReadAccesses ETV
+vector 356 DatabaseNetwork.user[9] ReadAccesses ETV
+vector 357 DatabaseNetwork.user[50] WaitTime ETV
+vector 358 DatabaseNetwork.user[10] ReadAccesses ETV
+vector 359 DatabaseNetwork.user[10] WaitTime ETV
+vector 360 DatabaseNetwork.user[31] ReadAccesses ETV
+vector 361 DatabaseNetwork.user[31] WaitTime ETV
+vector 362 DatabaseNetwork.user[107] ReadAccesses ETV
+vector 363 DatabaseNetwork.user[112] ReadAccesses ETV
+vector 364 DatabaseNetwork.user[89] ReadAccesses ETV
+vector 365 DatabaseNetwork.user[107] WaitTime ETV
+vector 366 DatabaseNetwork.user[112] WaitTime ETV
+vector 367 DatabaseNetwork.user[89] WaitTime ETV
+vector 368 DatabaseNetwork.user[124] ReadAccesses ETV
+vector 369 DatabaseNetwork.user[124] WaitTime ETV
+vector 370 DatabaseNetwork.user[131] WriteAccesses ETV
+vector 371 DatabaseNetwork.user[131] WaitTime ETV
+vector 372 DatabaseNetwork.user[88] ReadAccesses ETV
+vector 373 DatabaseNetwork.user[88] WaitTime ETV
+vector 374 DatabaseNetwork.user[90] WriteAccesses ETV
+vector 375 DatabaseNetwork.user[90] WaitTime ETV
+vector 376 DatabaseNetwork.user[137] ReadAccesses ETV
+vector 377 DatabaseNetwork.user[123] ReadAccesses ETV
+vector 378 DatabaseNetwork.user[137] WaitTime ETV
+vector 379 DatabaseNetwork.user[123] WaitTime ETV
+vector 380 DatabaseNetwork.user[47] ReadAccesses ETV
+vector 381 DatabaseNetwork.user[47] WaitTime ETV
+vector 382 DatabaseNetwork.user[78] ReadAccesses ETV
+vector 383 DatabaseNetwork.user[81] ReadAccesses ETV
+vector 384 DatabaseNetwork.user[78] WaitTime ETV
+vector 385 DatabaseNetwork.user[131] ReadAccesses ETV
+vector 386 DatabaseNetwork.user[84] WriteAccesses ETV
+vector 387 DatabaseNetwork.user[84] WaitTime ETV
+vector 388 DatabaseNetwork.user[116] WriteAccesses ETV
+vector 389 DatabaseNetwork.user[2] ReadAccesses ETV
+vector 390 DatabaseNetwork.user[2] WaitTime ETV
+vector 391 DatabaseNetwork.user[51] WriteAccesses ETV
+vector 392 DatabaseNetwork.user[49] ReadAccesses ETV
+vector 393 DatabaseNetwork.user[49] WaitTime ETV
+vector 394 DatabaseNetwork.user[99] WriteAccesses ETV
+vector 395 DatabaseNetwork.user[133] WriteAccesses ETV
+vector 396 DatabaseNetwork.user[73] ReadAccesses ETV
+vector 397 DatabaseNetwork.user[12] ReadAccesses ETV
+vector 398 DatabaseNetwork.user[63] ReadAccesses ETV
+vector 399 DatabaseNetwork.user[63] WaitTime ETV
+vector 400 DatabaseNetwork.user[148] ReadAccesses ETV
+vector 401 DatabaseNetwork.user[148] WaitTime ETV
+vector 402 DatabaseNetwork.user[95] ReadAccesses ETV
+vector 403 DatabaseNetwork.user[95] WaitTime ETV
+vector 404 DatabaseNetwork.user[6] ReadAccesses ETV
+vector 405 DatabaseNetwork.user[64] ReadAccesses ETV
+vector 406 DatabaseNetwork.user[55] ReadAccesses ETV
+vector 407 DatabaseNetwork.user[55] WaitTime ETV
+vector 408 DatabaseNetwork.user[135] ReadAccesses ETV
+vector 409 DatabaseNetwork.user[0] ReadAccesses ETV
+vector 410 DatabaseNetwork.user[1] WriteAccesses ETV
+vector 411 DatabaseNetwork.user[125] ReadAccesses ETV
+vector 412 DatabaseNetwork.user[62] WriteAccesses ETV
+vector 413 DatabaseNetwork.user[62] WaitTime ETV
+vector 414 DatabaseNetwork.user[36] ReadAccesses ETV
+vector 415 DatabaseNetwork.user[127] ReadAccesses ETV
+vector 416 DatabaseNetwork.user[36] WaitTime ETV
+vector 417 DatabaseNetwork.user[127] WaitTime ETV
+vector 418 DatabaseNetwork.user[46] WriteAccesses ETV
+vector 419 DatabaseNetwork.user[46] WaitTime ETV
+vector 420 DatabaseNetwork.user[122] WriteAccesses ETV
+vector 421 DatabaseNetwork.user[128] WriteAccesses ETV
+vector 422 DatabaseNetwork.user[20] ReadAccesses ETV
+vector 423 DatabaseNetwork.user[20] WaitTime ETV
+vector 424 DatabaseNetwork.user[96] ReadAccesses ETV
+vector 425 DatabaseNetwork.user[42] ReadAccesses ETV
+vector 426 DatabaseNetwork.user[42] WaitTime ETV
+vector 427 DatabaseNetwork.user[43] ReadAccesses ETV
+vector 428 DatabaseNetwork.user[43] WaitTime ETV
+vector 429 DatabaseNetwork.user[90] ReadAccesses ETV
+vector 430 DatabaseNetwork.user[21] ReadAccesses ETV
+vector 431 DatabaseNetwork.user[21] WaitTime ETV
+vector 432 DatabaseNetwork.user[100] ReadAccesses ETV
+vector 433 DatabaseNetwork.user[58] WriteAccesses ETV
+vector 434 DatabaseNetwork.user[2] WriteAccesses ETV
+vector 435 DatabaseNetwork.user[132] ReadAccesses ETV
+vector 436 DatabaseNetwork.user[132] WaitTime ETV
+vector 437 DatabaseNetwork.user[34] ReadAccesses ETV
+vector 438 DatabaseNetwork.user[34] WaitTime ETV
+vector 439 DatabaseNetwork.user[27] ReadAccesses ETV
+vector 440 DatabaseNetwork.user[27] WaitTime ETV
+vector 441 DatabaseNetwork.user[136] ReadAccesses ETV
+vector 442 DatabaseNetwork.user[10] WriteAccesses ETV
+vector 443 DatabaseNetwork.user[136] WaitTime ETV
+vector 444 DatabaseNetwork.user[11] WriteAccesses ETV
+vector 445 DatabaseNetwork.user[46] ReadAccesses ETV
+vector 446 DatabaseNetwork.user[3] ReadAccesses ETV
+vector 447 DatabaseNetwork.user[3] WaitTime ETV
+vector 448 DatabaseNetwork.user[7] ReadAccesses ETV
+vector 449 DatabaseNetwork.user[7] WaitTime ETV
+vector 450 DatabaseNetwork.user[148] WriteAccesses ETV
+vector 451 DatabaseNetwork.user[5] ReadAccesses ETV
+vector 452 DatabaseNetwork.user[5] WaitTime ETV
+vector 453 DatabaseNetwork.user[123] WriteAccesses ETV
+vector 454 DatabaseNetwork.user[48] WriteAccesses ETV
+vector 455 DatabaseNetwork.user[145] ReadAccesses ETV
+vector 456 DatabaseNetwork.user[59] ReadAccesses ETV
+vector 457 DatabaseNetwork.user[38] ReadAccesses ETV
+vector 458 DatabaseNetwork.user[39] WriteAccesses ETV
+vector 459 DatabaseNetwork.user[38] WaitTime ETV
+vector 460 DatabaseNetwork.user[39] WaitTime ETV
+vector 461 DatabaseNetwork.user[141] ReadAccesses ETV
+vector 462 DatabaseNetwork.user[141] WaitTime ETV
+vector 463 DatabaseNetwork.user[72] WriteAccesses ETV
+vector 464 DatabaseNetwork.user[3] WriteAccesses ETV
+vector 465 DatabaseNetwork.user[84] ReadAccesses ETV
+vector 466 DatabaseNetwork.user[14] ReadAccesses ETV
+vector 467 DatabaseNetwork.user[14] WaitTime ETV
+vector 468 DatabaseNetwork.user[19] WriteAccesses ETV
+vector 469 DatabaseNetwork.user[91] WriteAccesses ETV
+vector 470 DatabaseNetwork.user[53] ReadAccesses ETV
+vector 471 DatabaseNetwork.user[83] ReadAccesses ETV
+vector 472 DatabaseNetwork.user[77] ReadAccesses ETV
+vector 473 DatabaseNetwork.user[83] WaitTime ETV
+vector 474 DatabaseNetwork.user[77] WaitTime ETV
+vector 475 DatabaseNetwork.user[102] WriteAccesses ETV
+vector 476 DatabaseNetwork.user[24] WriteAccesses ETV
+vector 477 DatabaseNetwork.user[21] WriteAccesses ETV
+vector 478 DatabaseNetwork.user[146] WriteAccesses ETV
+vector 479 DatabaseNetwork.user[103] WriteAccesses ETV
+vector 480 DatabaseNetwork.user[136] WriteAccesses ETV
+vector 481 DatabaseNetwork.user[26] ReadAccesses ETV
+vector 482 DatabaseNetwork.user[26] WaitTime ETV
+vector 483 DatabaseNetwork.user[89] WriteAccesses ETV
+vector 484 DatabaseNetwork.user[107] WriteAccesses ETV
+vector 485 DatabaseNetwork.user[22] WriteAccesses ETV
+vector 486 DatabaseNetwork.user[83] WriteAccesses ETV
+vector 487 DatabaseNetwork.user[95] WriteAccesses ETV
+vector 488 DatabaseNetwork.user[76] ReadAccesses ETV
+vector 489 DatabaseNetwork.user[76] WaitTime ETV
+vector 490 DatabaseNetwork.user[4] ReadAccesses ETV
+vector 491 DatabaseNetwork.user[54] ReadAccesses ETV
+vector 492 DatabaseNetwork.user[54] WaitTime ETV
+vector 493 DatabaseNetwork.user[94] ReadAccesses ETV
+vector 494 DatabaseNetwork.user[129] ReadAccesses ETV
+vector 495 DatabaseNetwork.user[129] WaitTime ETV
+vector 496 DatabaseNetwork.user[74] WriteAccesses ETV
+vector 497 DatabaseNetwork.user[141] WriteAccesses ETV
+vector 498 DatabaseNetwork.user[66] WriteAccesses ETV
+vector 499 DatabaseNetwork.user[35] ReadAccesses ETV
+vector 500 DatabaseNetwork.user[35] WaitTime ETV
+vector 501 DatabaseNetwork.user[105] WriteAccesses ETV
+vector 502 DatabaseNetwork.user[45] WriteAccesses ETV
+vector 503 DatabaseNetwork.user[105] WaitTime ETV
+vector 504 DatabaseNetwork.user[108] WriteAccesses ETV
+vector 505 DatabaseNetwork.user[16] ReadAccesses ETV
+vector 506 DatabaseNetwork.user[16] WaitTime ETV
+vector 507 DatabaseNetwork.user[106] WriteAccesses ETV
+vector 508 DatabaseNetwork.user[75] WriteAccesses ETV
+vector 509 DatabaseNetwork.user[87] WriteAccesses ETV
+vector 510 DatabaseNetwork.user[87] WaitTime ETV
+vector 511 DatabaseNetwork.user[43] WriteAccesses ETV
+vector 512 DatabaseNetwork.user[139] ReadAccesses ETV
+vector 513 DatabaseNetwork.user[139] WaitTime ETV
+vector 514 DatabaseNetwork.user[8] WriteAccesses ETV
+vector 515 DatabaseNetwork.user[140] WriteAccesses ETV
+vector 516 DatabaseNetwork.user[115] WriteAccesses ETV
+vector 517 DatabaseNetwork.user[140] WaitTime ETV
+vector 518 DatabaseNetwork.user[144] ReadAccesses ETV
+vector 519 DatabaseNetwork.user[144] WaitTime ETV
+vector 520 DatabaseNetwork.user[26] WriteAccesses ETV
+vector 521 DatabaseNetwork.user[140] ReadAccesses ETV
+vector 522 DatabaseNetwork.user[118] ReadAccesses ETV
+vector 523 DatabaseNetwork.user[40] ReadAccesses ETV
+vector 524 DatabaseNetwork.user[40] WaitTime ETV
+vector 525 DatabaseNetwork.user[36] WriteAccesses ETV
+vector 526 DatabaseNetwork.user[50] WriteAccesses ETV
+vector 527 DatabaseNetwork.user[80] WriteAccesses ETV
+vector 528 DatabaseNetwork.user[97] WriteAccesses ETV
+vector 529 DatabaseNetwork.user[39] ReadAccesses ETV
+vector 530 DatabaseNetwork.user[119] WriteAccesses ETV
+vector 531 DatabaseNetwork.user[14] WriteAccesses ETV
+vector 532 DatabaseNetwork.user[137] WriteAccesses ETV
+vector 533 DatabaseNetwork.user[42] WriteAccesses ETV
+vector 534 DatabaseNetwork.user[31] WriteAccesses ETV
+vector 535 DatabaseNetwork.user[30] WriteAccesses ETV
+vector 536 DatabaseNetwork.user[47] WriteAccesses ETV
+vector 537 DatabaseNetwork.user[27] WriteAccesses ETV
+vector 538 DatabaseNetwork.user[62] ReadAccesses ETV
+vector 539 DatabaseNetwork.user[70] WriteAccesses ETV
+vector 540 DatabaseNetwork.user[104] ReadAccesses ETV
+vector 541 DatabaseNetwork.user[104] WaitTime ETV
+vector 542 DatabaseNetwork.user[87] ReadAccesses ETV
+vector 543 DatabaseNetwork.user[29] WriteAccesses ETV
+vector 544 DatabaseNetwork.user[5] WriteAccesses ETV
+vector 545 DatabaseNetwork.user[67] WriteAccesses ETV
+vector 546 DatabaseNetwork.user[40] WriteAccesses ETV
+vector 547 DatabaseNetwork.user[126] WriteAccesses ETV
+vector 548 DatabaseNetwork.user[55] WriteAccesses ETV
+vector 549 DatabaseNetwork.user[44] WriteAccesses ETV
+vector 550 DatabaseNetwork.user[111] ReadAccesses ETV
+vector 551 DatabaseNetwork.user[111] WaitTime ETV
+vector 552 DatabaseNetwork.user[124] WriteAccesses ETV
+vector 553 DatabaseNetwork.user[147] WriteAccesses ETV
+vector 554 DatabaseNetwork.user[38] WriteAccesses ETV
+vector 555 DatabaseNetwork.user[104] WriteAccesses ETV
+vector 556 DatabaseNetwork.user[76] WriteAccesses ETV
+vector 557 DatabaseNetwork.user[149] WriteAccesses ETV
+vector 558 DatabaseNetwork.user[127] WriteAccesses ETV
+vector 559 DatabaseNetwork.user[7] WriteAccesses ETV
+vector 560 DatabaseNetwork.user[92] WriteAccesses ETV
+vector 561 DatabaseNetwork.user[35] WriteAccesses ETV
+vector 562 DatabaseNetwork.user[20] WriteAccesses ETV
+vector 563 DatabaseNetwork.user[49] WriteAccesses ETV
+vector 564 DatabaseNetwork.user[60] WriteAccesses ETV
+vector 565 DatabaseNetwork.user[132] WriteAccesses ETV
+vector 566 DatabaseNetwork.user[15] WriteAccesses ETV
+vector 567 DatabaseNetwork.user[114] WriteAccesses ETV
+vector 568 DatabaseNetwork.user[143] WriteAccesses ETV
+vector 569 DatabaseNetwork.user[117] WriteAccesses ETV
+vector 570 DatabaseNetwork.user[33] WriteAccesses ETV
+vector 571 DatabaseNetwork.user[78] WriteAccesses ETV
+vector 572 DatabaseNetwork.user[88] WriteAccesses ETV
+vector 573 DatabaseNetwork.user[41] WriteAccesses ETV
+vector 574 DatabaseNetwork.user[16] WriteAccesses ETV
+vector 575 DatabaseNetwork.user[144] WriteAccesses ETV
+vector 576 DatabaseNetwork.user[113] WriteAccesses ETV
+vector 577 DatabaseNetwork.user[54] WriteAccesses ETV
+vector 578 DatabaseNetwork.user[57] WriteAccesses ETV
+vector 579 DatabaseNetwork.user[101] WriteAccesses ETV
+vector 580 DatabaseNetwork.user[65] WriteAccesses ETV
+vector 581 DatabaseNetwork.user[56] WriteAccesses ETV
+vector 582 DatabaseNetwork.user[71] WriteAccesses ETV
+vector 583 DatabaseNetwork.user[129] WriteAccesses ETV
+vector 584 DatabaseNetwork.user[105] ReadAccesses ETV
+vector 585 DatabaseNetwork.user[17] WriteAccesses ETV
+vector 586 DatabaseNetwork.user[121] WriteAccesses ETV
+vector 587 DatabaseNetwork.user[111] WriteAccesses ETV
+vector 588 DatabaseNetwork.user[34] WriteAccesses ETV
+vector 589 DatabaseNetwork.user[112] WriteAccesses ETV
+vector 590 DatabaseNetwork.user[63] WriteAccesses ETV
+vector 591 DatabaseNetwork.user[120] WriteAccesses ETV
+vector 592 DatabaseNetwork.user[110] WriteAccesses ETV
+vector 593 DatabaseNetwork.user[82] WriteAccesses ETV
+vector 594 DatabaseNetwork.user[77] WriteAccesses ETV
+vector 595 DatabaseNetwork.user[37] WriteAccesses ETV
+vector 596 DatabaseNetwork.user[139] WriteAccesses ETV
+vector 597 DatabaseNetwork.user[93] WriteAccesses ETV
+vector 598 DatabaseNetwork.user[85] WriteAccesses ETV
+vector 599 DatabaseNetwork.user[109] WriteAccesses ETV
+0	32802 22158 0 298549 0 9997.649678948475 524 0.046955863744104 178.45597084647 10053.800372587 390738.10562386
+1	54960 21065 0 298503 0 9995.935547948309 498 0.006074961801127 170.48887033836 10044.402230369 389955.4659659
+2	76025 20696 0 298553 0 9997.831930623721 489 0.059006153632989 143.41117654865 10020.677018913 424017.94200358
+3	96721 19336 0 298107 0 9984.446106699771 457 0.11348807681337 170.50320494408 10014.916379033 436550.19596168
+4	116057 22159 0 297703 0 9970.609707673986 523 0.010120294859768 96.329617732526 10008.724180224 336422.2681204
+5	138216 19876 0 298415 0 9994.093745689555 470 0.035115150463922 111.11547507533 10007.670859196 403737.76105192
+6	158092 21467 0 298075 0 9983.739978301264 507 0.0037346262254305 162.08288547616 10016.43909139 400633.43356701
+7	179559 20426 0 298565 0 9998.403423488562 483 0.029059072502641 123.21614336438 10013.587080693 399090.88940611
+8	199985 21527 0 297787 0 9973.64820321051 509 0.17858592033691 95.434239830201 10017.4585409 352874.63894576
+9	221512 20698 0 298609 0 9999.735753700069 489 0.027978539743517 108.39232107029 10041.910137604 396194.21172942
+10	242210 22318 0 298573 0 9998.855330512976 515 0.023623150056972 114.31878797837 10007.809779985 376519.51512956
+11	264528 23450 0 297759 0 9973.006340489927 541 0.016150330009432 128.54348439988 10059.572377108 360879.9587701
+12	287978 21057 0 298457 0 9995.063458366977 487 0.028175576680663 120.99907616155 10010.755749732 394658.62032774
+13	309035 22149 0 297993 0 9980.698218695697 511 0.03642302007998 152.46284717115 10008.937696112 404472.96970123
+14	331184 23796 0 298161 0 9985.975284089439 549 0.0096496512698559 106.22321360967 10053.038400976 359733.80708112
+15	354980 20919 0 297661 0 9969.557715241959 482 0.020448281734443 214.44649959218 10034.998658957 471249.23587407
+16	375899 21599 0 298085 0 9983.978469581895 498 0.023033685418907 117.86147133819 10001.573782752 382231.84608196
+17	397498 20455 0 297935 0 9979.006861544679 471 0.024892456163687 197.65967260175 10015.037814842 451036.00066502
+18	417953 21940 0 298387 0 9993.035401307241 507 0.013835790987459 174.57607665941 10009.990840064 427112.26257452
+19	439893 21678 0 298333 0 9991.790436047714 500 0.057037885014379 183.50137997266 10017.778598444 395679.23625818
+20	461571 22894 0 297865 0 9976.236468598979 529 0.065478028523286 129.99053738059 10019.769935411 392977.85138564
+21	484465 20785 0 297629 0 9968.168858835136 480 0.014344357907685 125.40878956527 10040.364939598 412403.80464321
+22	505250 21736 0 297465 0 9960.918400864111 502 0.046840164639133 144.05806300669 10002.099848431 404692.31143296
+23	526986 21072 0 298345 0 9992.119921187196 487 8.0219630844018e-05 113.21339886743 10035.96113049 406875.68696924
+24	548058 21199 0 297617 0 9967.471658970689 490 0.068627471445908 130.68842282655 10011.857471163 389541.15664576
+25	569257 22209 0 298581 0 9998.988269358721 513 0.056597816029135 106.23893807023 10021.12646246 377141.60478482
+26	591466 21435 0 297573 0 9965.429706297922 494 0.0066438408192016 110.91890297781 10076.348609276 401628.16811498
+27	612901 21846 0 298589 0 9999.194111943753 504 0.10298076911562 116.47985160444 10069.322144908 391767.23072666
+28	634747 20395 0 298493 0 9995.636250194894 471 0.011920671700383 133.3023782798 10005.945621573 431127.57973721
+29	655142 19849 0 297931 0 9978.975783913651 459 0.20404527507945 117.10801580838 10024.700030022 389474.85854877
+30	674991 22211 0 297975 0 9980.388693105509 513 0.00040060310428949 117.56391706295 10046.10885966 388867.38836995
+31	697202 22369 0 298203 0 9987.525040857856 516 0.0029315014128775 121.05410168176 10004.369527675 373570.16080684
+32	719571 21134 0 297121 0 9949.419490664703 488 0.019350236125314 130.81955447115 10040.613984709 399670.32674777
+33	740705 21744 0 297945 0 9979.746279333189 502 0.03136040751556 183.67130023346 10003.609232215 443953.6780824
+34	762449 21569 0 298173 0 9986.499622628988 498 0.034686115124155 133.40012538787 10006.978772291 399913.24165868
+35	784018 21891 0 297141 0 9950.498553140156 505 0.29701499474292 122.18673869169 10043.101396226 359909.59563363
+36	805909 22769 0 298525 0 9996.693651998549 526 0.043766215286945 149.11005162809 10026.871007866 416816.21296725
+37	828678 21420 0 298119 0 9984.695514743808 494 0.035479194452088 124.54864335957 10015.739281935 402047.48839173
+38	850098 21692 0 297391 0 9958.872153053947 501 0.00048418184084518 132.42819952274 10006.41650568 388975.39245644
+39	871790 22305 0 298459 0 9995.121399933636 514 0.013844122774861 122.16184304644 10012.944154367 368605.90294403
+40	894095 22066 0 298385 0 9992.991197614843 509 0.0080906897054133 95.523923600854 10047.838747266 379152.44947116
+41	916161 23734 0 298155 0 9985.816347704444 548 0.041335316865598 133.24274187224 10026.34640181 364633.5150814
+42	939895 19869 0 298153 0 9985.805149886984 459 0.14892225331047 167.65305297558 10019.078558066 437017.32003331
+43	959764 21984 0 296963 0 9942.98343574827 507 0.048639406255149 110.11932105238 10019.025721227 383428.11567224
+44	981748 20502 0 298065 0 9983.081912857317 474 0.046807814004613 125.23290955986 10021.995627395 402198.13619438
+45	1002250 22372 0 298465 0 9995.232457947768 517 0.045707816217883 95.830866345449 10007.127163748 370574.08677027
+46	1024622 22865 0 298597 0 9999.492648228673 529 0.030317838634247 128.69779693841 10023.14782989 386105.13673484
+47	1047487 22075 0 298227 0 9988.638217648366 510 0.10991352438285 113.44659869457 10034.108080998 382859.86636377
+48	1069562 21291 0 297213 0 9952.028055709596 492 0.041612353865972 124.12004100531 10034.70143924 414667.1742059
+49	1090853 22796 0 297873 0 9976.737225662815 526 0.052565076501682 88.017038815604 10007.683991968 362394.82639958
+50	1113649 21272 0 297813 0 9974.425998070161 491 0.068069339579127 116.49351363658 10022.640645461 384292.00403101
+51	1134921 22013 0 298569 0 9998.580513064148 508 0.00092572346664555 144.29099960292 10003.629244796 417086.09494958
+52	1156934 21167 0 298243 0 9989.651377077935 490 0.083347622934707 132.96020941913 10000.96723106 425902.67825702
+53	1178101 22078 0 296633 0 9931.691638638912 510 0.033457234086797 130.47093088675 10006.967312517 382804.46836757
+54	1200179 22238 0 297803 0 9974.133964979703 513 0.0033759380854179 140.84939974411 10009.431895848 379553.34479078
+55	1222417 22979 0 298303 0 9990.860222881279 530 0.012172969898032 129.3133209829 10014.370678874 394494.3065429
+56	1245396 21755 0 298543 0 9997.470488646326 502 0.073866770866492 171.85811330909 10003.494416934 401467.08893448
+57	1267151 23539 0 298145 0 9985.427513123436 544 0.035814424929067 91.682016270109 10000.527836536 341235.73995965
+58	1290690 23230 0 297987 0 9980.537329984862 535 0.028092945343691 132.48688346731 10010.720978716 388362.5750484
+59	1313920 22274 0 298539 0 9997.407857612628 514 0.032922597314372 95.702765067943 10004.778359936 368187.89840725
+60	1336194 20703 0 298529 0 9997.074263985225 478 0.038468253611025 103.92279098806 10032.178545706 396350.32708495
+61	1356897 21200 0 296881 0 9940.066600894505 490 0.048754275533055 162.44170424581 10012.909352089 406569.17145964
+62	1378097 21209 0 298371 0 9992.719726952132 490 0.033739633410456 157.697320002 10002.407575274 408181.1683166
+63	1399306 22370 0 297869 0 9976.55321354009 516 0.03083963163123 130.83512369481 10014.734572199 399782.0372043
+64	1421676 21454 0 298347 0 9992.123383079401 495 0.01517490009216 112.23469537792 10007.596315347 391856.95006187
+65	1443130 21546 0 298273 0 9990.544245072087 498 0.084614889166755 122.56397910572 10038.595023948 405972.14347736
+66	1464676 21465 0 298359 0 9992.298777987353 496 0.020558602831469 148.32600718363 10008.160745723 414772.56840904
+67	1486141 21102 0 297673 0 9969.761492559844 488 0.0033290940215248 137.54426530896 10002.143031867 409921.82098487
+68	1507243 22582 0 297435 0 9960.107289631947 522 0.072364827017258 102.75482732535 10012.721871985 379513.95684931
+69	1529825 21527 0 298087 0 9983.980994086259 497 0.02382849868642 243.41944211079 10000.95906279 446125.15306068
+70	1551352 22064 0 297701 0 9970.582243287519 509 0.066604348483076 178.21895212618 10006.133431713 403491.33897766
+71	1573416 21999 0 298389 0 9993.078662712455 508 0.093848824396771 145.24184096849 10007.058518971 413775.60323531
+72	1595415 20527 0 298213 0 9987.658493641851 473 0.0094345528534323 135.44416845697 10006.506821141 421284.11618884
+73	1615942 20722 0 298537 0 9997.357550069781 478 0.015353515019117 285.62370611772 10010.753048786 487245.2225377
+74	1636664 21496 0 298423 0 9994.189807655683 497 0.050343439817415 109.64936938461 10055.114633417 375976.78732007
+75	1658160 22455 0 297921 0 9978.657513646384 519 0.089871130046279 111.47249986776 10029.546284211 378054.10699588
+76	1680615 21230 0 298407 0 9993.558881148219 491 0.003555062451604 139.00136809604 10010.06132904 389210.8983882
+77	1701845 23979 0 298111 0 9984.533298392593 553 0.056942516298989 128.01549335931 10018.066783398 341709.12714279
+78	1725824 20392 0 296517 0 9928.552191113081 470 0.032654957791945 191.6704229798 10000.297196246 424561.92832528
+79	1746216 20508 0 298591 0 9999.292253540037 474 0.1396357625832 146.21587629502 10014.30852724 409596.13539462
+80	1766724 20893 0 298177 0 9986.620501453262 483 0.024087297094687 133.17191518136 10006.326372157 423301.97271435
+81	1787617 21792 0 297837 0 9974.974604606509 503 0.069698646614142 139.87035213764 10007.076193504 390190.3711921
+82	1809409 18436 0 297725 0 9971.82987076015 426 0.095893477436292 171.22226271483 10019.066991095 492030.2138511
+83	1827845 21741 0 298017 0 9981.395635221885 502 0.12709990971478 147.98253631234 10010.408088201 383808.89905348
+84	1849586 22824 0 298463 0 9995.200155125214 527 0.0052135573475197 153.32647952234 10016.159548837 389066.07846631
+85	1872410 19059 0 298357 0 9992.262832265897 440 0.042365389408942 198.30021311223 10012.161861401 466799.37727806
+86	1891469 21731 0 298077 0 9983.75071307763 502 0.033766057679486 126.69296932512 10021.322110113 389896.85080095
+87	1913200 21498 0 298607 0 9999.705544707881 497 0.06278223463735 113.89733201879 10020.301044589 393119.16677279
+88	1934698 20715 0 298237 0 9989.520107962639 477 0.00039791152831782 105.5777807411 10016.445470015 404671.13639222
+89	1955413 21719 0 298507 0 9995.956522737736 502 0.053256300307283 128.84584686742 10006.871034082 413963.90439007
+90	1977132 20974 0 297133 0 9950.16940453953 485 0.0309288223188 128.41849100847 10046.961948191 413239.62970856
+91	1998106 21697 0 298265 0 9990.453288026725 502 0.018307323648794 143.65675126624 10016.394256596 393868.27116812
+92	2019803 22418 0 298101 0 9984.255414837738 518 0.0082467779154726 142.34230361191 10005.352836693 411052.7702605
+93	2042221 21016 0 298617 0 9999.956491808107 485 0.062299424377801 123.21594258741 10008.410737132 380326.22882955
+94	2063237 22307 0 298453 0 9994.927097682548 515 0.04823948818536 123.48394145914 10015.852859931 375954.83271714
+95	2085544 22000 0 298475 0 9995.39796353141 509 0.019006994165836 114.09254567874 10022.222647942 370412.0660623
+96	2107544 21929 0 297663 0 9969.611016180599 506 0.0067048348595073 110.82274420303 10007.96109597 388378.47234448
+97	2129473 21696 0 298221 0 9988.101647442941 501 0.029598488698294 151.46342846019 10025.969685287 416788.7837944
+98	2151169 20620 0 296705 0 9934.225498321758 476 0.0041766820887911 130.15313695805 10003.566791322 401237.12425247
+99	2171789 21903 0 298447 0 9994.742795880761 506 0.021297998762479 108.11013185033 10037.342929095 384617.80378452
+100	2193692 20374 0 296941 0 9941.740040531877 460 0.00093662976176682 120.22976243129 10034.892043066 426044.20300115
+101	2214066 24143 0 298605 0 9999.685675439442 544 0.11094302853989 110.89959630015 10039.904325495 347702.99484012
+102	2238209 21712 0 298311 0 9990.986347574954 490 0.0011070379028486 110.5011714445 10003.740613868 383618.46432281
+103	2259921 21837 0 298097 0 9984.146484827794 493 0.068037734891871 144.87958835668 10012.797708674 413471.36328272
+104	2281758 20079 0 298129 0 9984.938767157768 453 0.055926430144227 148.25709414889 10019.699377255 458076.67033059
+105	2301837 20983 0 297441 0 9960.312912272388 473 0.10431996246892 125.17634942932 10034.028734363 401321.00732313
+106	2322820 22047 0 298437 0 9994.482279701961 497 0.09239256794807 143.70219736353 10008.907207737 389043.74449141
+107	2344867 21338 0 298179 0 9986.699874191126 482 0.13569198637103 121.26958402057 10003.905477668 397319.43612746
+108	2366205 22073 0 298337 0 9991.96914945662 498 0.17150639631668 111.37726175569 10020.587677602 411385.99516282
+109	2388278 21256 0 298435 0 9994.480479584191 480 0.029581956564268 159.57446540195 10009.06954373 432397.96525209
+110	2409534 23114 0 298509 0 9995.987276023764 521 0.0012114359011624 151.18547010785 10000.954430288 428054.62422913
+111	2432648 22274 0 298285 0 9990.626807760917 502 0.038974274614275 164.71131579045 10015.519078121 405366.450551
+112	2454922 21853 0 296931 0 9941.299400339858 493 0.0089524696590117 171.79665261115 10048.390123686 434952.34261636
+113	2476775 21852 0 297567 0 9965.069468266702 494 0.18388468858568 117.51195217532 10013.002161517 410765.90790616
+114	2498627 24404 0 298257 0 9990.044230886672 551 0.056609747395308 98.345439711667 10000.731998555 361977.08539219
+115	2523031 21952 0 298575 0 9998.867903421003 496 0.067940650314829 167.24718512941 10008.640864908 442504.8507692
+116	2544983 21449 0 298301 0 9990.807129809128 484 0.058243323694872 154.14098727246 10033.151180414 406704.20920386
+117	2566432 22681 0 298517 0 9996.199497236671 513 0.0022718483043875 101.35170756302 10039.226851657 356821.77817983
+118	2589113 21002 0 298555 0 9997.836890893976 474 0.07014758353898 152.53317179829 10011.686644445 400965.61255431
+119	2610115 21518 0 298501 0 9995.836841277024 486 0.11505528059325 145.78036621451 10096.385487592 418930.82286558
+120	2631633 21722 0 298005 0 9981.102051880987 491 0.078705540953332 143.60777491916 10015.845537384 422316.92562045
+121	2653355 23065 0 298363 0 9992.39151252421 521 0.08250207836729 125.99967024658 10026.547417097 381588.92892558
+122	2676420 20353 0 298267 0 9990.458075723308 459 0.021881762251905 126.38306560755 10007.128952182 432991.42992444
+123	2696773 21780 0 298369 0 9992.648750688741 492 0.061928287007957 157.52358849105 10022.765932628 423173.59030503
+124	2718553 22130 0 298007 0 9981.170855507197 500 0.045189858943017 161.69863132999 10041.45722897 391865.71047188
+125	2740683 22903 0 298253 0 9989.942050758076 517 0.1022368120736 126.60905054413 10039.498473489 367111.81808588
+126	2763586 22980 0 298471 0 9995.324324580759 518 0.010903305967085 94.907479212716 10018.81612879 361592.00180234
+127	2786566 21459 0 298481 0 9995.431724984797 484 0.044689005736431 169.12318948833 10017.063601608 401644.16399431
+128	2808025 21483 0 298343 0 9992.106864086498 486 0.073490305694046 169.60546855599 10015.583440624 418848.49421947
+129	2829508 22134 0 297641 0 9968.458039493129 499 0.042487334426532 120.18176293742 10011.283874434 393723.4133516
+130	2851642 24225 0 298031 0 9981.782837399279 547 0.050028468781562 127.10507602742 10042.526303987 368328.31313163
+131	2875867 20385 0 298479 0 9995.427975363605 460 0.016067044626876 142.81894274484 10003.437066254 449754.56855088
+132	2896252 22730 0 297065 0 9946.813711029007 513 0.0050822443224301 114.77282653376 10011.833084456 378643.17546069
+133	2918982 23624 0 298433 0 9994.391302061593 533 0.00094871424174408 109.83097642679 10054.309145093 393227.79446756
+134	2942606 20248 0 297977 0 9980.421679469247 458 0.12942097188753 122.85062401718 10009.291968693 418731.52489785
+135	2962854 22565 0 295897 0 9903.409173655139 509 0.022961765199571 123.58234988483 10007.002193678 414123.746224
+136	2985419 21000 0 298533 0 9997.190329977476 474 0.032064517960276 133.18608298766 10007.345715824 421283.08663346
+137	3006419 23577 0 298401 0 9993.234084882577 532 0.029568726203384 119.30650176415 10007.064007517 361472.35710953
+138	3029996 22464 0 298199 0 9987.462826031967 507 0.10803584250313 124.42489018041 10007.14853985 380447.34273176
+139	3052460 20845 0 298445 0 9994.705432663216 470 0.0028012885128166 194.52080564538 10021.533451857 439667.45806547
+140	3073305 22487 0 298491 0 9995.63181358904 507 0.017031686866409 161.33911234662 10011.891422193 400020.46314952
+141	3095792 19741 0 298329 0 9991.446167469422 446 0.017173243165545 175.30419462918 10007.042405442 481087.29772107
+142	3115533 21545 0 297217 0 9952.107309822737 486 0.019097078296279 140.71934260474 10052.922658033 419090.99272717
+143	3137078 22023 0 297877 0 9976.956295772427 497 0.0042561080509125 115.09292764265 10018.10944351 406738.72514346
+144	3159101 22806 0 298021 0 9981.489832000052 515 0.012667539140039 131.30308342278 10015.678978075 414386.47399334
+145	3181907 21613 0 297483 0 9961.269475859435 488 0.00059098412780511 157.9275382639 10034.025290791 409696.92576278
+146	3203520 22212 0 298489 0 9995.592878997665 501 0.0075889479196272 188.35988661658 10024.501479733 408644.35870246
+147	3225732 22711 0 298599 0 9999.572353091281 513 0.018076732733055 105.55513386216 10025.53627018 392409.90104953
+148	3248443 21900 0 298269 0 9990.519110197148 495 0.071992521404681 103.40701262177 10007.195437448 401963.76436023
+149	3270343 21870 0 298583 0 9998.994553707395 495 0.00060714771523303 117.9129436911 10036.020921755 384587.44763857
+150	3292213 12586 1 298433 0.273291568617 9994.391302061593 414 1 1 414 414
+151	3304799 24311 4 298440 0.373291568617 9994.491302061593 532 0.099999999998545 0.17473627541403 53.646452649467 5.4363941829033
+152	3329110 12689 5 297435 0.379371384022 9960.107289631947 418 1 1 418 418
+153	3341799 12061 7 298583 0.403802562923 9998.994553707395 398 1 1 398 398
+154	3353860 3026 9 295613 0.408511767981 9894.00073436305 100 1 1 100 100
+155	3356886 23780 12 297440 0.479371384022 9960.207289631947 521 0.099999999998545 0.19954832279905 52.454108325346 5.3019385267764
+156	3380666 22544 14 298588 0.503802562923 9999.094553707395 494 0.099999999998545 0.19850854812194 49.676226240994 5.0161845312844
+157	3403210 22287 16 297130 0.508511767981 9949.519490664703 487 0.099999999998545 0.11411300226337 48.714113002263 4.8730217772855
+158	3425497 13146 17 298605 0.783663128262 9999.685675439442 432 1 1 432 432
+159	3438643 24904 20 298612 0.883663128262 9999.785675439442 543 0.099999999998545 0.18766493714702 54.84659281426 5.5761942783735
+160	3463547 2693 21 296253 1.146538528475 9916.012880086544 89 1 1 89 89
+161	3466240 12040 23 297661 1.167693381862 9969.557715241959 395 1 1 395 395
+162	3478280 2730 25 297823 1.242305809328 9974.748976056943 90 1 1 90 90
+163	3481010 22254 28 297492 1.246538528475 9961.369475859435 487 0.099999999998545 0.16250964888241 48.892317546727 4.9177134482276
+164	3503264 22081 30 297666 1.267693381862 9969.657715241959 481 0.099999999998545 0.16579754904524 48.2924850412 4.8581926157778
+165	3525345 22935 32 298084 1.342305809328 9983.85071307763 501 0.099999999998545 0.22279035398969 50.30667009309 5.0713549981934
+166	3548280 3202 33 298493 1.473707109302 9995.636250194894 106 1 1 106 106
+167	3551482 21515 36 298500 1.573707109302 9995.736250194894 470 0.099999999998545 0.17954924739888 47.364922054174 4.7955018845495
+168	3572997 11778 37 297121 1.734459797625 9949.419490664703 387 1 1 387 387
+169	3584775 12613 39 296687 1.823220522486 9933.885021217546 415 1 1 415 415
+170	3597388 23421 44 297982 1.923220522486 9980.488693105509 512 0.099999999998545 0.1968110944681 51.509666540318 5.2028287247933
+171	3620809 3217 45 297751 2.020695506179 9972.786354252873 106 1 1 106 106
+172	3624026 11376 47 295761 2.042897630499 9899.229655585579 375 1 1 375 375
+173	3635402 10885 49 297543 2.091224515504 9964.084084554157 358 1 1 358 358
+174	3646287 23156 52 298206 2.120695506179 9987.562826031967 506 0.099999999998545 0.19691138457347 50.696911384575 5.0887740933749
+175	3669443 20904 54 297986 2.142897630499 9980.521679469247 457 0.099999999998545 0.19095569084595 45.981022087506 4.6466713442452
+176	3690347 12147 55 297937 2.152702163121 9979.066711160436 399 1 1 399 399
+177	3702494 20080 58 298362 2.191224515504 9992.362832265897 439 0.099999999998545 0.18760837296486 44.192324065509 4.4653678494572
+178	3722574 13249 59 298145 2.238923212653 9985.427513123436 436 1 1 436 436
+179	3735823 22732 64 298444 2.252702163121 9994.582279701961 496 0.099999999998545 0.17972916883446 50.212576127065 5.1206460713958
+180	3758555 24813 66 298150 2.338923212653 9985.527513123436 543 0.099999999998545 0.19564111236787 54.904109107895 5.5926879777716
+181	3783368 11447 67 298267 2.339108195849 9990.458075723308 376 1 1 376 376
+182	3794815 20967 72 298278 2.439108195849 9990.558075723308 458 0.099999999998545 0.15640896454806 45.913667261772 4.6076673409442
+183	3815782 12133 75 297213 2.517488188761 9952.028055709596 399 1 1 399 399
+184	3827915 22435 80 297220 2.617488188761 9952.128055709596 491 0.099999999998545 0.16250276767903 49.353829288301 4.9731012829112
+185	3850350 3077 81 297973 2.760573768569 9980.323706277485 102 1 1 102 102
+186	3853427 23550 84 298456 2.860573768569 9995.027097682548 514 0.099999999998545 0.19543784025382 51.830338404896 5.2504586390823
+187	3876977 11679 85 297673 2.905560545844 9969.761492559844 385 1 1 385 385
+188	3888656 12508 87 298471 2.974245385042 9995.324324580759 411 1 1 411 411
+189	3901164 22286 90 297680 3.005560545844 9969.861492559844 487 0.099999999998545 0.17671810139382 49.036376221573 4.9593985462596
+190	3923450 12416 91 298119 3.0246170733 9984.695514743808 408 1 1 408 408
+191	3935866 23675 94 298478 3.074245385042 9995.424324580759 517 0.099999999998545 0.1948389329209 51.913798825392 5.228953384365
+192	3959541 3026 95 296369 3.094593610001 9921.418434393776 100 1 1 100 100
+193	3962567 22601 98 298124 3.1246170733 9984.795514743808 493 0.099999999998545 0.23534576884299 49.855623932127 5.0906390564567
+194	3985168 22325 100 298250 3.194593610001 9989.751377077935 489 0.099999999998545 0.1786156841672 49.062116099443 4.9316233479624
+195	4007493 12611 101 298389 3.242729788919 9993.078662712455 414 1 1 414 414
+196	4020104 23226 104 298398 3.342729788919 9993.178662712455 507 0.099999999998545 0.16084402151614 50.890507614361 5.1178204718986
+197	4043330 11929 105 296813 3.462549122923 9938.074984081295 393 1 1 393 393
+198	4055259 12540 107 298509 3.518270908512 9995.987276023764 412 1 1 412 412
+199	4067799 22419 110 298010 3.562549122923 9981.202051880987 490 0.099999999998545 0.22120105774047 49.46847623242 5.0318935240185
+200	4090218 23857 112 298516 3.618270908512 9996.087276023764 520 0.099999999998545 0.19850863123611 52.366500248526 5.297136036639
+201	4114075 12169 113 298265 3.748521320358 9990.453288026725 401 1 1 401 401
+202	4126244 22873 116 298276 3.848521320358 9990.553288026725 501 0.099999999998545 0.17867894611209 50.342302282035 5.0728785832867
+203	4149117 11660 117 296793 4.12406564061 9936.770306770525 384 1 1 384 384
+204	4160777 22359 120 296888 4.22406564061 9940.166600894505 489 0.099999999998545 0.18039238555866 49.287685538168 4.9879477662208
+205	4183136 12038 121 298343 4.377611930146 9992.106864086498 397 1 1 397 397
+206	4195174 22164 124 298352 4.477611930146 9992.206864086498 485 0.099999999998545 0.19258211626766 48.82982867271 4.9402771139568
+207	4217338 12077 125 298337 4.686030375511 9991.96914945662 397 1 1 397 397
+208	4229415 12580 127 297855 4.724134121654 9975.499093165863 414 1 1 414 414
+209	4241995 22757 130 298342 4.786030375511 9992.06914945662 497 0.099999999998545 0.17277299557736 49.949296908928 5.0337985163824
+210	4264752 23686 132 298104 4.824134121654 9984.355414837738 517 0.099999999998545 0.19308519314382 51.969575525866 5.2453599125301
+211	4288438 11984 133 298273 4.88096981473 9990.544245072087 395 1 1 395 395
+212	4300422 22724 136 298292 4.98096981473 9990.644245072087 497 0.099999999998545 0.19283497467677 50.176407491696 5.098103807177
+213	4323146 2794 137 298537 5.028838641496 9997.357550069781 92 1 1 92 92
+214	4325940 21831 140 298542 5.128838641496 9997.457550069781 477 0.099999999998545 0.16791807308073 47.847489603005 4.8086731210996
+215	4347771 2656 147 295903 5.60554016958 9903.623756059928 88 1 1 88 88
+216	4350427 21683 152 298560 5.70554016958 9997.936890893976 473 0.099999999998545 0.22775835164111 47.595308624705 4.8171556095135
+217	4372110 13470 153 298257 5.841610665344 9990.044230886672 443 1 1 443 443
+218	4385580 25208 156 298260 5.941610665344 9990.144230886672 550 0.099999999998545 0.18661377035892 55.515166357705 5.6388747803499
+219	4410788 11321 157 298529 6.145607043051 9997.074263985225 372 1 1 372 372
+220	4422109 21840 160 298532 6.245607043051 9997.174263985225 477 0.099999999998545 0.19052443539113 48.029312800494 4.8591216796003
+221	4443949 11690 161 297935 6.367122816836 9979.006861544679 383 1 1 383 383
+222	4455639 21600 164 297942 6.467122816836 9979.106861544679 470 0.099999999998545 0.19985591455315 47.385757125197 4.8068615027943
+223	4477239 12205 173 297993 7.06318278275 9980.698218695697 401 1 1 401 401
+224	4489444 23365 176 297996 7.16318278275 9980.798218695697 510 0.099999999998545 0.19437178114549 51.303608371843 5.1815683457663
+225	4512809 2923 183 296685 7.579239285653 9933.81780497926 96 1 1 96 96
+226	4515732 3299 187 298253 7.631116867484 9989.942050758076 109 1 1 109 109
+227	4519031 23138 192 297670 7.679239285653 9969.711016180599 505 0.099999999998545 0.19113174671111 51.044774471768 5.2006919694823
+228	4542169 23605 196 298256 7.731116867484 9990.042050758076 516 0.099999999998545 0.19746972170196 51.939994946879 5.252426546486
+229	4565774 3056 197 297593 7.835416213534 9966.252054948428 100 1 1 100 100
+230	4568830 12012 199 298447 7.862251146082 9994.742795880761 396 1 1 396 396
+231	4580842 22726 202 298094 7.935416213534 9984.080994086259 496 0.099999999998545 0.25862324196532 49.90763641334 5.0507766128397
+232	4603568 23096 204 298452 7.962251146082 9994.842795880761 505 0.099999999998545 0.19114054731108 50.925080993817 5.1640153317039
+233	4626664 11097 205 298421 7.980515419883 9994.188549821047 364 1 1 364 364
+234	4637761 11166 213 297931 8.231559924852 9978.975783913651 367 1 1 367 367
+235	4648927 13235 217 298363 8.25002459845 9992.39151252421 436 1 1 436 436
+236	4662162 20963 220 297940 8.331559924852 9979.075783913651 458 0.099999999998545 0.17109322715294 46.06714673679 4.6475162651812
+237	4683125 23798 224 298368 8.35002459845 9992.49151252421 520 0.099999999998545 0.19529093956044 52.46226532383 5.3272667251734
+238	4706923 11794 225 298243 8.842803131401 9989.651377077935 389 1 1 389 389
+239	4718717 12167 227 298199 8.853778846701 9987.462826031967 400 1 1 400 400
+240	4730884 11860 229 298617 8.868080572412 9999.956491808107 390 1 1 390 390
+241	4742744 11135 231 297843 8.910369901024 9975.21264246578 367 1 1 367 367
+242	4753879 22121 238 297368 8.968080572412 9957.944263496807 483 0.099999999998545 0.198362041775 48.78853051471 4.9644448389243
+243	4776000 22062 240 298182 9.010369901024 9986.720501453262 482 0.099999999998545 0.19389196172597 48.625945815496 4.9309206207704
+244	4798062 2753 241 295577 9.042041204492 9892.992452165449 91 1 1 91 91
+245	4800815 21726 244 296710 9.142041204492 9934.325498321758 475 0.099999999998545 0.16058814984171 47.563277184704 4.7663335917505
+246	4822541 11878 247 297579 9.184962745104 9965.920118204371 391 1 1 391 391
+247	4834419 3378 249 296567 9.200279154806 9929.496363867985 111 1 1 111 111
+248	4837797 22910 254 297950 9.284962745104 9979.846279333189 501 0.099999999998545 0.19984898482471 50.547883761269 5.1302729501414
+249	4860707 24961 258 298040 9.300279154806 9981.882837399279 546 0.099999999998545 0.24155068425989 55.011250664761 5.5786933128481
+250	4885668 12095 261 298387 9.672042098969 9993.035401307241 398 1 1 398 398
+251	4897763 13020 263 297759 9.702563274433 9973.006340489927 428 1 1 428 428
+252	4910783 3308 265 293437 9.706856975044 9821.086214633172 109 1 1 109 109
+253	4914091 12510 267 297921 9.771140986159 9978.657513646384 412 1 1 412 412
+254	4926601 23150 270 298396 9.772042098969 9993.135401307241 506 0.099999999998545 0.24308289876808 51.710209159606 5.3683960840584
+255	4949751 24742 272 297764 9.802563274433 9973.106340489927 540 0.099999999998545 0.16937596472962 54.272113799627 5.4686645998359
+256	4974493 23671 274 297928 9.871140986159 9978.757513646384 518 0.099999999998545 0.19511352538211 52.285931930411 5.3147386190845
+257	4998164 3032 279 293967 9.977440180318 9838.741651190841 100 1 1 100 100
+258	5001196 23420 284 298586 10.077440180318 9999.088269358721 512 0.099999999998545 0.17185303509268 51.540257946119 5.2054802326483
+259	5024616 12345 289 298575 10.701293541665 9998.867903421003 407 1 1 407 407
+260	5036961 13300 291 297987 10.711314404557 9980.537329984862 436 1 1 436 436
+261	5050261 22646 294 298580 10.801293541665 9998.967903421003 495 0.099999999998545 0.24263032699901 49.872410065051 5.0620226057423
+262	5072907 24493 296 297992 10.811314404557 9980.637329984862 534 0.099999999998545 0.19468177504859 53.781853675991 5.4459421841013
+263	5097400 3191 299 296881 10.976058134572 9940.066600894505 105 1 1 105 105
+264	5100591 12871 301 297787 11.020969733406 9973.64820321051 423 1 1 423 423
+265	5113462 23229 308 297794 11.120969733406 9973.74820321051 508 0.099999999998545 0.182901597713 50.983612949373 5.129228568317
+266	5136691 10484 309 297725 11.490648134825 9971.82987076015 345 1 1 345 345
+267	5147175 2683 311 298457 11.51038393766 9995.063458366977 89 1 1 89 89
+268	5149858 12391 313 298311 11.54648621613 9990.986347574954 408 1 1 408 408
+269	5162249 19431 318 297730 11.590648134825 9971.92987076015 425 0.099999999998545 0.23734529588182 43.014691572486 4.409032923853
+270	5181680 22212 320 298462 11.61038393766 9995.163458366977 486 0.099999999998545 0.21779638462704 49.005683950811 4.9749723873951
+271	5203892 22333 322 298320 11.64648621613 9991.086347574954 489 0.099999999998545 0.19420429249658 49.32936038287 5.0073238043595
+272	5226225 3198 325 297381 11.954921536368 9958.59556328397 105 1 1 105 105
+273	5229423 12719 327 298599 11.998937732821 9999.572353091281 419 1 1 419 419
+274	5242142 21654 330 298596 12.054921536368 9999.392253540037 473 0.099999999998545 0.19935536114099 47.57641193395 4.8058531200979
+275	5263796 23404 332 298604 12.098937732821 9999.672353091281 512 0.099999999998545 0.194183118517 51.656369285215 5.2376363059619
+276	5287200 2819 333 291171 12.181648463661 9741.100972290217 93 1 1 93 93
+277	5290019 2491 335 297977 12.186900095631 9980.421679469247 82 1 1 82 82
+278	5292510 22621 340 298356 12.281648463661 9992.223383079401 494 0.099999999998545 0.23018220171798 49.868351341728 5.071716783579
+279	5315131 11049 345 298065 12.378589192534 9983.081912857317 364 1 1 364 364
+280	5326180 21651 350 298068 12.478589192534 9983.181912857317 473 0.099999999998545 0.1903008338777 47.5037255468 4.7869509384857
+281	5347831 11675 353 298301 12.558831619823 9990.807129809128 384 1 1 384 384
+282	5359506 11808 355 297217 12.646731927916 9952.107309822737 388 1 1 388 388
+283	5371314 22101 358 298306 12.658831619823 9990.907129809128 483 0.099999999998545 0.18794322075598 48.41763590809 4.8617117059512
+284	5393415 22222 360 297226 12.746731927916 9952.207309822737 485 0.099999999998545 0.19572080647413 49.183820693208 5.0341078693027
+285	5415637 3287 361 294403 12.833894040623 9852.229605423229 108 1 1 108 108
+286	5418924 13300 363 298155 12.834183453562 9985.816347704444 438 1 1 438 438
+287	5432224 12741 365 298517 12.875620032051 9996.199497236671 420 1 1 420 420
+288	5444965 23506 368 298546 12.933894040623 9997.507857612628 513 0.099999999998545 0.16964495847401 51.682398003677 5.229095948516
+289	5468471 25043 370 298160 12.934183453562 9985.916347704444 547 0.099999999998545 0.19229499019593 54.893006504518 5.5245815952786
+290	5493514 23407 372 298520 12.975620032051 9996.299497236671 512 0.099999999998545 0.18062415122813 51.435932369452 5.1790284617558
+291	5516921 11913 373 298333 12.988926965017 9991.790436047714 391 1 1 391 391
+292	5528834 11735 375 298345 13.077651344422 9992.119921187196 387 1 1 387 387
+293	5540569 12049 377 298087 13.082002396857 9983.980994086259 396 1 1 396 396
+294	5552618 22881 380 298336 13.088926965017 9991.890436047714 499 0.099999999998545 0.19005668546561 50.07624078748 5.0407860635338
+295	5575499 22208 384 298354 13.177651344422 9992.219921187196 486 0.099999999998545 0.18307645843197 48.685297122091 4.883966053711
+296	5597707 3121 393 292017 14.062818079375 9771.109458739959 103 1 1 103 103
+297	5600828 12496 397 297877 14.251671866664 9976.956295772427 411 1 1 411 411
+298	5613324 22733 402 297880 14.351671866664 9977.056295772427 496 0.099999999998545 0.16989069766498 49.889608014444 5.0334374480228
+299	5636057 12540 411 298465 14.699288423796 9995.232457947768 413 1 1 413 413
+300	5648597 11873 415 298053 14.756545835118 9982.640815948275 390 1 1 390 390
+301	5660470 23583 418 298474 14.799288423796 9995.332457947768 516 0.099999999998545 0.19517783436186 51.923070458842 5.2456380181143
+302	5684053 22970 420 298548 14.856545835118 9997.570488646326 501 0.099999999998545 0.18496845912887 50.316853065947 5.0644361051807
+303	5707023 12342 425 297465 15.053482266256 9960.918400864111 406 1 1 406 406
+304	5719365 22911 428 297472 15.153482266256 9961.018400864111 501 0.099999999998545 0.19981148619991 50.701415273056 5.1741146662343
+305	5742276 11688 429 296705 15.261397303888 9934.225498321758 384 1 1 384 384
+306	5753964 3321 433 295843 15.416693169346 9902.276610757992 109 1 1 109 109
+307	5757285 23303 436 296638 15.516693169346 9931.791638638912 509 0.099999999998545 0.19926959893098 51.298548796302 5.1962081903991
+308	5780588 3352 441 294153 15.744022799638 9843.85689758414 110 1 1 110 110
+309	5783940 23192 444 298082 15.844022799638 9983.839978301264 506 0.099999999998545 0.18694829591004 50.845721060666 5.1236385900944
+310	5807132 2983 445 296495 15.917490091316 9927.889304341665 98 1 1 98 98
+311	5810115 23937 448 298552 16.017490091316 9997.749678948475 523 0.099999999998545 0.26743079827338 52.783974366181 5.372759437408
+312	5834052 11189 449 298591 16.061876911082 9999.292253540037 368 1 1 368 368
+313	5845241 13214 457 298031 16.678009072868 9981.782837399279 435 1 1 435 435
+314	5858455 3284 459 294451 16.722970957038 9853.877548916598 108 1 1 108 108
+315	5861739 11549 469 297617 16.788657058005 9967.471658970689 380 1 1 380 380
+316	5873288 11993 471 298359 16.806694112244 9992.298777987353 395 1 1 395 395
+317	5885281 2944 477 295933 16.855018226437 9904.638230506794 97 1 1 97 97
+318	5888225 2772 485 296449 16.888555870553 9925.753166087877 91 1 1 91 91
+319	5890997 22622 488 298366 16.906694112244 9992.398777987353 495 0.099999999998545 0.17482287975599 49.815066163952 5.0304509659336
+320	5913619 22398 490 297620 16.929353763319 9967.571658970689 489 0.099999999998545 0.19415910503176 49.363523253715 5.0142453568145
+321	5936017 20963 496 296944 16.988555870553 9941.840040531877 459 0.099999999998545 0.19274763475642 46.232214757528 4.6779334527011
+322	5956980 11828 503 297567 17.438317072515 9965.069468266702 390 1 1 390 390
+323	5968808 12397 507 298569 17.446423900842 9998.580513064148 407 1 1 407 407
+324	5981205 22562 512 297572 17.538317072515 9965.169468266702 493 0.099999999998545 0.17429263426948 49.455659817361 4.9686123615726
+325	6003767 23197 516 298572 17.546423900842 9998.680513064148 507 0.099999999998545 0.17809620009575 51.113679036495 5.1793236204278
+326	6026964 3013 517 282573 17.662537848561 9442.55954885019 99 1 1 99 99
+327	6029977 11913 527 298503 17.971207769679 9995.935547948309 392 1 1 392 392
+328	6041890 22717 534 298512 18.071207769679 9996.035547948309 497 0.099999999998545 0.19937195913599 49.99441387243 5.0525329752238
+329	6064607 12494 537 298077 18.400218630812 9983.75071307763 411 1 1 411 411
+330	6077101 2890 539 297703 18.464462629416 9970.609707673986 95 1 1 95 95
+331	6079991 23965 544 297710 18.564462629416 9970.709707673986 522 0.099999999998545 0.17978478293298 52.477203688752 5.2917405335699
+332	6103956 11897 545 296821 18.569569938028 9938.32412149602 392 1 1 392 392
+333	6115853 22868 548 298496 18.669569938028 9995.692878997665 500 0.099999999998545 0.17856561163353 50.379152912236 5.0995495575966
+334	6138721 12120 549 298221 18.721231195428 9988.101647442941 399 1 1 399 399
+335	6150841 22895 552 298224 18.821231195428 9988.201647442941 500 0.099999999998545 0.17652589647514 50.165159282091 5.0428602659491
+336	6173736 11589 555 298213 18.939933543499 9987.658493641851 380 1 1 380 380
+337	6185325 3287 559 295031 18.989891669935 9872.27673739212 108 1 1 108 108
+338	6188612 21639 564 298220 19.039933543499 9987.758493641851 472 0.099999999998545 0.19714417267915 47.434863797996 4.7850051027963
+339	6210251 23025 568 297840 19.089891669935 9975.074604606509 502 0.099999999998545 0.21417524783692 50.525858421892 5.1090136599913
+340	6233276 12289 569 298423 19.190959547365 9994.189807655683 405 1 1 405 405
+341	6245565 12351 571 297701 19.227618781315 9970.582243287519 406 1 1 406 406
+342	6257916 22686 574 298432 19.290959547365 9994.289807655683 496 0.099999999998545 0.16945412027007 49.908666920516 5.0390185187287
+343	6280602 23286 578 297708 19.327618781315 9970.682243287519 508 0.099999999998545 0.1863653465025 51.285081521756 5.2084573136765
+344	6303888 12529 583 298581 19.465765986977 9998.988269358721 412 1 1 412 412
+345	6316417 3280 585 295711 19.502038683126 9897.794177186429 108 1 1 108 108
+346	6319697 11910 589 298501 19.537281481414 9995.836841277024 392 1 1 392 392
+347	6331607 3008 591 296273 19.540128527867 9917.186073414455 99 1 1 99 99
+348	6334615 23273 596 295900 19.602038683126 9903.509173655139 508 0.099999999998545 0.18692478849312 51.449706641859 5.2507258171053
+349	6357888 22227 598 298506 19.637281481414 9995.936841277024 485 0.099999999998545 0.16698142156019 48.635234183899 4.8835594870227
+350	6380115 22361 600 298616 19.640128527867 9999.835753700069 488 0.099999999998545 0.19639913205702 49.220871260577 5.0001932075788
+351	6402476 12113 613 298097 20.117420103331 9984.146484827794 398 1 1 398 398
+352	6414589 11901 615 297037 20.160384908403 9945.851849018601 392 1 1 392 392
+353	6426490 22551 618 298100 20.217420103331 9984.246484827794 492 0.099999999998545 0.18891758563859 49.288917585634 4.9456898541627
+354	6449041 21955 620 298442 20.260384908403 9994.580479584191 479 0.099999999998545 0.17831537631207 48.087922835673 4.8374631704708
+355	6470996 11714 623 297813 20.428637486984 9974.425998070161 385 1 1 385 385
+356	6482710 11851 627 298609 20.452889517778 9999.735753700069 389 1 1 389 389
+357	6494561 22470 632 297816 20.528637486984 9974.525998070161 490 0.099999999998545 0.19641114393812 49.525175773107 5.041543345968
+358	6517031 12116 637 298573 20.763186013277 9998.855330512976 398 1 1 398 398
+359	6529147 23545 640 298578 20.863186013277 9998.955330512976 514 0.099999999998545 0.19609023610406 51.927588061613 5.2880311983183
+360	6552692 12465 641 298203 20.892250166162 9987.525040857856 410 1 1 410 410
+361	6565157 23648 644 298212 20.992250166162 9987.625040857856 515 0.099999999998545 0.17447430279935 51.760438695822 5.2167726065541
+362	6588805 11520 655 298179 21.156528267045 9986.699874191126 379 1 1 379 379
+363	6600325 12417 657 296931 21.174854301883 9941.299400339858 408 1 1 408 408
+364	6612742 12451 659 298507 21.176682629752 9995.956522737736 410 1 1 410 410
+365	6625193 21995 668 298184 21.256528267045 9986.799874191126 481 0.099999999998545 0.17675312107394 48.36198568005 4.8776118655011
+366	6647188 22543 672 296936 21.274854301883 9941.399400339858 492 0.099999999998545 0.15639052020379 49.417655666468 4.9735219322315
+367	6669731 22884 674 298514 21.276682629752 9996.056522737736 501 0.099999999998545 0.19650531447587 50.417417037804 5.0996399548526
+368	6692615 12262 679 298007 21.36144394299 9981.170855507197 404 1 1 404 404
+369	6704877 22871 684 298014 21.46144394299 9981.270855507197 499 0.099999999998545 0.27784327610789 50.416490741773 5.1519478820038
+370	6727748 2951 689 294609 21.725387617566 9858.444647111029 97 1 1 97 97
+371	6730699 21027 692 298486 21.825387617566 9995.527975363605 459 0.099999999998545 0.14401781890683 46.051549478043 4.6248624733423
+372	6751726 12165 693 298237 21.978249351019 9989.520107962639 399 1 1 399 399
+373	6763891 21853 696 298240 22.078249351019 9989.620107962639 476 0.099999999998545 0.17934005086386 47.930757121603 4.8451547813729
+374	6785744 2879 699 281071 22.211948913744 9392.418524128354 95 1 1 95 95
+375	6788623 22180 704 297136 22.311948913744 9950.26940453953 484 0.099999999998545 0.19753296833414 49.124684562694 5.0392788833732
+376	6810803 12742 705 298401 22.396287315079 9993.234084882577 419 1 1 419 419
+377	6823545 12106 707 298369 22.463366030666 9992.648750688741 398 1 1 398 398
+378	6835651 24352 710 298404 22.496287315079 9993.334084882577 531 0.099999999998545 0.19673508594406 53.466795371933 5.4103020063957
+379	6860003 22499 712 298374 22.563366030666 9992.748750688741 491 0.099999999998545 0.19136279622899 49.235210019588 4.947216741228
+380	6882502 12202 715 298227 22.718778834205 9988.638217648366 402 1 1 402 402
+381	6894704 23270 720 298232 22.818778834205 9988.738217648366 509 0.099999999998545 0.18886682630398 51.337964321159 5.2061877246875
+382	6917974 11450 721 295393 22.902779094001 9887.11493004071 376 1 1 376 376
+383	6929424 11989 723 297837 22.987002428349 9974.974604606509 394 1 1 394 394
+384	6941413 21522 726 296524 23.002779094001 9928.652191113081 469 0.099999999998545 0.17413997418771 47.14326071171 4.7497360265325
+385	6962935 11020 739 298479 23.502035270657 9995.427975363605 362 1 1 362 362
+386	6973955 3159 767 295005 23.922155989141 9871.755103949923 104 1 1 104 104
+387	6977114 24118 772 298470 24.022155989141 9995.300155125214 526 0.099999999998545 0.19006905196898 53.026666837455 5.374342368753
+388	7001232 3011 789 297123 25.015417815121 9949.43602529768 99 1 1 99 99
+389	7004243 11468 801 298553 25.118615160948 9997.831930623721 377 1 1 377 377
+390	7015711 22321 808 298558 25.218615160948 9997.931930623721 488 0.099999999998545 0.17747295637128 49.087379025484 4.9582904416769
+391	7038032 3025 809 297655 25.316472123296 9968.93499271478 100 1 1 100 100
+392	7041057 12455 813 297873 25.504554044473 9976.737225662815 409 1 1 409 409
+393	7053512 24074 818 297876 25.604554044473 9976.837225662815 525 0.099999999998545 0.17935144545982 52.92961489009 5.3604840964767
+394	7077586 3325 821 296977 25.983133911979 9943.183493571944 109 1 1 109 109
+395	7080911 3598 825 297909 26.107522308306 9977.941248859891 118 1 1 118 118
+396	7084509 11722 827 297357 26.145830814691 9957.691222593279 385 1 1 385 385
+397	7096231 12074 843 298207 26.48501371559 9987.596513048573 397 1 1 397 397
+398	7108305 12223 853 297251 26.705803692479 9953.25540428295 402 1 1 402 402
+399	7120528 23593 856 297872 26.805803692479 9976.65321354009 515 0.099999999998545 0.17725120701471 51.818591874007 5.2299048424411
+400	7144121 11465 857 298269 26.884905443047 9990.519110197148 378 1 1 378 378
+401	7155586 22577 860 298284 26.984905443047 9990.619110197148 494 0.099999999998545 0.19799864513107 49.668785077125 5.0092879015783
+402	7178163 12595 865 298475 27.78085379582 9995.39796353141 415 1 1 415 415
+403	7190758 23256 868 298484 27.88085379582 9995.49796353141 508 0.099999999998545 0.19276499572015 51.18141970672 5.1820878239902
+404	7214014 12047 869 298075 27.889608572027 9983.739978301264 396 1 1 396 396
+405	7226061 12219 875 298347 27.99368263663 9992.123383079401 401 1 1 401 401
+406	7238280 12999 881 298033 28.427293601874 9981.79405042348 427 1 1 427 427
+407	7251279 24261 884 298310 28.527293601874 9990.960222881279 529 0.099999999998545 0.18661524407798 53.127367190957 5.3512813181913
+408	7275540 12175 889 295897 28.769839233926 9903.409173655139 400 1 1 400 400
+409	7287715 12905 909 298549 29.473530132417 9997.649678948475 425 1 1 425 425
+410	7300620 3203 917 290289 29.580383411217 9709.283206443278 105 1 1 105 105
+411	7303823 12389 923 297903 29.745300610502 9977.740883140897 407 1 1 407 407
+412	7316212 3160 927 298147 29.765096515034 9985.486779571143 104 1 1 104 104
+413	7319372 22401 934 298376 29.865096515034 9992.819726952132 489 0.099999999998545 0.19809666086712 49.250971544513 4.9834788856631
+414	7341773 12918 937 298525 30.115685172748 9996.693651998549 425 1 1 425 425
+415	7354691 12151 939 298481 30.13270666545 9995.431724984797 399 1 1 399 399
+416	7366842 24045 942 298528 30.215685172748 9996.793651998549 525 0.099999999998545 0.19412698360611 52.958038532157 5.3727919829974
+417	7390887 22151 944 298488 30.23270666545 9995.531724984797 483 0.099999999998545 0.21780216374509 48.529248755525 4.8937444329982
+418	7413038 3353 947 285601 30.330719479804 9547.734589379682 111 1 1 111 111
+419	7416391 24078 952 298602 30.430719479804 9999.592648228673 528 0.099999999998545 0.19830204483151 53.453737669215 5.4605891386139
+420	7440469 2500 953 290239 30.559596381737 9707.676904912507 82 1 1 82 82
+421	7442969 2663 965 296275 31.254665082184 9917.282710506081 88 1 1 88 88
+422	7445632 12896 969 297649 31.37792235246 9968.61436711537 425 1 1 425 425
+423	7458528 24154 974 297868 31.47792235246 9976.336468598979 528 0.099999999998545 0.1913360760941 53.052073806928 5.3462599099274
+424	7482682 12429 975 297663 31.488010611297 9969.611016180599 409 1 1 409 409
+425	7495111 10890 991 298153 32.10479114123 9985.805149886984 358 1 1 358 358
+426	7506001 21004 996 298158 32.20479114123 9985.905149886984 458 0.099999999998545 0.19095877697009 46.264820202812 4.7052624898977
+427	7527005 12273 997 296531 32.280041497851 9928.823646777362 403 1 1 403 403
+428	7539278 23216 1000 296972 32.380041497851 9943.08343574827 506 0.099999999998545 0.19423083954098 51.132560222006 5.2082107564379
+429	7562494 11833 1033 297133 33.246021165553 9950.16940453953 389 1 1 389 389
+430	7574327 11585 1053 295901 33.444224006499 9903.531141707578 381 1 1 381 381
+431	7585912 21932 1058 297634 33.544224006499 9968.268858835136 479 0.099999999998545 0.19629342482676 48.237702104842 4.8836429222244
+432	7607844 11174 1065 296941 33.731281927299 9941.740040531877 368 1 1 368 368
+433	7619018 2980 1071 297469 33.909061546048 9960.983772395516 98 1 1 98 98
+434	7621998 3371 1079 297313 34.061413212896 9954.926489958926 111 1 1 111 111
+435	7625369 12621 1087 297065 34.406633154331 9946.813711029007 415 1 1 415 415
+436	7637990 23429 1096 297070 34.506633154331 9946.913711029007 512 0.099999999998545 0.19903348540902 51.770426801667 5.2750395744435
+437	7661419 11820 1109 298173 35.749753268773 9986.499622628988 389 1 1 389 389
+438	7673239 22756 1112 298176 35.849753268773 9986.599622628988 497 0.099999999998545 0.19853615205284 50.159107902892 5.091813173857
+439	7695995 12218 1129 298589 36.167385285499 9999.194111943753 401 1 1 401 401
+440	7708213 23103 1134 298594 36.267385285499 9999.294111943753 503 0.099999999998545 0.13398587939355 50.384266420459 5.0492852988254
+441	7731316 11566 1137 297845 36.396378385688 9975.240162249352 380 1 1 380 380
+442	7742882 3532 1139 298315 36.459926405109 9991.037211920278 116 1 1 116 116
+443	7746414 21703 1142 298536 36.496378385688 9997.290329977476 473 0.099999999998545 0.16793548203987 47.402895426727 4.7559852303922
+444	7768117 3412 1145 297305 36.609511939111 9954.600616069711 112 1 1 112 112
+445	7771529 12651 1157 298597 36.990163056695 9999.492648228673 417 1 1 417 417
+446	7784180 10823 1167 298107 37.192084241493 9984.446106699771 356 1 1 356 356
+447	7795003 20884 1174 298114 37.292084241493 9984.546106699771 456 0.099999999998545 0.146461075964 45.665566305204 4.5756369024053
+448	7815887 11329 1181 298565 37.579281084055 9998.403423488562 373 1 1 373 373
+449	7827216 22081 1184 298568 37.679281084055 9998.503423488562 482 0.099999999998545 0.16283844512782 48.269173428589 4.8378234879193
+450	7849297 3527 1203 289605 38.815903780586 9683.45128771479 116 1 1 116 116
+451	7852824 10672 1215 298379 39.030906717689 9992.876903815017 351 1 1 351 351
+452	7863496 21506 1222 298426 39.130906717689 9994.193745689555 469 0.099999999998545 0.18428551362194 47.306528015859 4.7969550996143
+453	7885002 2820 1223 289449 39.134755977814 9678.484595069044 93 1 1 93 93
+454	7887822 2781 1245 296485 39.80987819974 9927.723033455091 92 1 1 92 92
+455	7890603 12098 1249 297483 40.249217356968 9961.269475859435 398 1 1 398 398
+456	7902701 12320 1251 298539 40.32749311666 9997.407857612628 405 1 1 405 405
+457	7915021 12145 1281 297391 40.806285158838 9958.872153053947 399 1 1 399 399
+458	7927166 2928 1283 297245 40.817844318234 9953.131055107361 96 1 1 96 96
+459	7930094 22918 1290 297398 40.906285158838 9958.972153053947 500 0.099999999998545 0.19489851969001 50.254732828314 5.0722277880643
+460	7953012 23560 1292 298468 40.917844318234 9995.263458366977 513 0.099999999998545 0.25804008842624 51.68775436981 5.2453288150589
+461	7976572 10514 1329 298329 42.106426015845 9991.446167469422 346 1 1 346 346
+462	7987086 20396 1334 298332 42.206426015845 9991.546167469422 445 0.099999999998545 0.15415440136894 44.689189509764 4.4955492834508
+463	8007482 2810 1337 294427 42.37913433887 9853.245340813278 92 1 1 92 92
+464	8010292 3043 1379 297477 44.130661904587 9961.17030684041 100 1 1 100 100
+465	8013335 12835 1385 298463 44.286507565281 9995.200155125214 422 1 1 422 422
+466	8026170 13617 1389 298161 44.470488440726 9985.975284089439 448 1 1 448 448
+467	8039787 25137 1392 298164 44.570488440726 9986.075284089439 548 0.099999999998545 0.19331162955859 55.010223280991 5.5382320939133
+468	8064924 3297 1415 298089 45.71922721636 9984.000412842703 108 1 1 108 108
+469	8068221 3039 1421 283693 46.141550619086 9482.973368271789 100 1 1 100 100
+470	8071260 12146 1433 296633 46.396926752446 9931.691638638912 400 1 1 400 400
+471	8083406 12124 1441 298017 46.527021233887 9981.395635221885 399 1 1 399 399
+472	8095530 13486 1445 298111 46.578267484284 9984.533298392593 443 1 1 443 443
+473	8109016 22953 1450 298024 46.627021233887 9981.495635221885 501 0.099999999998545 0.18930730161446 50.454041084708 5.103418366723
+474	8131969 25330 1456 298116 46.678267484284 9984.633298392593 552 0.099999999998545 0.18672464410338 55.675015474905 5.6440084383668
+475	8157299 2463 1505 295417 47.770824233933 9887.975548502339 81 1 1 81 81
+476	8159762 3315 1513 294465 48.071123429273 9854.410452447801 109 1 1 109 109
+477	8163077 2985 1521 297629 49.081912468585 9968.168858835136 98 1 1 98 98
+478	8166062 3295 1541 298489 49.74251825571 9995.592878997665 108 1 1 108 108
+479	8169357 2853 1585 296925 50.229884076928 9941.160203726366 94 1 1 94 94
+480	8172210 2813 1607 298533 50.97651281331 9997.190329977476 93 1 1 93 93
+481	8175023 11496 1627 297573 51.965081716979 9965.429706297922 377 1 1 377 377
+482	8186519 22620 1632 297576 52.065081716979 9965.529706297922 493 0.099999999998545 0.18162620004296 49.477181337454 4.9766706707417
+483	8209139 2767 1701 297493 54.785889583539 9961.767348642897 91 1 1 91 91
+484	8211906 3095 1705 295213 54.963359647484 9879.138517363909 102 1 1 102 102
+485	8215001 2890 1741 295869 56.288780105353 9902.994625953255 95 1 1 95 95
+486	8217891 3114 1753 293457 56.497347872162 9821.459164442404 102 1 1 102 102
+487	8221005 2826 1783 296397 57.319952420816 9923.32748756068 93 1 1 93 93
+488	8223831 11568 1789 296719 57.558300425554 9934.524671043454 381 1 1 381 381
+489	8235399 22432 1792 298412 57.658300425554 9993.658881148219 490 0.099999999998545 0.19996312707826 49.373319395158 4.9993016154714
+490	8257831 13012 1799 295673 57.865613941265 9896.486057924844 427 1 1 427 427
+491	8270843 12567 1801 297803 57.888409559741 9974.133964979703 413 1 1 413 413
+492	8283410 23502 1810 297808 57.988409559741 9974.233964979703 512 0.099999999998545 0.18617935476504 51.385168395221 5.1716845423543
+493	8306912 12547 1847 298453 59.297098814378 9994.927097682548 412 1 1 412 412
+494	8319459 12675 1853 297641 59.74379783704 9968.458039493129 417 1 1 417 417
+495	8332134 22837 1860 297648 59.84379783704 9968.558039493129 498 0.099999999998545 0.19821078339191 50.261671123954 5.104353466656
+496	8354971 2770 1865 296207 60.058072353567 9913.901732940428 91 1 1 91 91
+497	8357741 3019 1885 298197 61.172144640298 9987.364437034047 99 1 1 99 99
+498	8360760 3033 1923 297605 62.528162502079 9966.826032156128 100 1 1 100 100
+499	8363793 12916 1935 296715 63.003398573518 9934.470059079799 424 1 1 424 424
+500	8376709 23137 1940 297154 63.103398573518 9950.598553140156 504 0.099999999998545 0.19614217199705 50.65402439779 5.1058770470486
+501	8399846 3081 1973 297441 63.858932841072 9960.312912272388 101 1 1 101 101
+502	8402927 3132 1975 295657 63.918391536907 9895.566953645086 103 1 1 103 103
+503	8406059 21664 1980 297444 63.958932841072 9960.412912272388 472 0.099999999998545 0.19606233246213 47.502850673944 4.8032596012464
+504	8427723 3039 2017 294765 66.237472616109 9863.729235797786 100 1 1 100 100
+505	8430762 12038 2021 298085 66.298245598566 9983.978469581895 395 1 1 395 395
+506	8442800 22820 2028 298092 66.398245598566 9984.078469581895 497 0.099999999998545 0.19129565614276 50.175942360531 5.0985293716351
+507	8465620 2958 2051 298437 67.749696527263 9994.482279701961 97 1 1 97 97
+508	8468578 3231 2085 295751 68.775456085993 9898.869135460348 106 1 1 106 106
+509	8471809 3632 2137 298607 70.004273689092 9999.705544707881 120 1 1 120 120
+510	8475441 22728 2142 298614 70.104273689092 9999.805544707881 496 0.099999999998545 0.17250934174899 50.081421580172 5.0817866226699
+511	8498169 3133 2189 296963 71.212026245095 9942.98343574827 103 1 1 103 103
+512	8501302 11286 2193 297371 71.471767446888 9957.981311480399 371 1 1 371 371
+513	8512588 21522 2196 298450 71.571767446888 9994.805432663216 469 0.099999999998545 0.20761346403015 47.41496486912 4.8261738003989
+514	8534110 2581 2253 297045 73.958019636358 9945.992023296653 85 1 1 85 85
+515	8536691 2763 2277 296461 74.98062919169 9926.65084455483 91 1 1 91 91
+516	8539454 2691 2279 291981 75.005406399664 9770.345698981686 88 1 1 88 88
+517	8542145 23228 2284 298498 75.08062919169 9995.73181358904 506 0.099999999998545 0.19917223164339 50.901561292937 5.1450763000797
+518	8565373 12578 2293 298021 75.238545690079 9981.489832000052 414 1 1 414 414
+519	8577951 23561 2296 298028 75.338545690079 9981.589832000052 514 0.099999999998545 0.1906285262794 51.770807212599 5.2393481219715
+520	8601512 3524 2309 289317 75.593189688805 9673.440453931413 116 1 1 116 116
+521	8605036 12644 2313 298491 75.857706625115 9995.63181358904 415 1 1 415 415
+522	8617680 11735 2321 298555 76.060564697036 9997.836890893976 385 1 1 385 385
+523	8629415 12534 2333 298385 76.904437382837 9992.991197614843 412 1 1 412 412
+524	8641949 23318 2336 298392 77.004437382837 9993.091197614843 508 0.099999999998545 0.19638786247197 51.269076662121 5.2050396159667
+525	8665267 3026 2341 297287 77.220732143814 9954.035438545511 100 1 1 100 100
+526	8668293 3189 2359 285763 77.722881030989 9552.483868906445 105 1 1 105 105
+527	8671482 3508 2423 298177 79.713659324328 9986.620501453262 115 1 1 115 115
+528	8674990 3071 2433 297497 79.874698820417 9961.897860405084 101 1 1 101 101
+529	8678061 12707 2443 298459 80.080310109374 9995.121399933636 417 1 1 417 417
+530	8690768 2832 2477 293857 81.13928059806 9834.745805605947 93 1 1 93 93
+531	8693600 3039 2489 297541 81.472272838147 9964.066392751393 100 1 1 100 100
+532	8696639 3417 2499 296751 81.744043380759 9935.701264032513 112 1 1 112 112
+533	8700056 3038 2535 296453 83.154321012179 9925.926599974927 100 1 1 100 100
+534	8703094 3206 2555 292525 83.85535510297 9788.359559702271 105 1 1 105 105
+535	8706300 2946 2651 297975 86.475790865197 9980.388693105509 97 1 1 97 97
+536	8709246 3249 2655 296849 86.556112246431 9938.948273430541 107 1 1 107 107
+537	8712495 3112 2685 291801 87.544725048647 9762.700220613925 102 1 1 102 102
+538	8715607 11692 2699 298371 87.880420429862 9992.719726952132 385 1 1 385 385
+539	8727299 3112 2717 296989 88.540291258648 9943.699242695534 102 1 1 102 102
+540	8730411 11130 2739 298129 89.089936923521 9984.938767157768 366 1 1 366 366
+541	8741541 20727 2744 298132 89.189936923521 9985.038767157768 452 0.099999999998545 0.18886723241394 45.375358804689 4.5696723829809
+542	8762268 11442 2827 297785 92.223740616337 9973.62876779462 376 1 1 376 376
+543	8773710 2760 2865 297151 92.982936890987 9950.58055190556 91 1 1 91 91
+544	8776470 3586 2891 298415 94.525999149296 9994.093745689555 118 1 1 118 118
+545	8780056 3089 2901 294273 95.299795547477 9847.785717559695 102 1 1 102 102
+546	8783145 2926 2983 295713 98.200027696828 9897.809202827462 96 1 1 96 96
+547	8786071 3231 3157 296693 104.693323418097 9933.919588777371 106 1 1 106 106
+548	8789302 3108 3179 298303 105.899659006267 9990.860222881279 102 1 1 102 102
+549	8792410 3315 3189 294121 106.078725800277 9842.489343731356 109 1 1 109 109
+550	8795725 12210 3223 298133 107.202007004864 9985.074612791656 401 1 1 401 401
+551	8807935 22996 3230 298298 107.302007004864 9990.726807760917 501 0.099999999998545 0.15105199520258 50.179739116613 5.0293770804719
+552	8830931 2895 3331 290817 111.232210049203 9728.748299761105 95 1 1 95 95
+553	8833826 2835 3389 297229 113.260982398297 9952.305662062869 93 1 1 93 93
+554	8836661 3073 3441 286891 114.561382901155 9590.735477803534 101 1 1 101 101
+555	8839734 2619 3497 294693 116.803716810779 9860.900945794458 86 1 1 86 86
+556	8842353 3316 3579 298407 119.355424607782 9993.558881148219 109 1 1 109 109
+557	8845669 2914 3607 289717 120.122610285195 9688.116716646259 96 1 1 96 96
+558	8848583 2548 3653 288987 122.042187658807 9658.934219109016 84 1 1 84 84
+559	8851131 3312 3837 297609 128.197917758698 9967.116251904395 109 1 1 109 109
+560	8854443 3130 3867 298101 129.776817873647 9984.255414837738 103 1 1 103 103
+561	8857573 2442 3901 297141 130.74237728246 9950.498553140156 80 1 1 80 80
+562	8860015 3135 3939 297865 132.076915288389 9976.236468598979 103 1 1 103 103
+563	8863150 3516 3971 291845 132.878951951535 9764.432751948152 116 1 1 116 116
+564	8866666 3198 3981 297073 133.129137700769 9947.209580685621 105 1 1 105 105
+565	8869864 2942 4089 294029 137.3392654279 9840.242446428205 97 1 1 97 97
+566	8872806 2629 4091 293295 137.377064117296 9816.47533452052 86 1 1 86 86
+567	8875435 3245 4187 295467 140.081551128048 9888.861429616731 107 1 1 107 107
+568	8878680 2582 4193 295379 140.335476854067 9886.527417353738 85 1 1 85 85
+569	8881262 2781 4255 291241 143.270198650585 9743.254607787919 92 1 1 92 92
+570	8884043 3347 4283 297945 144.199589255901 9979.746279333189 110 1 1 110 110
+571	8887390 2837 4339 296517 145.470428297079 9928.552191113081 93 1 1 93 93
+572	8890227 2351 4363 294927 146.136322929561 9869.017007339845 77 1 1 77 77
+573	8892578 3330 4733 298125 158.256065780399 9984.825759559381 109 1 1 109 109
+574	8895908 3101 4737 293585 158.360585724839 9825.361258706862 102 1 1 102 102
+575	8899009 3043 4799 294573 161.044357410598 9857.573158827678 100 1 1 100 100
+576	8902052 3141 4827 294083 162.701622001925 9841.419605239093 103 1 1 103 103
+577	8905193 3024 4933 296437 166.15142590682 9925.328302612991 99 1 1 99 99
+578	8908217 3249 4989 297691 168.10300366198 9970.24134575409 107 1 1 107 107
+579	8911466 3383 5041 298225 170.009246490799 9988.614643591691 111 1 1 111 111
+580	8914849 3101 5129 296733 173.439180595799 9935.368687092965 102 1 1 102 102
+581	8917950 3385 5255 298543 176.935280162054 9997.470488646326 111 1 1 111 111
+582	8921335 2820 5459 289799 184.472880942169 9690.422657652005 93 1 1 93 93
+583	8924155 2481 5503 291649 186.326485653726 9757.708762557655 81 1 1 81 81
+584	8926636 11302 5583 297075 189.82333778691 9947.27749306684 371 1 1 371 371
+585	8937938 2654 5603 297447 190.34013082426 9960.418353299185 87 1 1 87 87
+586	8940592 2560 5611 298261 190.498913601098 9990.313307603543 84 1 1 84 84
+587	8943152 3045 5831 298285 197.460317102183 9990.626807760917 100 1 1 100 100
+588	8946197 3281 6117 297405 207.01361014689 9959.19004260583 108 1 1 108 108
+589	8949478 2547 6583 292823 224.280346903094 9799.477265665712 84 1 1 84 84
+590	8952025 3454 6633 297869 225.959776071093 9976.55321354009 113 1 1 113 113
+591	8955479 2954 8103 298005 276.881224003967 9981.102051880987 97 1 1 97 97
+592	8958433 3305 8197 296077 280.576887904369 9911.04501881122 108 1 1 108 108
+593	8961738 2436 8283 296737 283.368151574882 9935.393079504383 80 1 1 80 80
+594	8964174 3322 8713 297713 299.260842454679 9971.058887438303 109 1 1 109 109
+595	8967496 2591 9963 292813 338.696430558998 9799.223686426102 85 1 1 85 85
+596	8970087 2987 11279 298445 385.317226465887 9994.705432663216 98 1 1 98 98
+597	8973074 2872 12723 295367 440.929843759316 9886.003918103606 94 1 1 94 94
+598	8975946 2470 13321 298357 460.486982135739 9992.262832265897 81 1 1 81 81
+599	8978416 2656 21017 298435 711.261109446384 9994.480479584191 87 1 1 87 87
+
