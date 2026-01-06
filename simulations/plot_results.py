@@ -1,28 +1,29 @@
 #!/usr/bin/env python3
 """
-Genera grafici E TABELLE DATI (Formato Excel Italia Compatibile)
+Genera grafici con INTERVALLI DI CONFIDENZA (95%) e Tabelle Excel-Ready
 """
 
 import os
 import re
 from collections import defaultdict
 import statistics
+import math
 import pandas as pd
 import matplotlib
 matplotlib.use('Agg') 
 import matplotlib.pyplot as plt
+import numpy as np
+from scipy import stats # Necessario per calcolo t-student corretto
 
 def parse_sca_file(filepath):
     data = {'config': {}, 'users': [], 'tables': []}
     with open(filepath, 'r') as f:
         for line in f:
             line = line.strip()
-            # Legge configurazione
             if line.startswith('itervar'):
                 parts = line.split()
                 if len(parts) >= 3: data['config'][parts[1]] = parts[2]
             
-            # Legge statistiche user
             if line.startswith('scalar DatabaseNetwork.user['):
                 match = re.search(r'user\[(\d+)\]\s+(\w+)\s+([\d.]+)', line)
                 if match:
@@ -31,8 +32,6 @@ def parse_sca_file(filepath):
                     val = float(match.group(3))
                     if len(data['users']) <= user_id: data['users'].extend([{} for _ in range(user_id - len(data['users']) + 1)])
                     data['users'][user_id][stat] = val
-                    
-            # Legge statistiche table
             if line.startswith('scalar DatabaseNetwork.table['):
                 match = re.search(r'table\[(\d+)\]\s+([\w.]+)\s+([\d.eE+-]+)', line)
                 if match:
@@ -72,109 +71,157 @@ def load_all_results():
             p = float(data['config'].get('p', 0))
             if N == 0: continue
             
+            # Raccoglie tutti i run (seed diversi finiscono nella stessa lista chiave)
             results[(dist, N, p)].append(aggregate_statistics(data))
         except Exception as e:
             print(f"❌ Errore file {filename}: {e}")
             continue
     return results
 
-def export_tables(means):
-    """Genera e salva le tabelle dei dati in formato ITALIANO"""
+def calculate_confidence_interval(data_list, metric_key, confidence=0.95):
+    """Calcola media e intervallo di confidenza (margine di errore)"""
+    values = [x[metric_key] for x in data_list]
+    n = len(values)
+    
+    if n == 0: return 0, 0
+    mean = statistics.mean(values)
+    
+    if n == 1:
+        return mean, 0.0  # Nessun intervallo possibile con 1 solo campione
+        
+    std_err = statistics.stdev(values) / math.sqrt(n)
+    h = std_err * stats.t.ppf((1 + confidence) / 2, n - 1)
+    return mean, h
+
+def process_stats_with_ci(results):
+    """Elabora tutte le statistiche calcolando i CI"""
+    processed = {}
+    for key, runs in results.items():
+        # Throughput
+        tp_mean, tp_ci = calculate_confidence_interval(runs, 'system_throughput')
+        # Wait Time
+        wt_mean, wt_ci = calculate_confidence_interval(runs, 'avg_wait_time')
+        # Utilization
+        ut_mean, ut_ci = calculate_confidence_interval(runs, 'avg_table_utilization')
+        
+        processed[key] = {
+            'tp_mean': tp_mean, 'tp_ci': tp_ci,
+            'wt_mean': wt_mean, 'wt_ci': wt_ci,
+            'ut_mean': ut_mean, 'ut_ci': ut_ci,
+            'runs_count': len(runs)
+        }
+    return processed
+
+def export_tables(stats_data):
     print("\n" + "="*50)
-    print("GENERAZIONE TABELLE DATI")
+    print("GENERAZIONE TABELLE (Con Confidenza 95%)")
     print("="*50)
     
     data_list = []
     
-    for key, val in means.items():
+    for key, val in stats_data.items():
         dist, N, p = key
         row = {
             'Distribuzione': dist,
             'N_Utenti': N,
             'Prob_Read (p)': p,
-            'Throughput (req/s)': round(val['system_throughput'], 2),
-            'Wait_Time (s)': round(val['avg_wait_time'], 4),
-            'Utilization (%)': round(val['avg_table_utilization'] * 100, 2)
+            'Runs': val['runs_count'],
+            'Throughput': round(val['tp_mean'], 2),
+            'Throughput_CI': round(val['tp_ci'], 2), # Margine +/-
+            'Wait_Time': round(val['wt_mean'], 4),
+            'Wait_Time_CI': round(val['wt_ci'], 4),
+            'Utilization_%': round(val['ut_mean'] * 100, 2)
         }
         data_list.append(row)
     
-    if not data_list:
-        print("❌ Nessun dato da tabellare.")
-        return
+    if not data_list: return
 
     df = pd.DataFrame(data_list)
     df = df.sort_values(by=['Distribuzione', 'Prob_Read (p)', 'N_Utenti'])
     
-    # --- SALVATAGGIO CSV FORMATO ITALIA ---
-    csv_filename = 'simulation_data_table.csv'
-    
-    # sep=';' -> Colonne divise da punto e virgola
-    # decimal=',' -> Decimali con la virgola (es. 12,5 invece di 12.5)
+    # Export CSV Italiano
+    csv_filename = 'simulation_data_with_CI.csv'
     df.to_csv(csv_filename, index=False, sep=';', decimal=',')
     
-    print(f"✅ Tabella salvata in: {csv_filename}")
-    print("   (Formato: Separatore ';', Decimale ',') -> Pronto per Excel Italiano")
-    
-    # Stampa a video (lasciamo il punto per leggibilità terminale)
-    print("\n--- ANTEPRIMA DATI (Terminal usa punto, CSV usa virgola) ---")
-    print(df.head(10).to_string(index=False)) 
-    print("... (vedi CSV per lista completa)")
+    print(f"✅ Tabella salvata: {csv_filename}")
+    print("   Nota: La colonna '_CI' indica il margine di errore (+/-)")
 
-def plot_results(means):
-    uniform_data = {k: v for k, v in means.items() if k[0] == 'Uniform'}
-    lognormal_data = {k: v for k, v in means.items() if k[0] == 'Lognormal'}
-    N_values = sorted(list(set(k[1] for k in means.keys())))
-    p_values = sorted(list(set(k[2] for k in means.keys())))
+def plot_with_ci(stats_data):
+    uniform_data = {k: v for k, v in stats_data.items() if k[0] == 'Uniform'}
+    lognormal_data = {k: v for k, v in stats_data.items() if k[0] == 'Lognormal'}
+    N_values = sorted(list(set(k[1] for k in stats_data.keys())))
+    p_values = sorted(list(set(k[2] for k in stats_data.keys())))
     
     if not N_values: return
 
     fig = plt.figure(figsize=(24, 12))
-    fig.suptitle(f'Analisi Database - N Max: {max(N_values)}', fontsize=18)
+    fig.suptitle(f'Analisi con Intervalli di Confidenza (95%)', fontsize=18)
     
-    def get_y(data, dist, p, metric):
-        res = []
+    # Helper per estrarre vettori ordinati
+    def get_vectors(dataset, dist_name, p_val, metric_mean, metric_ci):
+        x, y, ci = [], [], []
         for n in N_values:
-            val = data.get((dist, n, p), {}).get(metric, None)
-            res.append(val)
-        return res
+            if (dist_name, n, p_val) in dataset:
+                data = dataset[(dist_name, n, p_val)]
+                x.append(n)
+                y.append(data[metric_mean])
+                ci.append(data[metric_ci])
+        return np.array(x), np.array(y), np.array(ci)
 
     # 1. Throughput Uniform
     ax1 = plt.subplot(2, 4, 1)
     for p in p_values:
-        y = get_y(uniform_data, 'Uniform', p, 'system_throughput')
-        clean = [(n, v) for n, v in zip(N_values, y) if v is not None]
-        if clean: ax1.plot([x[0] for x in clean], [x[1] for x in clean], marker='o', label=f'p={p}')
-    ax1.set_title('Throughput Uniform')
-    ax1.grid(True, alpha=0.3)
+        x, y, ci = get_vectors(uniform_data, 'Uniform', p, 'tp_mean', 'tp_ci')
+        if len(x) > 0:
+            ax1.plot(x, y, marker='o', label=f'p={p}')
+            ax1.fill_between(x, y-ci, y+ci, alpha=0.2) # Area ombreggiata
+    ax1.set_title('Throughput Uniform (con CI)')
     ax1.legend()
+    ax1.grid(True, alpha=0.3)
 
     # 2. Throughput Lognormal
     ax2 = plt.subplot(2, 4, 2)
     for p in p_values:
-        y = get_y(lognormal_data, 'Lognormal', p, 'system_throughput')
-        clean = [(n, v) for n, v in zip(N_values, y) if v is not None]
-        if clean: ax2.plot([x[0] for x in clean], [x[1] for x in clean], marker='s', label=f'p={p}')
-    ax2.set_title('Throughput Lognormal')
-    ax2.grid(True, alpha=0.3)
+        x, y, ci = get_vectors(lognormal_data, 'Lognormal', p, 'tp_mean', 'tp_ci')
+        if len(x) > 0:
+            ax2.plot(x, y, marker='s', label=f'p={p}')
+            ax2.fill_between(x, y-ci, y+ci, alpha=0.2)
+    ax2.set_title('Throughput Lognormal (con CI)')
     ax2.legend()
-    
-    # 5. Wait Time Lognormal
+    ax2.grid(True, alpha=0.3)
+
+    # 5. Wait Time Lognormal (Critico)
     ax5 = plt.subplot(2, 4, 5)
     for p in p_values:
-        y = get_y(lognormal_data, 'Lognormal', p, 'avg_wait_time')
-        clean = [(n, v) for n, v in zip(N_values, y) if v is not None]
-        if clean: ax5.plot([x[0] for x in clean], [x[1] for x in clean], marker='s', label=f'p={p}')
+        x, y, ci = get_vectors(lognormal_data, 'Lognormal', p, 'wt_mean', 'wt_ci')
+        if len(x) > 0:
+            ax5.plot(x, y, marker='s', label=f'p={p}')
+            ax5.fill_between(x, y-ci, y+ci, alpha=0.2)
     ax5.axhline(y=50, color='r', linestyle=':', label='Timeout')
-    ax5.set_title('Wait Time Lognormal')
+    ax5.set_title('Wait Time Lognormal (con CI)')
     ax5.grid(True, alpha=0.3)
     ax5.legend()
     
-    # (Mettiamo qui solo i grafici essenziali richiesti per brevità script, 
-    # ma puoi incollare il blocco completo dei grafici precedente se vuoi tutti gli 8 pannelli)
+    # 7. Zoom Throughput basso carico (per vedere se si sovrappongono)
+    ax7 = plt.subplot(2, 4, 7)
+    # Prendiamo p=0.3 a basso carico
+    x_u, y_u, ci_u = get_vectors(uniform_data, 'Uniform', 0.3, 'tp_mean', 'tp_ci')
+    x_l, y_l, ci_l = get_vectors(lognormal_data, 'Lognormal', 0.3, 'tp_mean', 'tp_ci')
+    
+    # Limitiamo ai primi 3 punti (es. 100, 500, 1000)
+    limit = 3
+    if len(x_u) >= limit:
+        ax7.errorbar(x_u[:limit], y_u[:limit], yerr=ci_u[:limit], fmt='-o', label='Uniform', capsize=5)
+        ax7.errorbar(x_l[:limit], y_l[:limit], yerr=ci_l[:limit], fmt='-s', label='Lognormal', capsize=5)
+    
+    ax7.set_title('Zoom Basso Carico (Error Bars)')
+    ax7.set_xlabel('N Utenti')
+    ax7.legend()
+    ax7.grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('simulation_results_tables.png', dpi=300)
-    print("✅ Grafico salvato: simulation_results_tables.png")
+    plt.savefig('simulation_results_CI.png', dpi=300)
+    print("✅ Grafico salvato: simulation_results_CI.png")
 
 def main():
     print("Caricamento risultati...")
@@ -184,16 +231,12 @@ def main():
         print("Nessun risultato trovato!")
         return
 
-    means = {}
-    for k, v in results.items():
-        means[k] = {
-            'system_throughput': statistics.mean([x['system_throughput'] for x in v]),
-            'avg_wait_time': statistics.mean([x['avg_wait_time'] for x in v]),
-            'avg_table_utilization': statistics.mean([x['avg_table_utilization'] for x in v]),
-        }
+    # Calcola statistiche avanzate
+    processed_stats = process_stats_with_ci(results)
     
-    export_tables(means)
-    plot_results(means)
+    # Export e Plot
+    export_tables(processed_stats)
+    plot_with_ci(processed_stats)
 
 if __name__ == '__main__':
     main()
