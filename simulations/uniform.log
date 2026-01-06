@@ -4741,3 +4741,43 @@ Running simulation...
 ** Event #2092032   t=2624.156355642998   Elapsed: 2.02212s (0m 02s)  26% completed  (89% total)
      Speed:     ev/sec=1.03458e+06   simsec/sec=1297.73   ev/simsec=797.221
      Messages:  created: 1573032   present: 4056   in FES: 4024
+** Event #4189184   t=5247.859828067731   Elapsed: 4.17721s (0m 04s)  52% completed  (89% total)
+     Speed:     ev/sec=973116   simsec/sec=1217.44   ev/simsec=799.31
+     Messages:  created: 3145892   present: 4055   in FES: 4021
+** Event #6286336   t=7866.772938426688   Elapsed: 6.33358s (0m 06s)  78% completed  (89% total)
+     Speed:     ev/sec=972537   simsec/sec=1214.5   ev/simsec=800.772
+     Messages:  created: 4718758   present: 4036   in FES: 4016
+** Event #7994659   t=10000   Elapsed: 8.20149s (0m 08s)  100% completed  (90% total)
+     Speed:     ev/sec=914563   simsec/sec=1142.04   ev/simsec=800.816
+     Messages:  created: 6000002   present: 4046   in FES: 4021
+
+<!> Simulation time limit reached -- at t=10000s, event #7994659
+
+Calling finish() at end of Run #161...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+
+Preparing for running configuration Uniform, run #162...
+Scenario: $N=4000, $p=0.8, $repetition=2
+Assigned runID=Uniform-162-20260106-15:28:27-61486
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
