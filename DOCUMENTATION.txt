@@ -1,0 +1,396 @@
+===============================================================================
+                  CONCURRENT DATABASE ACCESS SIMULATION
+                        OMNeT++ Project Documentation
+===============================================================================
+
+1. INTRODUCTION
+===============================================================================
+
+This project implements a discrete event simulation of a concurrent database
+access system using the OMNeT++ framework (Discrete Event Simulator).
+
+Objective: Evaluate the performance of a multi-client database system by
+implementing a readers/writers model with concurrency control through mutual
+exclusion and FCFS (First Come First Served) queueing.
+
+Context: The simulation analyzes how the system responds to varying loads of
+read and write operations from N concurrent users accessing M database tables.
+
+
+2. PROBLEM DEFINITION
+===============================================================================
+
+Problem Statement:
+  - N concurrent users randomly access M database tables
+  - Each user generates requests according to a Poisson process (rate λ)
+  - Each request is a READ with probability p, or WRITE with probability (1-p)
+  - Table selection follows a specified distribution (uniform or lognormal)
+  - Each access requires a fixed service time S
+
+Constraints:
+  - Reads: Multiple simultaneous reads on same table allowed (reader lock)
+  - Writes: Exclusive access only (write lock), blocked by active readers
+  - Queuing: FCFS to handle conflicting requests
+  - Mutual Exclusion: Implemented via reader/writer counters
+
+Key Performance Metrics:
+  - Average wait time (from request submission to response)
+  - Throughput (completed accesses per second)
+  - Maximum/average queue length per table
+  - Table utilization (fraction of time occupied)
+  - Read/write ratio of completed operations
+
+
+3. SYSTEM MODEL
+===============================================================================
+
+3.1 Architecture
+  - Network: Fully-connected mesh topology with N users and M tables
+  - Communication: Asynchronous message-passing between modules
+  - Timing: Discrete event simulation with simTime() in seconds
+
+3.2 Main Components
+
+  USER MODULE (User.h/cc, User.ned):
+    - Generates database access requests
+    - Parameters:
+      * userId: User identifier (0 to N-1)
+      * lambda: Poisson rate for inter-arrivals (accesses/second)
+      * readProbability: Probability of read operation (0 to 1)
+      * numTables: Total number of tables (M)
+      * tableDistribution: "uniform" or "lognormal"
+      * serviceTime: Fixed operation duration (seconds)
+      * lognormalM, lognormalS: Lognormal distribution parameters
+    
+    - Behavior:
+      * Schedules accesses per Poisson process with rate λ
+      * For each access: selects table + type (read/write)
+      * Sends request to specified table
+      * Receives response and calculates wait time
+      * Records statistics via signal mechanism
+    
+    - Output Signals:
+      * waitTime: Wait time per operation (double)
+      * readAccess: Count of completed reads
+      * writeAccess: Count of completed writes
+      * accessInterval: Interval between consecutive accesses
+
+  TABLE MODULE (Table.h/cc, Table.ned):
+    - Simulates concurrent access to a single table
+    - Parameters:
+      * tableId: Table identifier
+    
+    - Internal State:
+      * activeReaders: Number of currently-served readers
+      * writeActive: Flag if writer currently served
+      * requestQueue: FCFS queue of pending requests
+      * serviceEvents: List of service completion events
+    
+    - Mutual Exclusion Logic:
+      * If writeActive=true: all new accesses blocked
+      * If activeReaders>0: new reads OK, new writes blocked
+      * If activeReaders=0 and writeActive=false: both reads and writes OK
+      
+    - Behavior:
+      * Receives requests from users via userIn[] gate
+      * Queues requests that cannot be served immediately
+      * Schedules "serviceDone" event upon completion
+      * Sends response to requesting user via userOut[]
+      * Tracks performance metrics
+    
+    - Output Signals:
+      * queueLength: Queue length over time (integer)
+      * waitingTime: Wait time per request (double)
+      * throughput: Completed operations (integer)
+      * utilization: Fraction of time table occupied (double)
+
+  NETWORK (DatabaseNetwork.ned):
+    - Parameters:
+      * numUsers: Number of users (default 60, range 1-200)
+      * numTables: Number of tables (default 20, range 1-50)
+    
+    - Topology:
+      * Fully-connected mesh: each user connected to each table
+      * user[i] sends requests to any table[j]
+      * table[j] sends responses to user[i] that requested
+
+3.3 Temporal Model
+
+Inter-arrival times (per user):
+  Distribution: Exponential with rate λ = 1/T_inter
+  Generator: exponential(1/λ) in seconds
+
+Table selection:
+  Uniform: intuniform(0, numTables-1)
+  Lognormal: lognormal(m, s) mapped to [0, M-1]
+
+Service time:
+  Fixed: S seconds (from serviceTime parameter)
+  (Future extension: could be random)
+
+Response time = Queueing time + Service time
+
+
+4. OMNET++ IMPLEMENTATION
+===============================================================================
+
+4.1 Design Choices
+
+Statistics Collection:
+  - Course-standard: Signal mechanism (registerSignal/emit)
+  - Registration: @signal and @statistic in NED files
+  - Aggregation: Automatically handled by OMNeT++ runtime
+  - Output: time-series vectors (.vec) and scalars (.sca)
+
+RNG (Random Number Generation):
+  - OMNeT++ default Mersenne Twister (seeded from omnetpp.ini)
+  - exponential(x), uniform(a,b), lognormal(m,s) built-in
+
+Message Passing:
+  - Format: cMessage with parameters (userId, arrivalTime, serviceTime)
+  - Kind: 0=READ, 1=WRITE (to distinguish at runtime)
+  - Context Pointer: Traces original request during service
+
+4.2 File Structure
+
+User.ned:
+  - User module parameter definitions
+  - Declaration of 4 signals for user metrics
+  - Declaration of 4 statistics for data aggregation
+
+User.h/cc:
+  - initialize(): Registers signals, schedules first access
+  - handleMessage(): Routes between accesses and responses
+  - finish(): Records aggregate statistics
+  - selectTableId(): Uniform or lognormal selection
+  - sendAccessRequest(): Creates and sends request
+  - processTableResponse(): Calculates wait time and emits signal
+
+Table.ned:
+  - Table module parameter definitions
+  - Declaration of 4 signals for table metrics
+  - Declaration of 4 statistics for data aggregation
+
+Table.h/cc:
+  - initialize(): Registers signals, resets counters
+  - handleMessage(): Dispatches serviceDone vs new requests
+  - finish(): Calculates and records final statistics
+  - processQueue(): Mutual exclusion logic
+  - startServiceForRequest(): Schedules completion event
+
+DatabaseNetwork.ned:
+  - Declares numUsers and numTables as parameters
+  - Creates instances of user[numUsers] and table[numTables]
+  - Connects fully-connected mesh
+
+4.3 Concurrency Management
+
+Readers/Writers Algorithm (in processQueue):
+
+  1. If writeActive=true:
+     - Return (table locked for reads and other writes)
+  
+  2. Process queue FCFS:
+     
+     a. If request is READ and activeReaders≥0:
+        - Pop from queue, increment activeReaders, start service
+        - Continue loop (other reads can enter immediately)
+     
+     b. If request is WRITE:
+        - If activeReaders==0: pop, set writeActive=true, start service, break
+        - Otherwise: wait (blocks later requests too, for FCFS)
+
+This guarantees:
+  - FCFS: Order of arrival respected (important for writes)
+  - Read parallelism: Concurrent reads on same table
+  - Mutual exclusion: One write = exclusive access
+  - Starvation-free: FCFS prevents writer starvation
+
+
+5. EXPERIMENTAL DESIGN
+===============================================================================
+
+5.1 Configuration Parameters (omnetpp.ini)
+
+Baseline Scenario:
+  numUsers = 60
+  numTables = 20
+  lambda = 1.0 (1 access/second per user)
+  readProbability = 0.8 (80% reads)
+  tableDistribution = "uniform"
+  serviceTime = 0.1 seconds
+
+Experimental Variations:
+  
+  a) Read/Write Ratio:
+     - p=0.5 (50% reads, 50% writes) - Write-intensive
+     - p=0.8 (80% reads)
+     - p=0.95 (95% reads) - Read-intensive
+  
+  b) User Load:
+     - N=10 (low)
+     - N=60 (medium)
+     - N=200 (high)
+  
+  c) Table Distribution:
+     - "uniform" - equiprobable access to all tables
+     - "lognormal" - hotspot: some tables more frequent
+  
+  d) Access Rate:
+     - lambda=0.5 (light load)
+     - lambda=1.0 (normal load)
+     - lambda=2.0 (heavy load)
+
+5.2 Collected Metrics
+
+Per User:
+  - totalAccesses: Total operations completed
+  - totalReads, totalWrites: Count by type
+  - averageWaitTime: Average wait time (seconds)
+  - accessesPerSecond: Perceived throughput
+
+Per Table:
+  - totalServed: Operations completed
+  - totalReads, totalWrites: By type
+  - maxQueueLength: Maximum observed queue length
+  - avgQueueLength: Average queue length
+  - avgWaitingTime: Average wait time (seconds)
+  - utilization: Fraction of time occupied (0-1)
+  - throughput: Accesses per second of simulation
+
+System:
+  - Simulation time: Configurable (e.g., 100-1000 seconds)
+  - Warm-up: First 10% ignored for stationarity
+  - Replications: 10-30 runs per scenario (for confidence intervals)
+
+5.3 Calibration
+
+Simulation duration:
+  - Minimum 100 seconds for steady state
+  - Ideal 500-1000 seconds for low variance
+
+Number of replications:
+  - Minimum 10 per scenario
+  - 30 for publishable results
+  - Varied seed for independence
+
+Data analysis:
+  - 95% confidence intervals
+  - Significance tests between scenarios
+  - Plots: Throughput vs load, Wait time vs p, etc.
+
+
+6. RESULTS AND ANALYSIS (Template)
+===============================================================================
+
+For each scenario execute:
+
+6.1 Throughput Analysis
+  - Plot: Total throughput vs numUsers for each p value
+  - Expected: Near-linear growth until saturation
+  - Saturation point: Depends on numTables and readProbability
+
+6.2 Wait Time Analysis
+  - Plot: Avg wait time vs load (lambda)
+  - Expected: Sub-linear increase until regime, then exponential
+  - Phenomenon: Queue grows when service becomes bottleneck
+
+6.3 Read/Write Impact
+  - Plot: Avg wait time vs readProbability for fixed scenario
+  - Expected: Wait time decreases with increasing p (fewer conflicts)
+  - Concurrency: More parallelism with read-dominant workload
+
+6.4 Queue Length Distribution
+  - Plot: Max and avg queue length vs load
+  - Expected: Super-linear growth with load
+  - Bottleneck: Identifies which table saturates first
+
+6.5 Table Utilization
+  - Plot: Table utilization vs numTables for fixed load
+  - Expected: Inversely proportional to numTables
+  - Scalability: Adding tables reduces contention
+
+6.6 Geographic Distribution
+  - Compare Uniform vs Lognormal
+  - Hotspot effects: Lognormal concentrates load
+  - Trade-off: Uniform more balanced, Lognormal may improve cache hit-rate
+
+
+7. CONCLUSIONS
+===============================================================================
+
+7.1 Project Contributions
+
+- Implementation of DES simulation for concurrent database system
+- Readers/writers algorithm with FCFS for mutual exclusion
+- Evaluation of concurrency vs bottleneck trade-offs
+- Experimental design methodology for queueing systems
+
+7.2 Current Limitations
+
+- Fixed service time (reality: random distribution)
+- No cache/locality model (access always uniform)
+- No node unavailability/failures
+- Network delay assumed zero (instant communication)
+
+7.3 Future Extensions
+
+- Variable service times (lognormal, Pareto)
+- Cache model: P(hit/miss) based on workload
+- Hot-spot migration: "Hot" tables vary over time
+- Batch processing: Multi-statement transactions
+- Load balancing: Redirect users to table replicas
+- Warm-up/cool-down: Analyze transient vs steady-state behavior
+
+
+8. USAGE GUIDE
+===============================================================================
+
+8.1 Compilation
+  $ cd src/progetto
+  $ make clean
+  $ make
+
+8.2 Execution
+  $ ./run -f simulations/omnetpp.ini
+
+8.3 Parameter Configuration (omnetpp.ini)
+  [Config BaselineScenario]
+  *.numUsers = 60
+  *.numTables = 20
+  *.user[*].lambda = 1.0
+  *.user[*].readProbability = 0.8
+
+8.4 Results Analysis
+  - Time-series vectors: results/*.vec (import in R/Python)
+  - Aggregate scalars: results/*.sca (read with opp_resultfiles tool)
+  - Plotting: gnuplot, R, Python matplotlib
+
+
+9. COURSE REFERENCES
+===============================================================================
+
+Concepts from Queueing Theory (teoria_delle_code.txt):
+  - Poisson processes for arrivals
+  - M/M/1 and M/G/1 systems
+  - Exponential inter-arrival distribution
+  - Queueing in mutual exclusion (reader/writer problem)
+
+Concepts from Statistics (Probabilità.txt, statistica.txt):
+  - Confidence intervals for means
+  - Variance reduction techniques
+  - Stationarity and transient analysis
+  - Warm-up period analysis
+
+Concepts from OMNeT++ (slides_stea2.txt):
+  - Signal mechanism for statistics (Sec. 37-46)
+  - Message passing and event queue
+  - Discrete event simulation engine
+  - Module hierarchy and composition
+  - NED language for structure
+  - cMessage for communication
+
+
+===============================================================================
+End of Documentation
+===============================================================================

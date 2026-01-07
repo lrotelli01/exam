@@ -1,0 +1,21 @@
+Project 4 – Concurrent database access
+A database consists of � tables and is accessed concurrently by � users performing read or write
+operations. Each user accesses one table of the database every � seconds, where � is an
+exponentially distributed random variable. The index of the accessed table � is an IID random
+variable whose distribution is specified below. Each access is a read operation with probability �
+and a write operation with probability 1 − �, and they have fixed duration of � seconds.
+Multiple read operations on the same table can be performed simultaneously, whereas write
+operations on a table must be executed in mutual exclusion, i.e., other read or write operations on
+the same table must be serialized when another write operation is being executed. Waiting
+operations are inserted in per-table queues and served according to First Come First Served (FCFS)
+policy. Note that if a read operation on a table arrives when there is at least one pending write
+operation for that table, the read operation must wait anyway.
+Evaluate at least the number of served accesses per unit time for various values of � and � in the
+following scenario(s):
+- uniform distribution of �
+- lognormal distribution of �
+In all cases, it is up to the team to calibrate the scenarios so that meaningful results are obtained.
+Project deliverables:
+a) Documentation (according to the standards set during the lectures)
+b) Simulator code
+c) Presentation (up to 10 slides maximum)

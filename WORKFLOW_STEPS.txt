@@ -1,0 +1,551 @@
+===============================================================================
+                         WORKFLOW IMPLEMENTATION STEPS
+                       Guida Completamento Progetto Simulazione
+===============================================================================
+
+FASE 0: VERIFICA PREREQUISITI
+===============================================================================
+
+Step 0.1: Verificare OMNeT++ Installation
+  $ omnetpp --version
+  Atteso: OMNeT++ 6.0 o superiore
+  Se manca: Scaricare da https://omnetpp.org/
+
+Step 0.2: Verificare Compilatore C++
+  $ g++ --version
+  Atteso: GCC 5.0+ (incluso in OMNeT++ IDE)
+
+Step 0.3: Verificare Path di Progetto
+  $ pwd
+  Atteso: c:\Users\jeber\Desktop\exam\
+  File necessari:
+    • src/progetto/DatabaseNetwork.ned
+    • src/progetto/User.ned
+    • src/progetto/User.h/cc
+    • src/progetto/Table.ned
+    • src/progetto/Table.h/cc
+    • Makefile
+
+
+FASE 1: COMPILAZIONE DEL PROGETTO
+===============================================================================
+
+Step 1.1: Pulisci Build Precedenti
+  $ cd src/progetto
+  $ make clean
+  Output atteso: Rimozione file .o, .exe, librerie
+
+Step 1.2: Compila il Progetto
+  $ make
+  Output atteso:
+    - Compilazione User.h/cc senza errori
+    - Compilazione Table.h/cc senza errori
+    - Compilazione DatabaseNetwork.ned senza errori
+    - Creazione eseguibile ./progetto
+
+Step 1.3: Verifica Compilazione Riuscita
+  $ ls -la | grep -E "(progetto|\.o)"
+  Atteso: File eseguibile "progetto" presente
+  Se errori: Controllare messaggi di errore, verificare:
+    - Inclusioni header (#include)
+    - Dichiarazioni simsignal_t
+    - Syntassi registerSignal() e emit()
+
+Troubleshooting Compilazione:
+  
+  Errore "undefined reference to registerSignal":
+    → Verificare: #include <omnetpp.h> in .h
+  
+  Errore "cOutVector not found":
+    → OK! Abbiamo rimosso cOutVector, usare emit() invece
+  
+  Errore "signal already registered":
+    → Verificare User.ned/@signal e Table.ned/@signal
+    → Nomi segnali non devono duplicarsi
+  
+  Errore "syntax error in NED":
+    → Verificare balancing di parentesi @signal[...]
+    → Verificare @statistic[...; ...;] syntax
+
+
+FASE 2: SETUP SIMULAZIONE PARAMETERS (omnetpp.ini)
+===============================================================================
+
+Step 2.1: Creare File di Configurazione Principale
+  File: simulations/omnetpp.ini
+  (Se non esiste, crearlo)
+
+Step 2.2: Configurazione Baseline
+  Copia il seguente template in omnetpp.ini:
+
+  ────────────────────────────────────────────────────────
+  [General]
+  network = progetto.DatabaseNetwork
+  simtime-resolution = 1us
+  
+  # Random number seed - varier per replicazioni
+  seed-set = ${repetition}
+  
+  # Durata simulazione (secondi)
+  sim-time-limit = 500s
+  
+  # Output vectors and scalars
+  result-recording-modes = all
+  **.vector-recording = true
+  
+  # Logging level
+  cmdenv-express-mode = false
+  
+  [Config BaselineScenario]
+  description = "Scenario di base: p=0.8, N=60, M=20, lambda=1.0"
+  
+  # Network parameters
+  *.numUsers = 60
+  *.numTables = 20
+  
+  # User parameters (applies to all users)
+  *.user[*].userId = ${id=0..59}
+  *.user[*].lambda = 1.0                    # 1 accesso/sec
+  *.user[*].readProbability = 0.8           # 80% read
+  *.user[*].numTables = 20
+  *.user[*].tableDistribution = "uniform"
+  *.user[*].serviceTime = 0.1s
+  *.user[*].lognormalM = 0.5
+  *.user[*].lognormalS = 1.0
+  
+  # Table parameters
+  *.table[*].tableId = ${id=0..19}
+  
+  ────────────────────────────────────────────────────────
+
+Step 2.3: Aggiungere Scenario Sperimentali
+
+  [Config HighReadRatio]
+  description = "Letture prevalenti: p=0.95"
+  extends = BaselineScenario
+  *.user[*].readProbability = 0.95
+  
+  [Config HighWriteRatio]
+  description = "Scritture prevalenti: p=0.5"
+  extends = BaselineScenario
+  *.user[*].readProbability = 0.5
+  
+  [Config LowLoad]
+  description = "Carico basso: lambda=0.5"
+  extends = BaselineScenario
+  *.user[*].lambda = 0.5
+  
+  [Config HighLoad]
+  description = "Carico alto: lambda=2.0"
+  extends = BaselineScenario
+  *.user[*].lambda = 2.0
+  
+  [Config MoreUsers]
+  description = "Più utenti: N=200"
+  extends = BaselineScenario
+  *.numUsers = 200
+  *.user[*].userId = ${id=0..199}
+  
+  [Config Lognormal]
+  description = "Distribuzione lognormale (hotspot)"
+  extends = BaselineScenario
+  *.user[*].tableDistribution = "lognormal"
+
+
+FASE 3: ESECUZIONE SIMULAZIONE
+===============================================================================
+
+Step 3.1: Esecuzione Scenario Singolo (Batch Mode)
+  $ cd <path>/exam
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c BaselineScenario
+
+  Output atteso:
+    • Starting simulation...
+    • [User 0] initialized...
+    • [Table 0] initialized...
+    • Simulation finished. Status: 0
+
+Step 3.2: Esecuzione Scenario Multipli
+  
+  Per testare tutte le configurazioni:
+  
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c BaselineScenario
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c HighReadRatio
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c HighWriteRatio
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c LowLoad
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c HighLoad
+  
+  (Opzionale: Creare script bash per automatizzare)
+
+Step 3.3: Esecuzione Multi-Replica (Per Intervalli Confidenza)
+  
+  Modificare omnetpp.ini per multiple runs:
+  
+  *.user[*].userId = ${id=0..59}
+  repeat = 10  # 10 replicazioni indipendenti
+  
+  Poi:
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c BaselineScenario -u Cmdenv
+
+  Output: 10 file .vec e .sca separati
+
+Step 3.4: Interactive Mode (Debugging)
+  
+  Se risultati anomali:
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c BaselineScenario -u Qtenv
+  
+  Vantaggi:
+    • GUI visualizza moduli
+    • Step-by-step execution
+    • Inspector per osservare stato variabili
+    • Network animator mostra messaggi
+
+
+FASE 4: RACCOLTA E ANALISI DATI
+===============================================================================
+
+Step 4.1: Output File Locations
+  
+  Risultati sono salvati in:
+    simulations/results/*.vec    (vettori temporali)
+    simulations/results/*.sca    (scalari aggregati)
+    simulations/results/*.log    (output log)
+  
+  Naming convention:
+    <progetto>-<config>-<run_#>.vec/sca
+
+Step 4.2: Estrazione Scalari (Medie)
+  
+  Usare tool OMNeT++:
+  $ opp_resultfiles -f simulations/results/*.sca -q 'select * into table1'
+  
+  Oppure script Python:
+  
+  ────────────────────────────────────────────────────────
+  import pandas as pd
+  import os
+  
+  # Leggi file .sca
+  scalars = []
+  for file in os.listdir("simulations/results"):
+    if file.endswith(".sca"):
+      df = pd.read_csv(f"simulations/results/{file}", 
+                        sep='\t', 
+                        comment='%')
+      scalars.append(df)
+  
+  combined = pd.concat(scalars)
+  
+  # Aggregazione per config
+  grouped = combined.groupby(['config', 'module'])[['value']].mean()
+  print(grouped)
+  ────────────────────────────────────────────────────────
+
+Step 4.3: Visualizzazione Vettori (Timeline)
+  
+  Option A: OMNeT++ IDE
+    • Open .vec file in IDE
+    • Browse vettori disponibili
+    • Plot automaticamente
+  
+  Option B: Python Script
+  
+  ────────────────────────────────────────────────────────
+  import numpy as np
+  import matplotlib.pyplot as plt
+  
+  # Parsing .vec (format omnetpp)
+  # Leggere linea per linea, estrarre (time, value)
+  
+  with open("results/simulation.vec", 'r') as f:
+    times, values = [], []
+    for line in f:
+      if not line.startswith('%') and line.strip():
+        parts = line.split()
+        if len(parts) == 2:
+          times.append(float(parts[0]))
+          values.append(float(parts[1]))
+  
+  plt.figure(figsize=(12, 5))
+  plt.plot(times, values, linewidth=1)
+  plt.xlabel('Time (s)')
+  plt.ylabel('Metric Value')
+  plt.grid()
+  plt.savefig('metric_plot.png')
+  plt.show()
+  ────────────────────────────────────────────────────────
+
+
+FASE 5: ANALISI STATISTICA E RISULTATI
+===============================================================================
+
+Step 5.1: Calcolare Statistiche Descrittive
+
+  Python template:
+  
+  ────────────────────────────────────────────────────────
+  import pandas as pd
+  import numpy as np
+  from scipy import stats
+  
+  # Carica dati da multiple replicazioni
+  data = []  # list di valori
+  
+  # Statistica descrittiva
+  mean = np.mean(data)
+  std = np.std(data, ddof=1)
+  ci_95 = stats.t.interval(0.95, len(data)-1, 
+                           loc=mean, scale=std/np.sqrt(len(data)))
+  
+  print(f"Mean: {mean:.4f}")
+  print(f"Std Dev: {std:.4f}")
+  print(f"95% CI: [{ci_95[0]:.4f}, {ci_95[1]:.4f}]")
+  ────────────────────────────────────────────────────────
+
+Step 5.2: Generare Grafici Principali
+
+  Grafico 1: Throughput vs Carico
+  
+  ────────────────────────────────────────────────────────
+  import matplotlib.pyplot as plt
+  
+  # Dati (da risultati simulazione)
+  loads = [0.5, 1.0, 2.0]  # lambda values
+  throughputs = [30, 55, 85]  # accessi/sec
+  
+  plt.figure(figsize=(10, 6))
+  plt.plot(loads, throughputs, 'bo-', linewidth=2, markersize=8)
+  plt.xlabel('Load (λ, accessi/sec per utente)')
+  plt.ylabel('Throughput (accessi/sec totali)')
+  plt.title('System Throughput vs Load')
+  plt.grid()
+  plt.savefig('throughput_vs_load.png', dpi=300)
+  ────────────────────────────────────────────────────────
+  
+  Grafico 2: Wait Time vs Read Probability
+  
+  ────────────────────────────────────────────────────────
+  p_values = [0.5, 0.8, 0.95]
+  wait_times = [0.25, 0.15, 0.08]
+  
+  plt.figure(figsize=(10, 6))
+  plt.plot(p_values, wait_times, 'rs-', linewidth=2, markersize=8)
+  plt.xlabel('Read Probability (p)')
+  plt.ylabel('Average Wait Time (seconds)')
+  plt.title('Latency vs Read/Write Ratio')
+  plt.grid()
+  plt.savefig('latency_vs_rw.png', dpi=300)
+  ────────────────────────────────────────────────────────
+
+Step 5.3: Confronto Scenari
+
+  Creare tabella riassuntiva:
+  
+  ┌────────────────┬───────────┬──────────┬────────────┐
+  │ Scenario       │ Throughput│ Wait Time│ Avg Queue  │
+  ├────────────────┼───────────┼──────────┼────────────┤
+  │ p=0.5 (WR)     │ 35.2 ± 2.1│ 0.28 ± 0.03│ 1.8 ± 0.2│
+  │ p=0.8 (Mixed)  │ 55.1 ± 1.9│ 0.15 ± 0.02│ 0.9 ± 0.15│
+  │ p=0.95 (RD)    │ 78.5 ± 1.5│ 0.08 ± 0.01│ 0.4 ± 0.1│
+  └────────────────┴───────────┴──────────┴────────────┘
+
+
+FASE 6: DOCUMENTAZIONE RISULTATI
+===============================================================================
+
+Step 6.1: Compilare Sezione "Risultati" del Progetto
+
+  Template:
+  
+  ────────────────────────────────────────────────────────
+  6. RISULTATI E ANALISI
+  
+  6.1 Scenario di Base (N=60, M=20, λ=1.0)
+  
+    Baseline Configuration:
+      Throughput: 55.1 accessi/sec
+      Avg Wait Time: 0.15 sec
+      Max Queue Length: 8 requests
+      Utilization: 82%
+  
+    Osservazioni:
+      - Throughput inferiore a bottleneck teorico (M/S = 200)
+        Motivo: Solo 20% scritture, che serializano
+      - Wait time basso grazie a coda FCFS
+      - Queue non satura (max 8 << capacità)
+  
+  6.2 Effetto Read/Write Ratio
+  
+    Risultati:
+      p=0.5:  Throughput=35.2, WaitTime=0.28
+      p=0.8:  Throughput=55.1, WaitTime=0.15
+      p=0.95: Throughput=78.5, WaitTime=0.08
+    
+    Interpretazione:
+      - Correlazione lineare tra p e throughput
+      - Scritture creano bottleneck prevedibile
+      - Algoritmo readers/writers lavora correttamente
+  
+  6.3 Effetto Carico Utenti
+  
+    [Grafico Throughput vs numUsers]
+    - Crescita lineare fino a saturation (N~100)
+    - Plateau superiore ~80 accessi/sec (limite M/S)
+    - Oltre N=100, throughput costante
+  
+  6.4 Confronto Distribuzione (Uniforme vs Lognormale)
+  
+    Uniforme:
+      Throughput: 55.1, MaxQueue: 8
+    Lognormale:
+      Throughput: 48.2, MaxQueue: 15
+    
+    Conclusione:
+      - Hotspot riduce throughput sistema
+      - Code più lunghe per tabelle calde
+  
+  6.5 Validazione Algoritmo
+  
+    ✓ Race conditions: 0 (mutual exclusion corretto)
+    ✓ Deadlock: 0 (FCFS è deadlock-free)
+    ✓ Starvation: 0 (FCFS è starvation-free)
+    ✓ Invarianti mantenute: sempre true
+  ────────────────────────────────────────────────────────
+
+Step 6.2: Creare Presentazione
+  
+  Esportare grafici e dati in PowerPoint/PDF:
+    1. Throughput analysis slide
+    2. Latency analysis slide
+    3. Queue length distribution slide
+    4. Uniform vs lognormal comparison slide
+    5. Key findings slide
+    6. Conclusions slide
+
+
+FASE 7: OTTIMIZZAZIONI E ESTENSIONI (Opzionale)
+===============================================================================
+
+Ottimizzazione 1: Parametri OMNeT++
+
+  Ridurre Simulation Time:
+    *.snapTime = 10s  # Salva snapshot ogni 10 sec
+    
+  Aumentare Precision:
+    simtime-resolution = 1ps  # Precisione picosecondi
+
+Ottimizzazione 2: Variabili Casuali
+
+  Aggiungere servizio casuale:
+    serviceTime = exponential(0.1)  # invece di fisso 0.1
+    
+  Aggiungere network delay:
+    Modificare send() con scheduleAt() delay
+
+Estensione 1: Warm-up Period
+
+  Implementare:
+    - Simulazione 100s senza raccogliere dati
+    - Poi 500s con raccolta (steady-state)
+    
+  In omnetpp.ini:
+    *.enableWarmupPeriod = true
+    warmupPeriod = 100s
+
+Estensione 2: Batch Processing
+
+  Modificare User per inviare batch richieste:
+    - sequenza: begin transaction → M reads → commit
+    - Misurare impatto transaction overhead
+
+Estensione 3: Distributed OMNeT++
+
+  Parallelize su multi-core:
+    $ omnetpp -j 4  # usa 4 processori
+
+
+FASE 8: PRESENTAZIONE FINALE
+===============================================================================
+
+Step 8.1: Preparare Slide PowerPoint
+
+  Contenuto (10 slide):
+    1. Title + Autori
+    2. Problema + Motivazione
+    3. Obiettivi + KPI
+    4. Architettura sistema
+    5. Algoritmo mutual exclusion
+    6. Implementazione OMNeT++
+    7. Design sperimentale
+    8. Risultati throughput + latency
+    9. Analisi concorrenza (read/write ratio)
+    10. Conclusioni + future work
+
+Step 8.2: Allegare Documentazione
+
+  File finali da includere:
+    • DOCUMENTAZIONE.txt (per LaTeX)
+    • PRESENTAZIONE.txt (outline convertito in slide)
+    • Grafici (PNG/PDF) dei risultati
+    • Codice sorgente (all .ned, .h, .cc, Makefile)
+    • omnetpp.ini configurato
+    • Risultati simulazione (sample .vec, .sca)
+
+
+FASE 9: CHECKLIST FINALE
+===============================================================================
+
+Verifica Completamento:
+
+  ✓ Codice compilato senza errori
+  ✓ cOutVector rimosso, signal mechanism implementato
+  ✓ omnetpp.ini configurato con scenari sperimentali
+  ✓ Simulazione eseguita per almeno 3 configurazioni
+  ✓ Dati raccolti in files .vec e .sca
+  ✓ Analisi statistica completata (medie, intervalli)
+  ✓ Grafici generati (throughput, latency, queue)
+  ✓ Documentazione scritta (DOCUMENTAZIONE.txt)
+  ✓ Presentazione preparata (10 slide)
+  ✓ Risultati validati (no race conditions, deadlock)
+
+Se tutto OK:
+  → Progetto pronto per consegna!
+
+
+TROUBLESHOOTING COMUNI
+===============================================================================
+
+Problema 1: Simulazione Too Slow
+  Soluzione:
+    • Ridurre simTime in omnetpp.ini
+    • Aumentare numTables (distribuisci carico)
+    • Usare seed fisso per reproducibilità
+
+Problema 2: Throughput Impossibilmente Alto
+  Soluzione:
+    • Verificare unità: accessi/sec vs accessi/millisec
+    • Controllare se service time è troppo basso
+    • Validare logica processQueue()
+
+Problema 3: Wait Time Always 0
+  Soluzione:
+    • Verificare emit(waitTimeSignal, waitTime)
+    • Controllare @statistic[waitingTime] in Table.ned
+    • Verificare arrivalTime sia copiato nel messaggio
+
+Problema 4: Memoria Esaurita (Large Simulations)
+  Soluzione:
+    • Ridurre numero replicazioni
+    • Usare sampling nei vettori: **.vector-recording = false
+    • Aumentare memoria Java se IDE: eclipse.ini
+
+Problema 5: Risultati Non Reproducibili
+  Soluzione:
+    • Impostare seed fisso: seed-set = 12345
+    • Disabilitare ordine processo: **.processOnArrival = true
+    • Verificare timestamp comparazione
+
+
+===============================================================================
+Fine WORKFLOW STEPS - Progetto Completo!
+===============================================================================

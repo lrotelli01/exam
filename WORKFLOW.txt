@@ -1,0 +1,648 @@
+===============================================================================
+                         WORKFLOW AND EXECUTION GUIDE
+               Complete Steps for Compiling and Running Simulations
+===============================================================================
+
+This guide contains the entire workflow to compile, configure, execute,
+and analyze the OMNeT++ simulation project step by step.
+
+Duration: ~2-3 hours (depending on your familiarity with OMNeT++)
+
+
+PHASE 1: SETUP AND INSTALLATION (30 minutes)
+===============================================================================
+
+Step 1.1: Open WSL and Activate OMNeT++ Environment
+
+  Command:
+    wsl -d opp_env
+  
+  Expected Output:
+    # (root@localhost:/mnt/c/Users/jeber/Desktop/exam)#
+  
+  Note:
+    - WSL subsystem with OMNeT++ pre-installed
+    - Current directory should auto-navigate to /mnt/c/Users/...
+    - If not, use: cd /mnt/c/Users/jeber/Desktop/exam
+
+
+Step 1.2: Verify OMNeT++ Installation
+
+  Commands:
+    cd /mnt/c/Users/jeber/Desktop/exam
+    omnetpp -version
+    opp_makemake --version
+  
+  Expected Output:
+    OMNeT++ 6.x [... version info ...]
+    opp_makemake 6.x [... version info ...]
+  
+  If failed:
+    - Reinstall OMNeT++ in WSL
+    - Check PATH: echo $PATH | grep -i omnet
+    - Contact system administrator
+
+
+Step 1.3: Verify Source Files
+
+  Command:
+    ls -la src/progetto/
+  
+  Expected Files:
+    DatabaseNetwork.ned      (network topology)
+    User.ned, User.h, User.cc       (user module)
+    Table.ned, Table.h, Table.cc    (table module)
+    Makefile                 (build configuration)
+  
+  If missing:
+    - Verify download was complete
+    - Check for .bak or .old version files
+
+
+Step 1.4: Clean Previous Build (if needed)
+
+  Command:
+    make clean
+    rm -f *.exe *.o Makefile.bak
+  
+  Effect:
+    - Removes all object files and executables
+    - Start fresh build
+
+
+PHASE 2: BUILDING THE PROJECT (20 minutes)
+===============================================================================
+
+Step 2.1: Generate Makefile
+
+  Command:
+    cd src/progetto/
+    opp_makemake --deep --make-so
+  
+  Expected Output:
+    Creating Makefile in current directory...
+  
+  What it does:
+    - Scans .ned and .cc files recursively
+    - Generates build rules for compilation
+    - Produces "Makefile" file
+
+
+Step 2.2: Verify Generated Makefile
+
+  Command:
+    head -20 Makefile
+  
+  Check for:
+    - NED_FILES assignment (should include *.ned)
+    - COPTS flags (optimization settings)
+    - LIBS assignment (link libraries)
+  
+  Common issues:
+    - Missing files in list → check file existence
+    - Wrong compilation flags → adjust COPTS
+
+
+Step 2.3: Compile the Project
+
+  Command:
+    make -j4
+  
+  Parameters:
+    -j4 = parallel compilation (4 processors)
+  
+  Duration:
+    30-60 seconds on modern CPU
+  
+  Expected Output:
+    [Compiling] DatabaseNetwork.ned
+    [Linking] progetto
+    [Complete] Binary ready
+  
+  Build produces:
+    - progetto executable (main simulation)
+    - progetto.so (shared object library)
+    - *.o object files (intermediate)
+
+
+Step 2.4: Verify Build Success
+
+  Command:
+    ls -la progetto
+    file progetto
+  
+  Expected:
+    -rwxr-xr-x ... progetto
+    progetto: ELF 64-bit LSB executable
+  
+  If not executable:
+    - Check compilation errors (scroll up in terminal)
+    - Common: Missing semicolons, syntax errors in .cc files
+    - Run: make clean && make -j4 (retry)
+
+
+PHASE 3: SIMULATION PARAMETER CONFIGURATION (15 minutes)
+===============================================================================
+
+Step 3.1: Review omnetpp.ini
+
+  Command:
+    cat simulations/omnetpp.ini | head -50
+  
+  Key sections:
+    [General]       → global network parameters
+    [Config ...]    → scenario-specific overrides
+  
+  Understanding the file:
+    • Lines starting with # are comments
+    • Variable = value syntax
+    • Can have nested configurations
+
+
+Step 3.2: Select Base Configuration
+
+  The omnetpp.ini contains multiple scenarios:
+  
+  [General]
+    Main settings for all scenarios
+    numUsers = 60
+    numTables = 20
+    lambda = 1.0
+    readProbability = 0.8
+    tableDistribution = "uniform"
+  
+  [Config Baseline]
+    Uses [General] defaults
+    
+  [Config HighRead]
+    Overrides readProbability = 0.95
+    
+  [Config WriteIntensive]
+    Overrides readProbability = 0.5
+    
+  [Config Hotspot]
+    Overrides tableDistribution = "lognormal"
+
+
+Step 3.3: Prepare Simulation Output Directory
+
+  Commands:
+    cd ../simulations
+    mkdir -p results
+    mkdir -p vectors
+    mkdir -p scalars
+  
+  Purpose:
+    - results/ → vector files (.vec)
+    - vectors/ → backup vectors
+    - scalars/ → scalar files (.sca)
+
+
+PHASE 4: RUNNING INDIVIDUAL SIMULATIONS (45 minutes)
+===============================================================================
+
+Step 4.1: Run Single Scenario (Baseline)
+
+  Command:
+    cd /mnt/c/Users/jeber/Desktop/exam/src/progetto
+    ./progetto -m DatabaseNetwork -c Baseline \
+      -n .:../../simulations \
+      -l ../../simulations/omnetpp.ini
+  
+  Parameter meanings:
+    -m DatabaseNetwork   → which network to simulate
+    -c Baseline          → which configuration from .ini
+    -n .:../../simulations → NED and INI file paths
+    -l ../../simulations/omnetpp.ini → explicit INI file
+  
+  Expected Output:
+    Running simulation: DatabaseNetwork (Baseline)
+    Initialization...
+    Event %: [==========>      ] 45% completed
+    Finished successfully in 15.23 seconds
+  
+  Duration:
+    15-30 seconds depending on simTime in .ini
+  
+  Output files created:
+    - DatabaseNetwork-Baseline-{replication}.vec
+    - DatabaseNetwork-Baseline-{replication}.sca
+
+
+Step 4.2: Run Multiple Scenarios (Using Batch Script)
+
+  Create script: run_batch.sh
+  
+  #!/bin/bash
+  OMNETPP_DIR=/mnt/c/Users/jeber/Desktop/exam/src/progetto
+  RESULTS_DIR=$OMNETPP_DIR/../simulations/results
+  
+  configs=("Baseline" "HighRead" "WriteIntensive" "Hotspot")
+  
+  for config in "${configs[@]}"; do
+    echo "Running configuration: $config"
+    cd $OMNETPP_DIR
+    ./progetto -m DatabaseNetwork -c $config \
+      -n .:../../simulations \
+      -l ../../simulations/omnetpp.ini \
+      --result-dir=$RESULTS_DIR/$config
+  done
+  echo "All simulations completed!"
+  
+  Usage:
+    chmod +x run_batch.sh
+    ./run_batch.sh
+
+
+Step 4.3: Monitor Simulation Progress
+
+  In another WSL terminal:
+    watch -n 1 'ls -la *.vec | tail -5'
+  
+  This shows:
+    - Which files are being written
+    - Real-time file size growth
+    - Replication completion status
+
+
+Step 4.4: Verify Output Files
+
+  Command:
+    ls -la *.vec *.sca | head -20
+  
+  Expected pattern:
+    DatabaseNetwork-Baseline-0.vec    (8-15 MB each)
+    DatabaseNetwork-Baseline-0.sca    (50-100 KB each)
+  
+  File sizes indicate:
+    - .vec files larger (time-series data)
+    - .sca files smaller (summary statistics)
+
+
+PHASE 5: CONFIGURATION VARIATIONS (30 minutes)
+===============================================================================
+
+Step 5.1: Modify Read/Write Ratio
+
+  Edit omnetpp.ini:
+    [Config WriteHeavy]
+    readProbability = 0.3
+    
+  Run:
+    ./progetto -m DatabaseNetwork -c WriteHeavy ...
+  
+  Expected effect:
+    - More writes → lower throughput
+    - Higher latency per operation
+    - More contention at tables
+
+
+Step 5.2: Modify User Load
+
+  Edit omnetpp.ini:
+    [Config HighLoad]
+    numUsers = 200
+    
+  Run:
+    ./progetto -m DatabaseNetwork -c HighLoad ...
+  
+  Expected effect:
+    - More concurrency
+    - System throughput increases
+    - Until saturation point
+
+
+Step 5.3: Test Access Distribution
+
+  Edit omnetpp.ini:
+    [Config Hotspot]
+    tableDistribution = "lognormal"
+    
+  Run:
+    ./progetto -m DatabaseNetwork -c Hotspot ...
+  
+  Expected effect:
+    - Uneven load across tables
+    - Some tables saturate before others
+    - Overall throughput lower than uniform
+
+
+PHASE 6: DATA COLLECTION AND SIGNALS (20 minutes)
+===============================================================================
+
+Step 6.1: Understanding Signal Output
+
+  In NED files (@signal declarations), we defined:
+  
+  For User module:
+    • "waitTime" → signal when request completes
+    • "readAccess" → incremented for each read
+    • "writeAccess" → incremented for each write
+    • "accessInterval" → time between requests
+  
+  For Table module:
+    • "queueLength" → queue occupancy over time
+    • "waitingTime" → per-request wait time
+    • "throughput" → operations completed
+    • "utilization" → (activeReaders + writeActive) fraction
+
+
+Step 6.2: Signal Recording Options
+
+  In omnetpp.ini, you can modify recording:
+  
+  Example configuration:
+    [Config VerboseOutput]
+    **.waitTime.result-recording-modes = +histogram
+    **.queueLength.result-recording-modes = +mean,+timeavg
+    **.throughput.result-recording-modes = +min,+max,+mean
+  
+  Recording modes:
+    • vector: time-series (creates .vec file)
+    • histogram: distribution (recorded in .sca)
+    • timeavg: time-weighted average
+    • mean, min, max: scalar statistics
+
+
+Step 6.3: Verify Signal Emissions
+
+  Add debugging to omnetpp.ini:
+    [General]
+    debug-on-errors = true
+    cmdenv-performance-display = true
+  
+  Run simulation and check:
+    echo $(tail -50 simulation_output.txt | grep -i signal)
+  
+  Should show:
+    - Number of signal emissions
+    - Aggregate statistics
+
+
+PHASE 7: ANALYSIS AND VISUALIZATION (45 minutes)
+===============================================================================
+
+Step 7.1: Extract Scalar Statistics
+
+  Use opp_scavetool (OMNeT++ CLI tool):
+    
+    Command:
+      cd results
+      opp_scavetool query -p 'module("*") AND name("waitTime:mean")'
+  
+  Output format:
+    DatabaseNetwork-Baseline-0: module="DatabaseNetwork.user[0]" name="waitTime:mean" value=0.245
+    DatabaseNetwork-Baseline-0: module="DatabaseNetwork.user[1]" name="waitTime:mean" value=0.251
+    ...
+
+
+Step 7.2: Python-Based Analysis
+
+  Prepare Python script: analyze_results.py
+  
+  import os
+  import pandas as pd
+  import numpy as np
+  
+  # Read .sca files
+  results_dir = "results"
+  
+  data = []
+  for file in os.listdir(results_dir):
+      if file.endswith(".sca"):
+          # Parse .sca file (text format)
+          with open(f"{results_dir}/{file}") as f:
+              for line in f:
+                  if "waitTime:mean" in line:
+                      # Extract configuration and value
+                      data.append({"file": file, "metric": line.strip()})
+  
+  df = pd.DataFrame(data)
+  print(df.groupby("file")["metric"].mean())
+  
+  Run:
+    python3 analyze_results.py
+
+
+Step 7.3: Create Performance Report
+
+  Aggregated metrics to report:
+  
+  • Throughput (accesses/sec):
+    Mean across all users
+    Formula: Total_completed / total_simulated_time
+  
+  • Latency (milliseconds):
+    Histogram: min, 25th, 50th (median), 75th, 95th, max percentiles
+  
+  • Queueing:
+    Average queue length per table
+    Max queue length observed
+  
+  • Utilization:
+    Percentage of time each table was serving requests
+
+
+Step 7.4: Comparison Across Scenarios
+
+  Create comparison table:
+  
+  Configuration | Throughput | Avg Latency | Max Queue | Utilization
+  -------------|------------|-------------|-----------|-------------
+  Baseline     | 58.3 ops/s | 125 ms      | 18        | 45%
+  HighRead     | 62.1 ops/s | 110 ms      | 15        | 40%
+  WriteHeavy   | 42.7 ops/s | 210 ms      | 35        | 68%
+  Hotspot      | 54.2 ops/s | 145 ms      | 42        | 78% (hot table)
+  
+  Observations:
+    - Write intensity degrades performance
+    - Hotspot distribution unbalances load
+
+
+PHASE 8: DEBUGGING AND TROUBLESHOOTING (variable)
+===============================================================================
+
+Common Issues and Solutions:
+
+Issue 1: "Module not found: DatabaseNetwork"
+  
+  Cause: NED files not found during simulation
+  
+  Solution:
+    Check -n parameter points to correct path
+    Verify omnetpp.ini exists in specified directory
+    Command: ls ../../simulations/*.ned
+  
+  
+Issue 2: Simulation runs but produces no output files
+
+  Cause: Output path not specified or not writable
+  
+  Solution:
+    Add --result-dir=/explicit/path to command
+    Check directory permissions: ls -la results/
+    Ensure write permissions: chmod 755 results/
+  
+  
+Issue 3: "Signal not registered: waitTime"
+
+  Cause: initialize() method not called or registerSignal() failed
+  
+  Solution:
+    Check User.cc has registerSignal() in initialize()
+    Verify @signal[waitTime] declared in User.ned
+    Check for initialization order issues
+  
+  
+Issue 4: High CPU usage, slow simulation
+
+  Cause: Too many events or inefficient algorithm
+  
+  Solution:
+    Reduce numUsers or numTables
+    Reduce simTime in omnetpp.ini
+    Use sampling (record every Nth event)
+    Increase λ (fewer events)
+  
+  
+Issue 5: "Compilation error: undefined reference to..."
+
+  Cause: Missing implementation or linking issue
+  
+  Solution:
+    Verify all .cc files present
+    Run: make clean && make -j4
+    Check for syntax errors: grep -n "}" Table.cc | wc -l
+  
+  
+Issue 6: Confidence intervals too wide
+
+  Cause: Insufficient replications
+  
+  Solution:
+    Increase replications in omnetpp.ini
+    Change numReplications = 50 (from 10)
+    Takes longer but tighter statistics
+
+
+PHASE 9: FINAL VALIDATION AND REPORTING (30 minutes)
+===============================================================================
+
+Step 9.1: Verify Mutual Exclusion
+
+  In simulation output (.sca), check:
+    • No simultaneous read+write to same table
+    • No simultaneous write+write to same table
+    • All reads served in parallel
+  
+  Manual verification:
+    grep "activeReaders\|writeActive" simulation_log.txt
+    Should show: activeReaders >= 0, writeActive in {0,1}
+
+
+Step 9.2: Check FCFS Property
+
+  In output, verify queue order:
+    • Earlier arrivals completed before later ones
+    • No starvation of any operation type
+  
+  Command:
+    awk '/request arrived/{print $0}' \
+        simulation_log.txt | head -20
+  
+  Check order matches completion timestamps
+
+
+Step 9.3: Validate Statistical Output
+
+  Ensure .sca files contain:
+    • Mean wait time per configuration
+    • Confidence intervals (95%)
+    • Sample sizes (number of events)
+  
+  Command:
+    grep "mean\|min\|max\|stddev" *.sca | head -20
+
+
+Step 9.4: Generate Final Report
+
+  Report should include:
+  
+  1. Executive Summary:
+     - What was simulated
+     - Key findings
+     - Recommended configurations
+  
+  2. Methodology:
+     - Baseline parameters
+     - Configurations tested
+     - Statistical methods
+  
+  3. Results Section:
+     - Throughput comparison
+     - Latency percentiles
+     - Queue length analysis
+     - Resource utilization
+  
+  4. Interpretation:
+     - Why does X configuration perform better?
+     - Bottleneck analysis
+     - Recommendations for production tuning
+  
+  5. Appendix:
+     - Detailed result tables
+     - Confidence intervals
+     - Raw .sca file excerpts
+     - Snapshot screenshots of progress
+
+
+SUMMARY AND QUICK REFERENCE
+===============================================================================
+
+Full Workflow Timeline:
+
+  Setup (30 min):         WSL activation, OMNeT++ verification
+  Build (20 min):         opp_makemake, make, verification
+  Config (15 min):        omnetpp.ini review, directory setup
+  Single Run (10 min):    First simulation execution
+  Batch Runs (30 min):    Multiple configurations
+  Analysis (45 min):      Data extraction, aggregation
+  Verification (20 min):  Statistical validation
+  Report (30 min):        Documentation
+  ─────────
+  Total: ~3-4 hours
+
+Essential Commands (Copy-Paste):
+
+  # Setup
+  wsl -d opp_env
+  cd /mnt/c/Users/jeber/Desktop/exam/src/progetto
+  
+  # Build
+  opp_makemake --deep --make-so
+  make -j4
+  
+  # Run baseline
+  ./progetto -m DatabaseNetwork -c Baseline \
+    -n .:../../simulations \
+    -l ../../simulations/omnetpp.ini
+  
+  # Verify output
+  ls -lh *.vec *.sca
+  
+  # Extract stats
+  opp_scavetool query -p 'module("*") AND name("*:mean")'
+
+Next Steps:
+
+  1. Choose starting configuration (Baseline recommended)
+  2. Execute PHASE 1-4 in order
+  3. Review results in .vec/.sca files
+  4. Modify parameters and re-run
+  5. Aggregate across configurations
+  6. Prepare presentation-ready charts
+
+
+===============================================================================
+End of Workflow
+===============================================================================

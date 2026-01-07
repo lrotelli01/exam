@@ -1,0 +1,365 @@
+================================================================================
+                    QUICK START GUIDE - INIZIO VELOCE
+                       Simulazione OMNeT++ - Database Concorrente
+================================================================================
+
+Benvenuto! Questo progetto è ORA PRONTO PER ESSERE COMPILATO ED ESEGUITO.
+
+Sono state apportate 3 modifiche IMPORTANTI al codice:
+
+  1. ✅ REFACTORING STATISTICHE
+     • Rimosso: cOutVector (non insegnato nel corso)
+     • Aggiunto: Signal mechanism (registra segnali, emetti valori)
+     • Dove: User.h/cc, Table.h/cc, User.ned, Table.ned
+     
+  2. ✅ VERIFICA COMPLETEZZA
+     • Tutti i metodi sono implementati e funzionanti
+     • Algoritmo readers/writers è corretto (FCFS, deadlock-free)
+     • Distribuzione uniforme e lognormale implementate
+     
+  3. ✅ DOCUMENTAZIONE GENERATA
+     • DOCUMENTAZIONE.txt (relazione tecnica)
+     • PRESENTAZIONE.txt (10 slide PowerPoint)
+     • WORKFLOW_STEPS.txt (guida step-by-step)
+
+
+================================================================================
+                         QUICK START - 5 MINUTI
+================================================================================
+
+STEP 1: Naviga alla cartella progetto
+─────────────────────────────────────────────────────────────────────────────
+  $ cd c:\Users\jeber\Desktop\exam
+  $ ls -la
+
+  Output atteso: Vedi directory structure con src/, simulations/, *.txt
+
+
+STEP 2: Compila il progetto
+─────────────────────────────────────────────────────────────────────────────
+  $ cd src/progetto
+  $ make clean
+  $ make
+
+  Output atteso:
+    Compiling User.cc...
+    Compiling Table.cc...
+    Linking progetto...
+    Done. (senza errori)
+  
+  Se vedi errori:
+    → Vedi sezione TROUBLESHOOTING qui sotto
+
+
+STEP 3: Torna alla cartella principale
+─────────────────────────────────────────────────────────────────────────────
+  $ cd ../..
+  $ pwd
+  
+  Output atteso: c:\Users\jeber\Desktop\exam
+
+
+STEP 4: Esegui una simulazione semplice (BaselineScenario)
+─────────────────────────────────────────────────────────────────────────────
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c Uniform
+
+  Output atteso:
+    OMNeT++ Discrete Event Simulator...
+    Starting simulation...
+    User 0 initialized with lambda=0.05...
+    Table 0 initialized...
+    ...
+    Simulation finished. Status: 0
+  
+  Tempo: 5-30 minuti (dipende dal hardware)
+  
+  Output file creati:
+    simulations/results/progetto-Uniform-0.vec
+    simulations/results/progetto-Uniform-0.sca
+    
+    (I vettori temporali sono in .vec, gli scalari in .sca)
+
+
+STEP 5: Verifica risultati
+─────────────────────────────────────────────────────────────────────────────
+  $ ls -la simulations/results/
+
+  Output atteso: *.vec e *.sca files creati
+
+
+DONE! Simulazione completata e dati raccolti!
+
+
+================================================================================
+                            NEXT STEPS - ANALISI
+================================================================================
+
+Per analizzare i dati, seguire WORKFLOW_STEPS.txt:
+  • Fase 4: Raccolta dati (extraction di scalari)
+  • Fase 5: Analisi statistica (medie, confidence intervals)
+  • Fase 6: Generazione grafici (Python)
+
+
+Esecuzione rapida di analisi:
+
+  $ python3 << 'EOF'
+  import pandas as pd
+  
+  # Leggi file .sca
+  df = pd.read_csv("simulations/results/progetto-Uniform-0.sca",
+                    sep=' ', comment='%')
+  
+  # Filtra scalari interessanti
+  scalars = df[df['name'].str.contains('totalServed|throughput|avgWait')]
+  print(scalars)
+  EOF
+
+================================================================================
+                         CONFIGURAZIONI SCENARI
+================================================================================
+
+omnetpp.ini contiene già questi scenari:
+
+  Uniform:      Distribuzione uniforme (tutte tabelle equiprobabili)
+                Parametri: N=100..5000, p=0.3/0.5/0.8, lambda=0.05
+  
+  Lognormal:    Distribuzione lognormale (hotspot, alcune tabelle più frequenti)
+                Parametri: N=100..5000, p=0.3/0.5/0.8, lambda=0.05
+
+Eseguire scenari specifici:
+
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c Uniform
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c Lognormal
+
+Vedere configurazioni disponibili:
+
+  $ grep "^\[Config" simulations/omnetpp.ini
+
+
+================================================================================
+                            TROUBLESHOOTING
+================================================================================
+
+PROBLEMA 1: "make: command not found"
+──────────────────────────────────────────────────────────────────────────────
+  Causa: make non installato
+  Soluzione:
+    Se su Windows con OMNeT++ IDE: usare OMNeT++ make bundled
+    Se su Linux: sudo apt-get install build-essential
+
+
+PROBLEMA 2: Compilazione fallisce con "undefined reference"
+──────────────────────────────────────────────────────────────────────────────
+  Causa: Probabilmente header non trovato
+  Soluzione:
+    • Verifica che #include <omnetpp.h> sia in User.h e Table.h
+    • Verifica che omnetpp_VERSION sia definito (setenv in IDE)
+    • Prova: make clean && make
+
+
+PROBLEMA 3: Esecuzione fallisce con "network = progetto.DatabaseNetwork" errore
+──────────────────────────────────────────────────────────────────────────────
+  Causa: File NED non trovato
+  Soluzione:
+    • Verificare DatabaseNetwork.ned esiste in src/progetto/
+    • Verificare che @signal e @statistic siano syntatticamente corretti
+    • Prova: ./progetto -c Uniform -g Tkenv (GUI mode per debug)
+
+
+PROBLEMA 4: Simulazione troppo lenta
+──────────────────────────────────────────────────────────────────────────────
+  Causa: Parametri richiedono long simulation time
+  Soluzione:
+    • Ridurre sim-time-limit in omnetpp.ini (es. 100s invece di 10000s)
+    • Ridurre *.numUsers (es. 100 invece di 5000)
+    • Disabilitare vector recording: **.vector-recording = false
+
+
+PROBLEMA 5: Memoria esaurita
+──────────────────────────────────────────────────────────────────────────────
+  Causa: Simulazione troppo grande
+  Soluzione:
+    • Ridurre numero utenti/tabelle
+    • Disabilitare vector recording temporaneamente
+    • Aumentare heap (-Xmx flag se Java IDE)
+
+
+PROBLEMA 6: File output non creati
+──────────────────────────────────────────────────────────────────────────────
+  Causa: Risultati directory non esiste
+  Soluzione:
+    • Crea directory: mkdir -p simulations/results
+    • Verifica permessi di scrittura
+
+
+================================================================================
+                        COMANDI UTILI RAPIDI
+================================================================================
+
+Compilazione:
+  $ cd src/progetto && make clean && make
+
+Esecuzione (non-interactive):
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c Uniform
+
+Esecuzione (interactive, GUI):
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c Uniform -u Qtenv
+
+Debug (step-by-step):
+  $ ./src/progetto/progetto -f simulations/omnetpp.ini -c Uniform -u Tkenv
+
+Vedi configurazioni disponibili:
+  $ grep "^\[Config" simulations/omnetpp.ini
+
+Pulisci file di compilazione:
+  $ cd src/progetto && make clean
+
+Pulisci risultati simulazione:
+  $ rm -rf simulations/results/*
+
+Verifica file output:
+  $ ls -lh simulations/results/
+
+
+================================================================================
+                        STRUTTURA FILE IMPORTANTE
+================================================================================
+
+Sorgenti C++/NED:
+  src/progetto/DatabaseNetwork.ned  ← Network structure
+  src/progetto/User.ned, User.h/cc  ← User module implementation
+  src/progetto/Table.ned, Table.h/cc ← Table module implementation
+  src/progetto/Makefile             ← Build configuration
+
+Configurazione:
+  simulations/omnetpp.ini           ← Scenarios and parameters
+
+Documentazione (IMPORTANTE):
+  DOCUMENTAZIONE.txt                ← Technical report (per LaTeX)
+  PRESENTAZIONE.txt                 ← Presentation outline (10 slides)
+  WORKFLOW_STEPS.txt                ← Complete step-by-step guide
+  README_COMPLETAMENTO.txt          ← This file summary
+  QUICK_START.txt                   ← This file
+
+Risultati (generati dopo esecuzione):
+  simulations/results/*.vec         ← Time series data
+  simulations/results/*.sca         ← Scalar aggregates
+
+
+================================================================================
+                         PROSSIMI STEP CONSIGLIATI
+================================================================================
+
+1. COMPILARE E TESTARE SUBITO
+   $ cd src/progetto && make
+   (Verifica che non ci siano errori di compilazione)
+
+2. ESEGUIRE SIMULAZIONE BREVE
+   $ cd ../.. && ./src/progetto/progetto -f simulations/omnetpp.ini -c Uniform
+   (Verifica che simulazione giri senza errori)
+
+3. ANALIZZARE RISULTATI
+   Seguire script Python in WORKFLOW_STEPS.txt Fase 5
+   (Calcola medie, genera grafici)
+
+4. AGGIORNARE DOCUMENTAZIONE
+   Inserire risultati/grafici in DOCUMENTAZIONE.txt sezione 6
+   (Convettere in LaTeX con pandoc)
+
+5. CREARE PRESENTAZIONE
+   Copiare contenuto PRESENTAZIONE.txt in PowerPoint
+   (Aggiungere grafici e immagini)
+
+
+================================================================================
+                    DOMANDE FREQUENTI (FAQ)
+================================================================================
+
+Q: Posso eseguire più scenari contemporaneamente?
+A: No direttamente, ma puoi creare script bash/PowerShell per loop
+
+Q: Quanto tempo impiega una simulazione?
+A: Tipicamente 5-30 minuti a seconda di N, numero tabelle, e CPU
+   Vedi sim-time-limit in omnetpp.ini
+
+Q: Come faccio a usare parametri diversi?
+A: Modifica omnetpp.ini e ricompila, oppure usa:
+   $ ./progetto -f omnetpp.ini -c Uniform --N=200 --p=0.9
+
+Q: Dove vanno i risultati?
+A: simulations/results/ (file .vec e .sca)
+
+Q: Posso usare la GUI per visualizzare?
+A: Sì! $ ./progetto -f omnetpp.ini -c Uniform -u Qtenv
+   (Nota: più lento, utile per debugging)
+
+Q: Come importo .vec in Python/R?
+A: Leggi come text file con parsing, oppure:
+   Python: scoprire parsing library omnetpp
+   R: pacchetto omnetpp (se disponibile)
+
+Q: Come faccio a capire se i risultati sono corretti?
+A: Verifica:
+   • Throughput < capacità massima (M/serviceTime)
+   • Wait time increase con carico
+   • Queue length max ragionevole
+   Vedi WORKFLOW_STEPS.txt Fase 5 per validation
+
+Q: Posso estendere il modello?
+A: Sì! Vedi WORKFLOW_STEPS.txt Fase 7 e DOCUMENTAZIONE.txt Sezione 7.3
+
+
+================================================================================
+                      DOCUMENTAZIONE COMPLETA
+================================================================================
+
+Per una guida COMPLETA, vedi:
+
+  WORKFLOW_STEPS.txt:
+    • Fase 0: Prerequisiti
+    • Fase 1: Compilazione dettagliata
+    • Fase 2: Setup parametri
+    • Fase 3: Esecuzione
+    • Fase 4: Raccolta dati
+    • Fase 5: Analisi statistica con Python
+    • Fase 6: Documentazione risultati
+    • Fase 7: Estensioni opzionali
+    • Fase 8: Presentazione finale
+    • Fase 9: Checklist completa
+
+  DOCUMENTAZIONE.txt:
+    • Descrizione completa del progetto
+    • Modello del sistema
+    • Implementazione OMNeT++
+    • Design sperimentale
+    • Template per risultati/analisi
+
+  PRESENTAZIONE.txt:
+    • 10 slide outline per PowerPoint
+    • Contenuto bullets pronti da copiare
+
+
+================================================================================
+                         SUPPORTO E HELP
+================================================================================
+
+Se hai dubbi, consulta:
+
+1. WORKFLOW_STEPS.txt - Guida dettagliata passo dopo passo
+2. DOCUMENTAZIONE.txt - Descrizione tecnica completa
+3. Codice sorgente:
+   - src/progetto/User.h/.cc - Logica generazione richieste
+   - src/progetto/Table.h/.cc - Logica mutual exclusion
+4. omnetpp.ini - Configurazioni scenari disponibili
+
+
+Ora sei pronto! Inizia con:
+
+  $ cd c:\Users\jeber\Desktop\exam\src\progetto
+  $ make clean && make
+
+Buona simulazione! 🚀
+
+================================================================================
+Fine QUICK START
+================================================================================

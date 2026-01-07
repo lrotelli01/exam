@@ -4,7 +4,7 @@ Define_Module(User);
 
 void User::initialize()
 {
-    // Lettura dei parametri
+    // Read parameters
     userId = par("userId");
     lambda = par("lambda");
     readProbability = par("readProbability");
@@ -12,19 +12,19 @@ void User::initialize()
     tableDistribution = par("tableDistribution").stringValue();
     serviceTime = par("serviceTime");
     
-    // Inizializzazione variabili
+    // Initialize variables
     totalAccesses = 0;
     totalReads = 0;
     totalWrites = 0;
     totalWaitTime = 0.0;
     
-    // Registrazione delle statistiche (cOutVector)
-    readAccessVector.setName("ReadAccesses");
-    writeAccessVector.setName("WriteAccesses");
-    waitTimeVector.setName("WaitTime");
-    accessIntervalVector.setName("AccessInterval");
+    // Register signals (course-standard method - signal mechanism)
+    waitTimeSignal = registerSignal("waitTime");
+    readAccessSignal = registerSignal("readAccess");
+    writeAccessSignal = registerSignal("writeAccess");
+    accessIntervalSignal = registerSignal("accessInterval");
     
-    // Creazione del primo evento di accesso
+    // Create first access event
     accessTimer = new cMessage("AccessTimer");
     scheduleNextAccess();
     
@@ -37,21 +37,21 @@ void User::initialize()
 void User::handleMessage(cMessage *msg)
 {
     if (msg == accessTimer) {
-        // È il momento di effettuare un nuovo accesso
+        // Time for a new access
         
-        // Seleziona la tabella secondo la distribuzione specificata
+        // Select table according to specified distribution
         int tableId = selectTableId();
         
-        // Decidi se è lettura o scrittura
+        // Decide if read or write operation
         bool isRead = isReadOperation();
         
-        // Registra il tipo di operazione
+        // Record operation type
         if (isRead) {
             totalReads++;
-            readAccessVector.record(1);
+            emit(readAccessSignal, 1);
         } else {
             totalWrites++;
-            writeAccessVector.record(1);
+            emit(writeAccessSignal, 1);
         }
         
         totalAccesses++;
@@ -59,24 +59,24 @@ void User::handleMessage(cMessage *msg)
         EV_DEBUG << "User " << userId << " requested access to Table " << tableId 
                  << " (" << (isRead ? "READ" : "WRITE") << ") at time " << simTime() << endl;
         
-        // Invia richiesta alla tabella
+        // Send request to table
         sendAccessRequest(tableId, isRead);
         
-        // Programma il prossimo accesso
+        // Schedule next access
         scheduleNextAccess();
         
     } else {
-        // Messaggio di risposta dalla tabella
+        // Response message from table
         processTableResponse(msg);
     }
 }
 
 void User::scheduleNextAccess()
 {
-    // Genera il tempo di inter-arrivo secondo una distribuzione esponenziale
+    // Generate inter-arrival time according to exponential distribution
     double delay = getExponentialDelay();
     
-    accessIntervalVector.record(delay);
+    emit(accessIntervalSignal, delay);
     scheduleAt(simTime() + delay, accessTimer);
 }
 
@@ -94,24 +94,24 @@ int User::selectTableId()
 
 int User::selectTableUniform()
 {
-    // Distribuzione uniforme: ogni tabella ha uguale probabilità
-    // Ritorna un valore da 0 a numTables-1
+    // Uniform distribution: each table has equal probability
+    // Returns a value from 0 to numTables-1
     return intuniform(0, numTables - 1);
 }
 
 int User::selectTableLognormal()
 {
-    // Distribuzione lognormale
-    // Parametri della lognormale: m (media del log) e s (dev std del log)
-    // Calibra questi valori a seconda del tuo scenario
+    // Lognormal distribution
+    // Parameters: m (mean of log) and s (std dev of log)
+    // Calibrate these values for your scenario
     double m = par("lognormalM");
     double s = par("lognormalS");
-    // Genera una variabile con distribuzione lognormale
-    // lognormal(m, s) dove m è la media del logaritmo naturale
+    // Generate variable with lognormal distribution
+    // lognormal(m, s) where m is mean of natural logarithm
     double logNormalValue = lognormal(m, s);
     
-    // Mappa il valore lognormale all'intervallo [0, numTables-1]
-    // Usa il modulo per garantire che il risultato sia sempre nell'intervallo valido
+    // Map lognormal value to interval [0, numTables-1]
+    // Use modulo to ensure result is always in valid range
     int tableId = (int)(fmod(logNormalValue, numTables));
     if (tableId < 0) tableId = 0;
     if (tableId >= numTables) tableId = numTables - 1;
@@ -121,17 +121,17 @@ int User::selectTableLognormal()
 
 bool User::isReadOperation()
 {
-    // Genera un numero casuale tra 0 e 1
-    // Se è minore di readProbability, è una lettura
+    // Generate random number between 0 and 1
+    // If less than readProbability, it's a read
     return uniform(0, 1) < readProbability;
 }
 
 void User::sendAccessRequest(int tableId, bool isRead)
 {
-    // Crea un nuovo messaggio per la richiesta
+    // Create new message for request
     cMessage *request = new cMessage();
 
-    // Imposta il nome del messaggio per debugging
+    // Set message name for debugging
     if (isRead) {
         request->setName("ReadRequest");
         request->setKind(0);  // 0 = READ
@@ -140,8 +140,8 @@ void User::sendAccessRequest(int tableId, bool isRead)
         request->setKind(1);  // 1 = WRITE
     }
 
-    // Aggiungi informazioni sulla richiesta come parametri
-    // Puoi usare cMessage::addPar() o una struttura dati personalizzata
+    // Add request information as parameters
+    // You can use cMessage::addPar() or custom data structure
     cMsgPar *userIdPar = new cMsgPar("userId");
     userIdPar->setLongValue(userId);
     request->addPar(userIdPar);
@@ -154,19 +154,19 @@ void User::sendAccessRequest(int tableId, bool isRead)
     serviceTimePar->setDoubleValue(serviceTime);
     request->addPar(serviceTimePar);
 
-    // Invia il messaggio al gate della tabella appropriata
+    // Send message to appropriate table gate
     send(request, "tableOut", tableId);
 }
 
 void User::processTableResponse(cMessage *msg)
 {
-    // Messaggio di risposta dalla tabella
+    // Response message from table
     double arrivalTime = msg->par("arrivalTime").doubleValue();
     double completionTime = simTime().dbl();
     double waitTime = completionTime - arrivalTime;
 
     totalWaitTime += waitTime;
-    waitTimeVector.record(waitTime);
+    emit(waitTimeSignal, waitTime);
 
     bool isRead = (msg->getKind() == 0);  // 0 = READ, 1 = WRITE
 
@@ -174,20 +174,20 @@ void User::processTableResponse(cMessage *msg)
              << (isRead ? "READ" : "WRITE") << " at time " << simTime()
              << ", wait time: " << waitTime << "s" << endl;
 
-    // Elimina il messaggio
+    // Delete message
     delete msg;
 }
 
 double User::getExponentialDelay()
 {
-    // Genera un inter-arrivo esponenziale con rate lambda
-    // Se lambda = 1/T, allora il valore generato è distribuito come Exp(lambda)
+    // Generate exponential inter-arrival with rate lambda
+    // If lambda = 1/T, then generated value is distributed as Exp(lambda)
     return exponential(1.0 / lambda);
 }
 
 void User::finish()
 {
-    // Statistiche finali
+    // Final statistics
     double avgWaitTime = (totalAccesses > 0) ? (totalWaitTime / totalAccesses) : 0.0;
     double accessesPerSecond = totalAccesses / simTime().dbl();
     
@@ -199,7 +199,7 @@ void User::finish()
     EV_INFO << "Accesses per second: " << accessesPerSecond << endl;
     EV_INFO << "========================================" << endl;
     
-    // Registra le statistiche
+    // Record statistics
     recordScalar("totalAccesses", totalAccesses);
     recordScalar("totalReads", totalReads);
     recordScalar("totalWrites", totalWrites);

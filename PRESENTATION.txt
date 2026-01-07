@@ -1,0 +1,427 @@
+===============================================================================
+                             PROJECT PRESENTATION
+              Concurrent Database Access Simulation (10 Slides)
+===============================================================================
+
+SLIDE 1: TITLE AND INTRODUCTION
+===============================================================================
+Main Title:
+  Concurrent Database Access Simulation
+  Readers/Writers Model with OMNeT++
+
+Subtitle:
+  Simulation Project - Queueing Theory and OMNeT++ Course
+
+Information:
+  • Authors: [Student Name/Group]
+  • Date: [Completion Date]
+  • Institution: [University]
+  • Framework: OMNeT++ Discrete Event Simulator
+
+Bullet Points:
+  • Simulation of multi-client database system
+  • Performance analysis and bottleneck identification
+  • Mutual exclusion readers/writers algorithm
+
+
+SLIDE 2: PROBLEM AND MOTIVATION
+===============================================================================
+Title: Problem and Context
+
+Central Question:
+  "How to predict and optimize performance of a database
+   with concurrent access from multiple clients?"
+
+Real-World Scenario:
+  • N users access M tables simultaneously
+  • Mixed operations: reads (frequent) and writes (critical)
+  • Contention: Conflicts between concurrent accesses
+  • Trade-off: Parallelism vs Consistency
+
+Challenges:
+  • Bottleneck: Hot-spot tables become saturated
+  • Queueing: Long queues reduce responsiveness
+  • Contention: Reads blocked by writes
+  • Scalability: How to increase throughput?
+
+Simulation Motivation:
+  • Real-system experiments impractical
+  • Rapid parameter scenario exploration
+  • Rigorous statistical analysis
+
+
+SLIDE 3: OBJECTIVES AND METRICS
+===============================================================================
+Title: Simulation Objectives
+
+Primary Objectives:
+
+  1. Evaluate Performance:
+     • System throughput (operations/second)
+     • Latency (average wait time)
+     • Queue length (congestion level)
+
+  2. Analyze Impact Factors:
+     • Effect of read/write ratio (p)
+     • Effect of number of users (N)
+     • Effect of access distribution (uniform vs hotspot)
+
+  3. Identify Bottlenecks:
+     • Which table saturates first?
+     • When does system saturate (throughput plateaus)?
+     • How does scaling with numTables behave?
+
+KPIs (Key Performance Indicators):
+
+  Throughput:
+    • Total: Completed accesses per second system-wide
+    • Per-table: Operations per second per table
+
+  Latency (Wait Time):
+    • Mean: Average time from request to completion
+    • 95-percentile: For queue characterization
+
+  Queueing:
+    • Average length: Queue stress measure
+    • Maximum length: Worst-case scenario
+
+  Contention:
+    • Ratio of completed reads/writes
+    • Blocking rate by operation type
+
+
+SLIDE 4: SYSTEM MODEL - ARCHITECTURE
+===============================================================================
+Title: System Architecture
+
+Components:
+
+  User Module (N copies):
+    • Generates Poisson requests (rate λ)
+    • Selects table (uniform or lognormal)
+    • Decides read (prob. p) vs write (prob. 1-p)
+    • Measures wait time
+    • Parameters: userId, lambda, readProbability, numTables
+
+  Table Module (M copies):
+    • Receives requests from users
+    • Implements mutual exclusion (readers/writers)
+    • Manages FCFS queue
+    • Provides temporal service
+    • Parameters: tableId
+
+  Network:
+    • Fully-connected mesh topology
+    • N users × M tables
+    • Message-passing communication
+
+Topology:
+  
+  user[0] ─┐
+  user[1] ─┼─ table[0]
+  ... ─┼─ table[1]
+  user[N-1]─┤ ...
+           └─ table[M-1]
+
+Communication:
+  • Asynchronous message-passing
+  • Delay = 0 (ideal network)
+  • No packet loss
+
+
+SLIDE 5: SYSTEM MODEL - CONCURRENCY LOGIC
+===============================================================================
+Title: Mutual Exclusion Algorithm (Readers/Writers)
+
+Invariants:
+  • No reader during write
+  • No writer during read
+  • No writer during another writer
+  • Multiple concurrent readers OK
+
+Internal State (per table):
+
+  activeReaders (int):    # of currently-served readers
+  writeActive (bool):     1 if one writer currently served
+  requestQueue (FIFO):    Queue of pending requests
+
+Algorithm processQueue():
+
+  Precondition: writeActive == false (otherwise table locked)
+  
+  While requestQueue not empty:
+  
+    1. Peek first element from queue
+    
+    2. If READ:
+       - Pop from queue
+       - Increment activeReaders
+       - Start service
+       - Continue loop (other reads OK)
+    
+    3. If WRITE:
+       - If activeReaders == 0:
+         • Pop, set writeActive=true, start, break
+       - Else:
+         • Wait (block queue behind write for FCFS)
+         • Break
+
+Properties:
+  • FCFS: Order of arrival respected
+  • Deadlock-free: Always progress if service ends
+  • Starvation-free: FCFS prevents writer starvation
+
+
+SLIDE 6: IMPLEMENTATION - OMNET++ STRUCTURE
+===============================================================================
+Title: OMNeT++ Implementation
+
+Languages Used:
+
+  • NED:    Module structure description (.ned files)
+  • C++:    Simulation logic and algorithm (.cc/.h files)
+  • INI:    Scenario parameters and configuration
+
+Course-Standard Principles:
+
+  Signal Mechanism:
+    • registerSignal("metricName") → simsignal_t
+    • emit(signal, value) → record data
+    • @signal[name](type=...) in NED
+    • @statistic[name](source=...; record=...) in NED
+
+  Message Passing:
+    • cMessage for inter-module communication
+    • setKind(0 read, 1 write) to distinguish
+    • addPar() for parameter payload
+
+  Event Scheduling:
+    • scheduleAt(simTime()+delay, msg)
+    • handleMessage(cMessage*) for routing
+
+File Structure:
+
+  DatabaseNetwork.ned    → Network topology + params
+  User.ned              → User module definition + signals
+  User.h/cc             → User implementation
+  Table.ned             → Table module definition + signals
+  Table.h/cc            → Table implementation
+  Makefile              → Build configuration
+  omnetpp.ini           → Simulation parameters
+
+Output:
+  • *.vec                → Time-series signal recordings
+  • *.sca                → Scalar aggregates (mean, max, min)
+  • *.txt                → Log output (EV_INFO/EV_DEBUG)
+
+
+SLIDE 7: EXPERIMENTAL DESIGN
+===============================================================================
+Title: Experimental Design and Scenarios
+
+Baseline Scenario:
+
+  Network:
+    numUsers = 60 users
+    numTables = 20 tables
+
+  User Behavior:
+    lambda = 1.0 accesses/second (Poisson rate)
+    readProbability = 0.8 (80% read, 20% write)
+    tableDistribution = "uniform" (equiprobable access)
+    serviceTime = 0.1 seconds
+
+  Simulation:
+    simTime = 500 seconds
+    warm-up = 50 seconds (ignored for stats)
+    replication = 10 runs
+
+Experimental Variations:
+
+  Factor 1: Read/Write Ratio
+    • p = 0.5 (50:50, write-intensive)
+    • p = 0.8 (80:20, realistic)
+    • p = 0.95 (95:5, read-intensive)
+
+  Factor 2: User Load
+    • N = 10 (low)
+    • N = 60 (baseline)
+    • N = 200 (high)
+
+  Factor 3: Table Distribution
+    • "uniform" (equiprobable to all M tables)
+    • "lognormal" (hotspot: some tables more frequent)
+
+  Factor 4: Access Rate
+    • λ = 0.5 (light load)
+    • λ = 1.0 (normal load)
+    • λ = 2.0 (heavy load)
+
+Tested Combinations:
+  • Total scenarios: 3 (p) × 3 (N) × 2 (dist) × 3 (λ) = 54 configurations
+  • Per scenario: 10-30 independent replications
+  • Output: Means + 95% confidence intervals
+
+
+SLIDE 8: EXPECTED RESULTS - THROUGHPUT AND LATENCY
+===============================================================================
+Title: Analysis 1 - Throughput and Latency
+
+Throughput vs User Load:
+
+  Expected:
+    • Nearly-linear growth with N until saturation
+    • Saturation when tables cannot serve more
+    • Plateau = maximum throughput achieved
+
+  Approximate Formula:
+    Throughput ≈ min(λ·N, M·(1/S))
+    (limited by either Poisson rate or service capacity)
+
+Latency (Wait Time) vs Load:
+
+  Expected:
+    • Sub-linear increase initially
+    • Then exponential when saturation approached
+    • Knee point = optimal operating point
+
+  Effect of p:
+    • High p (reads): low latency, high throughput
+    • Low p (writes): high latency, low throughput
+    • Reason: Reads are parallelizable
+
+Queueing Behavior:
+
+  M/M/1 Approximation (single table):
+    E[Wait] = (ρ/(1-ρ)) · S
+    where ρ = λ·(1/S)
+    
+  Reality:
+    • M tables in parallel → load distributed
+    • Readers/writers → effective capacity higher
+    • FCFS + random table → complex analysis
+
+Graph Examples:
+  
+  [Throughput] (accesses/sec)
+  ^
+  | /-- plateau (saturation)
+  |/
+  +----> numUsers
+  
+  [Wait Time] (seconds)
+  ^
+  | \
+  |  \___
+  |      \___
+  +-------+---> numUsers
+       (knee point)
+
+
+SLIDE 9: EXPECTED RESULTS - CONCURRENCY EFFECTS
+===============================================================================
+Title: Analysis 2 - Concurrency and Distribution Effects
+
+Read/Write Impact:
+
+  Total Throughput vs p:
+    • p=0.95: High throughput (read parallelism)
+    • p=0.50: Low throughput (writes serialize)
+    • p=0.05: Very low throughput (all mutual exclusion)
+
+  Wait Time vs p:
+    • Inversely correlated: more reads = less wait
+    • Slope change around p=0.8 (regime transition)
+
+Table Distribution (Uniform vs Lognormal):
+
+  Uniform:
+    • Balanced load across M tables
+    • Lower average queue length
+    • Better scalability with M
+
+  Lognormal (hotspot):
+    • Concentration on few "hot" tables
+    • Some tables under-utilized
+    • Higher maximum queue length (hotspot saturates)
+    • In practice: limits system throughput
+
+Scalability with numTables:
+
+  Expected:
+    Throughput ∝ numTables (if load distributed)
+    Queue_length ∝ 1/numTables
+
+  Practical Limit:
+    • Diminishing returns beyond certain point
+    • Network bandwidth constraints (if relevant)
+    • Per-table memory overhead
+
+
+SLIDE 10: CONCLUSIONS AND FUTURE WORK
+===============================================================================
+Title: Conclusions and Future Perspectives
+
+Expected Key Findings:
+
+  ✓ Readers/writers algorithm correctly implemented
+  ✓ Mutual exclusion prevents race conditions
+  ✓ FCFS ensures fairness
+  ✓ Throughput scales with load until saturation
+  ✓ Latency increases exponentially in saturation regime
+
+Practical Applications:
+
+  • Database cluster sizing
+  • Tuning read/write workload ratio
+  • Resource allocation (# tables vs # users)
+  • Bottleneck identification and hot-spot detection
+
+Current Limitations:
+
+  ⚠ Fixed service time (unrealistic)
+  ⚠ No cache model (database access always occurs)
+  ⚠ No network delay (instant async communication)
+  ⚠ No node failures
+  ⚠ Single table instances (no replication)
+
+Future Extensions:
+
+  1. Variable service times:
+     Distributions: lognormal, Pareto tail
+
+  2. Caching model:
+     P(cache hit), locality of reference
+
+  3. Hot-spot migration:
+     Tables "hot" status changes over time
+
+  4. Transactions:
+     Multi-statement batches, ACID properties
+
+  5. Load balancing:
+     Route users to replica tables
+
+  6. Advanced congestion control:
+     Adaptive λ, backpressure mechanisms
+
+  7. Larger-scale experiments:
+     N=1000+, M=100+, distributed OMNeT++
+
+Course References:
+
+  ✓ Queueing Theory (Poisson, M/M/1, queueing models)
+  ✓ Statistics (confidence intervals, variance reduction)
+  ✓ OMNeT++ (signal mechanism, message passing)
+  ✓ Algorithms (mutual exclusion, FCFS, deadlock-free)
+
+Overall Conclusion:
+
+  Valid and well-structured simulation for analyzing
+  concurrency vs performance trade-offs.
+  Results provide practical insights for real systems.
+
+
+===============================================================================
+End of Presentation
+===============================================================================

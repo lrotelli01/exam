@@ -57,6 +57,12 @@ void Table::initialize()
     totalQueueLength = 0;
     queueLengthSamples = 0;
     totalWaitingTime = 0.0;
+    
+    // Register signals (course-standard method)
+    queueLengthSignal = registerSignal("queueLength");
+    waitingTimeSignal = registerSignal("waitingTime");
+    throughputSignal = registerSignal("throughput");
+    utilizationSignal = registerSignal("utilization");
 
     EV_INFO << "Table " << tableId << " initialized" << endl;
 }
@@ -118,7 +124,7 @@ void Table::handleMessage(cMessage *msg)
             writeActive = false;
         }
         
-        // Se ora è idle (nessun reader attivo, no write), accumula il tempo busy
+        // If now idle (no readers active, no write), accumulate busy time
         bool nowIdle = (activeReaders == 0 && !writeActive);
         if (nowIdle) {
             totalBusyTime += simTime() - lastStateChange;
@@ -135,52 +141,53 @@ void Table::handleMessage(cMessage *msg)
 
         requestQueue.push(msg);
         
-        // Aggiorna statistiche lunghezza coda
+        // Update queue length statistics and emit signal
         int qlen = requestQueue.size();
         if (qlen > maxQueueLength) maxQueueLength = qlen;
         totalQueueLength += qlen;
         queueLengthSamples++;
+        emit(queueLengthSignal, qlen);
 
         // Try to start service if possible
         processQueue();
     }
 }void Table::processQueue()
 {
-    // Se c'è una SCRITTURA in corso, tutto è bloccato.
+    // If a WRITE is in progress, everything is blocked.
     if (writeActive) {
         return;
     }
 
-    // Processiamo la coda finché possibile
+    // Process queue as long as possible
     while (!requestQueue.empty()) {
         cMessage *req = requestQueue.front();
         bool isReadRequest = (req->getKind() == 0); // 0 = READ
 
         if (isReadRequest) {
-            // È UNA LETTURA
-            // Poiché writeActive è false (controllato sopra), la lettura può entrare
-            // ANCHE SE ci sono già altri lettori attivi (activeReaders > 0).
+            // THIS IS A READ
+            // Since writeActive is false (checked above), the read can proceed
+            // EVEN IF there are already other active readers (activeReaders > 0).
             
-            requestQueue.pop();           // Togli dalla coda
-            startServiceForRequest(req);  // Avvia (incrementa activeReaders)
+            requestQueue.pop();           // Remove from queue
+            startServiceForRequest(req);  // Start (increment activeReaders)
             
-            // Continua il ciclo! Altre letture in coda potrebbero entrare subito.
+            // Continue loop! Other reads in queue can enter immediately.
         } 
         else {
-            // È UNA SCRITTURA
-            // La scrittura richiede accesso ESCLUSIVO.
-            // Deve aspettare che activeReaders scenda a 0.
+            // THIS IS A WRITE
+            // Write requires EXCLUSIVE access.
+            // Must wait for activeReaders to reach 0.
             
             if (activeReaders == 0) {
-                // Via libera! Tabella vuota.
+                // Clear! Table is empty.
                 requestQueue.pop();
-                startServiceForRequest(req); // Imposterà writeActive = true
+                startServiceForRequest(req); // Will set writeActive = true
                 
-                // Ora c'è uno scrittore, stop assoluto.
+                // Now there's a writer, absolute stop.
                 break; 
             } else {
-                // Ci sono lettori. La scrittura aspetta.
-                // Essendo FCFS, la scrittura blocca chiunque ci sia dietro di lei.
+                // Readers present. Write waits.
+                // Being FCFS, write blocks everyone behind it.
                 break;
             }
         }
@@ -203,17 +210,18 @@ void Table::startServiceForRequest(cMessage *req)
     double serviceTime = 1.0;
     if (req->hasPar("serviceTime")) serviceTime = req->par("serviceTime").doubleValue();
     
-    // Calcola tempo di attesa in coda
+    // Calculate wait time in queue
     if (req->hasPar("arrivalTime")) {
         double arrTime = req->par("arrivalTime").doubleValue();
         double waitTime = simTime().dbl() - arrTime;
         totalWaitingTime += waitTime;
+        emit(waitingTimeSignal, waitTime);
     }
 
     // update state before scheduling
     bool isRead = (req->getKind() == 0);
     
-    // Track busy time: se era idle (0 readers, no write), ora diventa busy
+    // Track busy time: if was idle (0 readers, no write), now becomes busy
     bool wasBusy = (activeReaders > 0 || writeActive);
     
     if (isRead) {
@@ -222,7 +230,7 @@ void Table::startServiceForRequest(cMessage *req)
         writeActive = true;
     }
     
-    // Se prima era idle e ora diventa busy, segna l'inizio del periodo busy
+    // If it was idle and now becomes busy, mark start of busy period
     if (!wasBusy) {
         lastStateChange = simTime();
     }
@@ -241,34 +249,32 @@ void Table::removeEvent(cMessage *evt)
 
 void Table::finish()
 {
-    // record scalars
-    recordScalar("table.totalServed", totalServed);
-    recordScalar("table.totalReads", totalReads);
-    recordScalar("table.totalWrites", totalWrites);
+    // Emit final statistics signals (course-standard method)
+    emit(throughputSignal, totalServed);
     
-    // Throughput: accessi per secondo
-    double simDuration = simTime().dbl();
-    if (simDuration > 0) {
-        recordScalar("table.throughput", totalServed / simDuration);
-    }
-    
-    // Statistiche code
-    recordScalar("table.maxQueueLength", maxQueueLength);
+    // Queue statistics
     if (queueLengthSamples > 0) {
-        recordScalar("table.avgQueueLength", totalQueueLength / queueLengthSamples);
+        emit(queueLengthSignal, (int)(totalQueueLength / queueLengthSamples));
     }
     
-    // Tempo medio di attesa
-    if (totalServed > 0) {
-        recordScalar("table.avgWaitingTime", totalWaitingTime / totalServed);
-    }
-    
-    // Utilizzo (frazione di tempo in cui la tabella era occupata)
+    // Calculate and emit utilization
     simtime_t busyTime = totalBusyTime;
     if (activeReaders > 0 || writeActive) {
         busyTime += simTime() - lastStateChange;
     }
+    double simDuration = simTime().dbl();
     if (simDuration > 0) {
-        recordScalar("table.utilization", busyTime.dbl() / simDuration);
+        double util = busyTime.dbl() / simDuration;
+        emit(utilizationSignal, util);
+        recordScalar("table.utilization", util);
+    }
+    
+    // Record some scalars for compatibility
+    recordScalar("table.totalServed", totalServed);
+    recordScalar("table.totalReads", totalReads);
+    recordScalar("table.totalWrites", totalWrites);
+    recordScalar("table.maxQueueLength", maxQueueLength);
+    if (totalServed > 0) {
+        recordScalar("table.avgWaitingTime", totalWaitingTime / totalServed);
     }
 }
