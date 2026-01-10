@@ -1,10 +1,822 @@
-nohup: ignoring input
 OMNeT++ Discrete Event Simulation  (C) 1992-2025 Andras Varga, OpenSim Ltd.
 Version: 6.2.0, build: 250714-83e173e93a, edition: Academic Public License -- NOT FOR COMMERCIAL USE
 See the license for distribution terms and warranty disclaimer
 
 Setting up Cmdenv...
 
-Loading NED files from ../src: <!> Error: Could not load NED sources from '../src': Syntax error, at /c/Users/jeber/Desktop/exam/src/progetto/Table.ned:12
+Loading NED files from ../src:  3
+Loading NED files from .:  0
 
-End.
+Preparing for running configuration Lognormal, run #0...
+Scenario: $M=10, $N=100, $p=0.3, $repetition=0
+Assigned runID=Lognormal-0-20260106-19:32:12-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 6e-06s (0m 00s)  0% completed  (0% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #200395   t=10000   Elapsed: 0.088656s (0m 00s)  100% completed  (0% total)
+     Speed:     ev/sec=2.26052e+06   simsec/sec=112803   ev/simsec=20.0396
+     Messages:  created: 150396   present: 102   in FES: 101
+
+<!> Simulation time limit reached -- at t=10000s, event #200395
+
+Calling finish() at end of Run #0...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #1...
+Scenario: $M=10, $N=100, $p=0.3, $repetition=1
+Assigned runID=Lognormal-1-20260106-19:32:12-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 3e-06s (0m 00s)  0% completed  (0% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #200985   t=10000   Elapsed: 0.063046s (0m 00s)  100% completed  (0% total)
+     Speed:     ev/sec=3.18816e+06   simsec/sec=158616   ev/simsec=20.0998
+     Messages:  created: 150838   present: 100   in FES: 100
+
+<!> Simulation time limit reached -- at t=10000s, event #200985
+
+Calling finish() at end of Run #1...
+
+Preparing for running configuration Lognormal, run #2...
+Scenario: $M=10, $N=100, $p=0.3, $repetition=2
+Assigned runID=Lognormal-2-20260106-19:32:12-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (0% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #200289   t=10000   Elapsed: 0.062921s (0m 00s)  100% completed  (0% total)
+     Speed:     ev/sec=3.18333e+06   simsec/sec=158933   ev/simsec=20.0294
+     Messages:  created: 150316   present: 100   in FES: 100
+
+<!> Simulation time limit reached -- at t=10000s, event #200289
+
+Calling finish() at end of Run #2...
+
+Preparing for running configuration Lognormal, run #3...
+Scenario: $M=10, $N=100, $p=0.3, $repetition=3
+Assigned runID=Lognormal-3-20260106-19:32:12-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (0% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #199353   t=10000   Elapsed: 0.061476s (0m 00s)  100% completed  (1% total)
+     Speed:     ev/sec=3.24288e+06   simsec/sec=162668   ev/simsec=19.9357
+     Messages:  created: 149614   present: 100   in FES: 100
+
+<!> Simulation time limit reached -- at t=10000s, event #199353
+
+Calling finish() at end of Run #3...
+
+Preparing for running configuration Lognormal, run #4...
+Scenario: $M=10, $N=100, $p=0.3, $repetition=4
+Assigned runID=Lognormal-4-20260106-19:32:12-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (1% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #200457   t=10000   Elapsed: 0.063062s (0m 00s)  100% completed  (1% total)
+     Speed:     ev/sec=3.17883e+06   simsec/sec=158569   ev/simsec=20.047
+     Messages:  created: 150442   present: 100   in FES: 100
+
+<!> Simulation time limit reached -- at t=10000s, event #200457
+
+Calling finish() at end of Run #4...
+
+Preparing for running configuration Lognormal, run #5...
+Scenario: $M=10, $N=100, $p=0.5, $repetition=0
+Assigned runID=Lognormal-5-20260106-19:32:12-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (1% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #200395   t=10000   Elapsed: 0.061838s (0m 00s)  100% completed  (1% total)
+     Speed:     ev/sec=3.24075e+06   simsec/sec=161718   ev/simsec=20.0396
+     Messages:  created: 150396   present: 102   in FES: 101
+
+<!> Simulation time limit reached -- at t=10000s, event #200395
+
+Calling finish() at end of Run #5...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #6...
+Scenario: $M=10, $N=100, $p=0.5, $repetition=1
+Assigned runID=Lognormal-6-20260106-19:32:12-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (1% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #200985   t=10000   Elapsed: 0.062686s (0m 00s)  100% completed  (1% total)
+     Speed:     ev/sec=3.20642e+06   simsec/sec=159525   ev/simsec=20.0998
+     Messages:  created: 150838   present: 100   in FES: 100
+
+<!> Simulation time limit reached -- at t=10000s, event #200985
+
+Calling finish() at end of Run #6...
+
+Preparing for running configuration Lognormal, run #7...
+Scenario: $M=10, $N=100, $p=0.5, $repetition=2
+Assigned runID=Lognormal-7-20260106-19:32:12-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (1% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #200289   t=10000   Elapsed: 0.062909s (0m 00s)  100% completed  (2% total)
+     Speed:     ev/sec=3.18404e+06   simsec/sec=158968   ev/simsec=20.0294
+     Messages:  created: 150316   present: 100   in FES: 100
+
+<!> Simulation time limit reached -- at t=10000s, event #200289
+
+Calling finish() at end of Run #7...
+
+Preparing for running configuration Lognormal, run #8...
+Scenario: $M=10, $N=100, $p=0.5, $repetition=3
+Assigned runID=Lognormal-8-20260106-19:32:12-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (2% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #199353   t=10000   Elapsed: 0.063133s (0m 00s)  100% completed  (2% total)
+     Speed:     ev/sec=3.15792e+06   simsec/sec=158406   ev/simsec=19.9357
+     Messages:  created: 149614   present: 100   in FES: 100
+
+<!> Simulation time limit reached -- at t=10000s, event #199353
+
+Calling finish() at end of Run #8...
+
+Preparing for running configuration Lognormal, run #9...
+Scenario: $M=10, $N=100, $p=0.5, $repetition=4
+Assigned runID=Lognormal-9-20260106-19:32:12-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (2% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #200457   t=10000   Elapsed: 0.065753s (0m 00s)  100% completed  (2% total)
+     Speed:     ev/sec=3.04887e+06   simsec/sec=152086   ev/simsec=20.047
+     Messages:  created: 150442   present: 100   in FES: 100
+
+<!> Simulation time limit reached -- at t=10000s, event #200457
+
+Calling finish() at end of Run #9...
+
+Preparing for running configuration Lognormal, run #10...
+Scenario: $M=10, $N=100, $p=0.8, $repetition=0
+Assigned runID=Lognormal-10-20260106-19:32:12-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (2% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #200395   t=10000   Elapsed: 0.063417s (0m 00s)  100% completed  (3% total)
+     Speed:     ev/sec=3.16016e+06   simsec/sec=157696   ev/simsec=20.0396
+     Messages:  created: 150396   present: 102   in FES: 101
+
+<!> Simulation time limit reached -- at t=10000s, event #200395
+
+Calling finish() at end of Run #10...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #11...
+Scenario: $M=10, $N=100, $p=0.8, $repetition=1
+Assigned runID=Lognormal-11-20260106-19:32:12-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (3% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #200985   t=10000   Elapsed: 0.061582s (0m 00s)  100% completed  (3% total)
+     Speed:     ev/sec=3.2638e+06   simsec/sec=162380   ev/simsec=20.0998
+     Messages:  created: 150838   present: 100   in FES: 100
+
+<!> Simulation time limit reached -- at t=10000s, event #200985
+
+Calling finish() at end of Run #11...
+
+Preparing for running configuration Lognormal, run #12...
+Scenario: $M=10, $N=100, $p=0.8, $repetition=2
+Assigned runID=Lognormal-12-20260106-19:32:12-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (3% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #200289   t=10000   Elapsed: 0.061479s (0m 00s)  100% completed  (3% total)
+     Speed:     ev/sec=3.258e+06   simsec/sec=162661   ev/simsec=20.0294
+     Messages:  created: 150316   present: 100   in FES: 100
+
+<!> Simulation time limit reached -- at t=10000s, event #200289
+
+Calling finish() at end of Run #12...
+
+Preparing for running configuration Lognormal, run #13...
+Scenario: $M=10, $N=100, $p=0.8, $repetition=3
+Assigned runID=Lognormal-13-20260106-19:32:13-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (3% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #199353   t=10000   Elapsed: 0.061158s (0m 00s)  100% completed  (3% total)
+     Speed:     ev/sec=3.25975e+06   simsec/sec=163513   ev/simsec=19.9357
+     Messages:  created: 149614   present: 100   in FES: 100
+
+<!> Simulation time limit reached -- at t=10000s, event #199353
+
+Calling finish() at end of Run #13...
+
+Preparing for running configuration Lognormal, run #14...
+Scenario: $M=10, $N=100, $p=0.8, $repetition=4
+Assigned runID=Lognormal-14-20260106-19:32:13-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (3% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 100   present: 100   in FES: 101
+** Event #200457   t=10000   Elapsed: 0.061884s (0m 00s)  100% completed  (4% total)
+     Speed:     ev/sec=3.23945e+06   simsec/sec=161593   ev/simsec=20.047
+     Messages:  created: 150442   present: 100   in FES: 100
+
+<!> Simulation time limit reached -- at t=10000s, event #200457
+
+Calling finish() at end of Run #14...
+
+Preparing for running configuration Lognormal, run #15...
+Scenario: $M=10, $N=500, $p=0.3, $repetition=0
+Assigned runID=Lognormal-15-20260106-19:32:13-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (4% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #998295   t=10000   Elapsed: 0.373538s (0m 00s)  100% completed  (4% total)
+     Speed:     ev/sec=2.67258e+06   simsec/sec=26771.4   ev/simsec=99.8295
+     Messages:  created: 749221   present: 502   in FES: 501
+
+<!> Simulation time limit reached -- at t=10000s, event #998295
+
+Calling finish() at end of Run #15...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #16...
+Scenario: $M=10, $N=500, $p=0.3, $repetition=1
+Assigned runID=Lognormal-16-20260106-19:32:13-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (4% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #1000351   t=10000   Elapsed: 0.362038s (0m 00s)  100% completed  (4% total)
+     Speed:     ev/sec=2.76314e+06   simsec/sec=27621.7   ev/simsec=100.035
+     Messages:  created: 750764   present: 506   in FES: 503
+
+<!> Simulation time limit reached -- at t=10000s, event #1000351
+
+Calling finish() at end of Run #16...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #17...
+Scenario: $M=10, $N=500, $p=0.3, $repetition=2
+Assigned runID=Lognormal-17-20260106-19:32:13-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (4% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #1001361   t=10000   Elapsed: 0.366808s (0m 00s)  100% completed  (5% total)
+     Speed:     ev/sec=2.72996e+06   simsec/sec=27262.5   ev/simsec=100.136
+     Messages:  created: 751520   present: 503   in FES: 501
+
+<!> Simulation time limit reached -- at t=10000s, event #1001361
+
+Calling finish() at end of Run #17...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #18...
+Scenario: $M=10, $N=500, $p=0.3, $repetition=3
+Assigned runID=Lognormal-18-20260106-19:32:14-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (5% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #1003621   t=10000   Elapsed: 0.363042s (0m 00s)  100% completed  (5% total)
+     Speed:     ev/sec=2.76451e+06   simsec/sec=27545.2   ev/simsec=100.362
+     Messages:  created: 753215   present: 500   in FES: 500
+
+<!> Simulation time limit reached -- at t=10000s, event #1003621
+
+Calling finish() at end of Run #18...
+
+Preparing for running configuration Lognormal, run #19...
+Scenario: $M=10, $N=500, $p=0.3, $repetition=4
+Assigned runID=Lognormal-19-20260106-19:32:14-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 3e-06s (0m 00s)  0% completed  (5% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #998801   t=10000   Elapsed: 0.363967s (0m 00s)  100% completed  (5% total)
+     Speed:     ev/sec=2.74424e+06   simsec/sec=27475.3   ev/simsec=99.8803
+     Messages:  created: 749601   present: 504   in FES: 502
+
+<!> Simulation time limit reached -- at t=10000s, event #998801
+
+Calling finish() at end of Run #19...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #20...
+Scenario: $M=10, $N=500, $p=0.5, $repetition=0
+Assigned runID=Lognormal-20-20260106-19:32:15-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (5% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #998295   t=10000   Elapsed: 0.340698s (0m 00s)  100% completed  (5% total)
+     Speed:     ev/sec=2.93018e+06   simsec/sec=29351.8   ev/simsec=99.8295
+     Messages:  created: 749221   present: 502   in FES: 501
+
+<!> Simulation time limit reached -- at t=10000s, event #998295
+
+Calling finish() at end of Run #20...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #21...
+Scenario: $M=10, $N=500, $p=0.5, $repetition=1
+Assigned runID=Lognormal-21-20260106-19:32:15-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 3e-06s (0m 00s)  0% completed  (5% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #1000351   t=10000   Elapsed: 0.351192s (0m 00s)  100% completed  (6% total)
+     Speed:     ev/sec=2.84848e+06   simsec/sec=28474.7   ev/simsec=100.035
+     Messages:  created: 750764   present: 506   in FES: 503
+
+<!> Simulation time limit reached -- at t=10000s, event #1000351
+
+Calling finish() at end of Run #21...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #22...
+Scenario: $M=10, $N=500, $p=0.5, $repetition=2
+Assigned runID=Lognormal-22-20260106-19:32:15-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (6% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #1001361   t=10000   Elapsed: 0.346722s (0m 00s)  100% completed  (6% total)
+     Speed:     ev/sec=2.88811e+06   simsec/sec=28841.9   ev/simsec=100.136
+     Messages:  created: 751520   present: 503   in FES: 501
+
+<!> Simulation time limit reached -- at t=10000s, event #1001361
+
+Calling finish() at end of Run #22...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #23...
+Scenario: $M=10, $N=500, $p=0.5, $repetition=3
+Assigned runID=Lognormal-23-20260106-19:32:16-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (6% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #1003621   t=10000   Elapsed: 0.35412s (0m 00s)  100% completed  (6% total)
+     Speed:     ev/sec=2.83416e+06   simsec/sec=28239.2   ev/simsec=100.362
+     Messages:  created: 753215   present: 500   in FES: 500
+
+<!> Simulation time limit reached -- at t=10000s, event #1003621
+
+Calling finish() at end of Run #23...
+
+Preparing for running configuration Lognormal, run #24...
+Scenario: $M=10, $N=500, $p=0.5, $repetition=4
+Assigned runID=Lognormal-24-20260106-19:32:16-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (6% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #998801   t=10000   Elapsed: 0.359485s (0m 00s)  100% completed  (6% total)
+     Speed:     ev/sec=2.77845e+06   simsec/sec=27817.8   ev/simsec=99.8803
+     Messages:  created: 749601   present: 504   in FES: 502
+
+<!> Simulation time limit reached -- at t=10000s, event #998801
+
+Calling finish() at end of Run #24...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #25...
+Scenario: $M=10, $N=500, $p=0.8, $repetition=0
+Assigned runID=Lognormal-25-20260106-19:32:16-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (6% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #998295   t=10000   Elapsed: 0.36094s (0m 00s)  100% completed  (7% total)
+     Speed:     ev/sec=2.76587e+06   simsec/sec=27705.9   ev/simsec=99.8295
+     Messages:  created: 749221   present: 502   in FES: 501
+
+<!> Simulation time limit reached -- at t=10000s, event #998295
+
+Calling finish() at end of Run #25...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #26...
+Scenario: $M=10, $N=500, $p=0.8, $repetition=1
+Assigned runID=Lognormal-26-20260106-19:32:17-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 4e-06s (0m 00s)  0% completed  (7% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #1000351   t=10000   Elapsed: 0.349065s (0m 00s)  100% completed  (7% total)
+     Speed:     ev/sec=2.86583e+06   simsec/sec=28648.2   ev/simsec=100.035
+     Messages:  created: 750764   present: 506   in FES: 503
+
+<!> Simulation time limit reached -- at t=10000s, event #1000351
+
+Calling finish() at end of Run #26...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #27...
+Scenario: $M=10, $N=500, $p=0.8, $repetition=2
+Assigned runID=Lognormal-27-20260106-19:32:17-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (7% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #1001361   t=10000   Elapsed: 0.353159s (0m 00s)  100% completed  (7% total)
+     Speed:     ev/sec=2.83547e+06   simsec/sec=28316.2   ev/simsec=100.136
+     Messages:  created: 751521   present: 504   in FES: 502
+
+<!> Simulation time limit reached -- at t=10000s, event #1001361
+
+Calling finish() at end of Run #27...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #28...
+Scenario: $M=10, $N=500, $p=0.8, $repetition=3
+Assigned runID=Lognormal-28-20260106-19:32:18-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (7% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #1003621   t=10000   Elapsed: 0.34989s (0m 00s)  100% completed  (8% total)
+     Speed:     ev/sec=2.86842e+06   simsec/sec=28580.6   ev/simsec=100.362
+     Messages:  created: 753215   present: 500   in FES: 500
+
+<!> Simulation time limit reached -- at t=10000s, event #1003621
+
+Calling finish() at end of Run #28...
+
+Preparing for running configuration Lognormal, run #29...
+Scenario: $M=10, $N=500, $p=0.8, $repetition=4
+Assigned runID=Lognormal-29-20260106-19:32:18-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 3e-06s (0m 00s)  0% completed  (8% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 500   present: 500   in FES: 501
+** Event #998801   t=10000   Elapsed: 0.358761s (0m 00s)  100% completed  (8% total)
+     Speed:     ev/sec=2.78407e+06   simsec/sec=27874   ev/simsec=99.8803
+     Messages:  created: 749601   present: 504   in FES: 502
+
+<!> Simulation time limit reached -- at t=10000s, event #998801
+
+Calling finish() at end of Run #29...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #30...
+Scenario: $M=10, $N=1000, $p=0.3, $repetition=0
+Assigned runID=Lognormal-30-20260106-19:32:18-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (8% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1000   present: 1000   in FES: 1001
+** Event #1997105   t=10000   Elapsed: 0.761432s (0m 00s)  100% completed  (8% total)
+     Speed:     ev/sec=2.62285e+06   simsec/sec=13133.2   ev/simsec=199.711
+     Messages:  created: 1498831   present: 1012   in FES: 1006
+
+<!> Simulation time limit reached -- at t=10000s, event #1997105
+
+Calling finish() at end of Run #30...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #31...
+Scenario: $M=10, $N=1000, $p=0.3, $repetition=1
+Assigned runID=Lognormal-31-20260106-19:32:19-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 3e-06s (0m 00s)  0% completed  (8% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1000   present: 1000   in FES: 1001
+** Event #1999425   t=10000   Elapsed: 0.720621s (0m 00s)  100% completed  (8% total)
+     Speed:     ev/sec=2.77461e+06   simsec/sec=13877   ev/simsec=199.943
+     Messages:  created: 1500569   present: 1013   in FES: 1005
+
+<!> Simulation time limit reached -- at t=10000s, event #1999425
+
+Calling finish() at end of Run #31...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #32...
+Scenario: $M=10, $N=1000, $p=0.3, $repetition=2
+Assigned runID=Lognormal-32-20260106-19:32:20-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 3e-06s (0m 00s)  0% completed  (8% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1000   present: 1000   in FES: 1001
+** Event #2003083   t=10000   Elapsed: 0.729755s (0m 00s)  100% completed  (9% total)
+     Speed:     ev/sec=2.74489e+06   simsec/sec=13703.3   ev/simsec=200.308
+     Messages:  created: 1503311   present: 1025   in FES: 1008
+
+<!> Simulation time limit reached -- at t=10000s, event #2003083
+
+Calling finish() at end of Run #32...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #33...
+Scenario: $M=10, $N=1000, $p=0.3, $repetition=3
+Assigned runID=Lognormal-33-20260106-19:32:21-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 3e-06s (0m 00s)  0% completed  (9% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1000   present: 1000   in FES: 1001
+** Event #2002051   t=10000   Elapsed: 0.739313s (0m 00s)  100% completed  (9% total)
+     Speed:     ev/sec=2.70801e+06   simsec/sec=13526.2   ev/simsec=200.205
+     Messages:  created: 1502536   present: 1015   in FES: 1004
+
+<!> Simulation time limit reached -- at t=10000s, event #2002051
+
+Calling finish() at end of Run #33...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #34...
+Scenario: $M=10, $N=1000, $p=0.3, $repetition=4
+Assigned runID=Lognormal-34-20260106-19:32:21-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 3e-06s (0m 00s)  0% completed  (9% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1000   present: 1000   in FES: 1001
+** Event #2000039   t=10000   Elapsed: 0.817919s (0m 00s)  100% completed  (9% total)
+     Speed:     ev/sec=2.4453e+06   simsec/sec=12226.2   ev/simsec=200.004
+     Messages:  created: 1501031   present: 1016   in FES: 1007
+
+<!> Simulation time limit reached -- at t=10000s, event #2000039
+
+Calling finish() at end of Run #34...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #35...
+Scenario: $M=10, $N=1000, $p=0.5, $repetition=0
+Assigned runID=Lognormal-35-20260106-19:32:22-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-06s (0m 00s)  0% completed  (9% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1000   present: 1000   in FES: 1001
+** Event #1997107   t=10000   Elapsed: 0.777923s (0m 00s)  100% completed  (10% total)
+     Speed:     ev/sec=2.56725e+06   simsec/sec=12854.8   ev/simsec=199.711
+     Messages:  created: 1498832   present: 1010   in FES: 1005
+
+<!> Simulation time limit reached -- at t=10000s, event #1997107
+
+Calling finish() at end of Run #35...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #36...
+Scenario: $M=10, $N=1000, $p=0.5, $repetition=1
+Assigned runID=Lognormal-36-20260106-19:32:23-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 4e-06s (0m 00s)  0% completed  (10% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1000   present: 1000   in FES: 1001
+** Event #1999427   t=10000   Elapsed: 0.756129s (0m 00s)  100% completed  (10% total)
+     Speed:     ev/sec=2.64431e+06   simsec/sec=13225.3   ev/simsec=199.943
+     Messages:  created: 1500571   present: 1012   in FES: 1005
+
+<!> Simulation time limit reached -- at t=10000s, event #1999427
+
+Calling finish() at end of Run #36...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #37...
+Scenario: $M=10, $N=1000, $p=0.5, $repetition=2
+Assigned runID=Lognormal-37-20260106-19:32:24-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 4e-06s (0m 00s)  0% completed  (10% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1000   present: 1000   in FES: 1001
+** Event #2003091   t=10000   Elapsed: 0.773925s (0m 00s)  100% completed  (10% total)
+     Speed:     ev/sec=2.58824e+06   simsec/sec=12921.2   ev/simsec=200.309
+     Messages:  created: 1503318   present: 1020   in FES: 1007
+
+<!> Simulation time limit reached -- at t=10000s, event #2003091
+
+Calling finish() at end of Run #37...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #38...
+Scenario: $M=10, $N=1000, $p=0.5, $repetition=3
+Assigned runID=Lognormal-38-20260106-19:32:25-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 3e-06s (0m 00s)  0% completed  (10% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1000   present: 1000   in FES: 1001
+** Event #2002065   t=10000   Elapsed: 0.770808s (0m 00s)  100% completed  (10% total)
+     Speed:     ev/sec=2.59737e+06   simsec/sec=12973.5   ev/simsec=200.207
+     Messages:  created: 1502550   present: 1008   in FES: 1004
+
+<!> Simulation time limit reached -- at t=10000s, event #2002065
+
+Calling finish() at end of Run #38...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #39...
+Scenario: $M=10, $N=1000, $p=0.5, $repetition=4
+Assigned runID=Lognormal-39-20260106-19:32:25-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 3e-06s (0m 00s)  0% completed  (10% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1000   present: 1000   in FES: 1001
+** Event #2000039   t=10000   Elapsed: 0.793093s (0m 00s)  100% completed  (11% total)
+     Speed:     ev/sec=2.52184e+06   simsec/sec=12609   ev/simsec=200.004
+     Messages:  created: 1501031   present: 1016   in FES: 1007
+
+<!> Simulation time limit reached -- at t=10000s, event #2000039
+
+Calling finish() at end of Run #39...
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.WriteRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+undisposed object: (omnetpp::cMessage) DatabaseNetwork.table.ReadRequest -- check module destructor
+
+Preparing for running configuration Lognormal, run #40...
+Scenario: $M=10, $N=1000, $p=0.8, $repetition=0
+Assigned runID=Lognormal-40-20260106-19:32:26-78301
+Setting up network "progetto.DatabaseNetwork"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 4e-06s (0m 00s)  0% completed  (11% total)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 1000   present: 1000   in FES: 1001
