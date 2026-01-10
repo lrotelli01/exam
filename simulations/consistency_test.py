@@ -39,13 +39,18 @@ sim-time-limit = 4000s
 warmup-period = 500s
 repeat = 3
 
+# Output
+result-dir = {self.results_dir}
+output-scalar-file = ${{resultdir}}/${{configname}}-${{iterationvars}}-${{repetition}}.sca
+
 # Network parameters
 *.numUsers = {num_users}
 *.numTables = 10
 *.user[*].readProbability = 0.5
 *.user[*].tableDistribution = "uniform"
 *.user[*].serviceTime = 0.1s
-*.user[*].lambda = 1.0
+*.user[*].lambda = 0.05
+
 
 [Config {config_name}]
 """
@@ -65,9 +70,8 @@ repeat = 3
         try:
             cmd = [
                 str(self.executable),
-                "-n", self.ned_path,
-                "-c", config_name,
                 "-u", "Cmdenv",
+                "-c", config_name,
                 str(config_path)
             ]
             
@@ -75,7 +79,8 @@ repeat = 3
                 cmd,
                 timeout=timeout,
                 capture_output=True,
-                text=True
+                text=True,
+                cwd=str(self.base_dir)  # Run from simulations directory where NED files are linked
             )
             
             if result.returncode == 0:

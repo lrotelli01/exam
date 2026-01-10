@@ -78,16 +78,18 @@ def aggregate_statistics(data):
 
 def load_all_results():
     results = defaultdict(list)
-    if not os.path.exists('results'): 
-        print("❌ ERRORE: Cartella 'results' non trovata.")
+    result_dir = 'results_consistency' if os.path.exists('results_consistency') else 'results'
+    
+    if not os.path.exists(result_dir): 
+        print(f"❌ ERRORE: Cartella '{result_dir}' non trovata.")
         return results
         
-    files = [f for f in os.listdir('results') if f.endswith('.sca')]
-    print(f"📂 Trovati {len(files)} file .sca")
+    files = [f for f in os.listdir(result_dir) if f.endswith('.sca')]
+    print(f"📂 Trovati {len(files)} file .sca in {result_dir}")
 
     for filename in files:
         try:
-            data = parse_sca_file(os.path.join('results', filename))
+            data = parse_sca_file(os.path.join(result_dir, filename))
             dist = 'Uniform' if 'Uniform' in filename else 'Lognormal' if 'Lognormal' in filename else None
             if not dist: continue
             
