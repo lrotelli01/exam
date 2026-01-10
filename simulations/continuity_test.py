@@ -42,7 +42,7 @@ def run_continuity_test():
     # Configurazione A: p = 0.5 (baseline)
     config_a = """[General]
 description = "Continuity Test - Configuration A (p=0.5)"
-network = DatabaseNetwork
+network = progetto.DatabaseNetwork
 seed-set = 1
 result-dir = results_continuity
 
@@ -61,7 +61,7 @@ repeat = 25
     # Configurazione B: p = 0.55 (variazione piccola)
     config_b = """[General]
 description = "Continuity Test - Configuration B (p=0.55)"
-network = DatabaseNetwork
+network = progetto.DatabaseNetwork
 seed-set = 1
 result-dir = results_continuity
 
@@ -96,7 +96,7 @@ repeat = 25
     
     cmd_a = [str(out_dir), "-n", str(src_dir) + ":.",
              "-c", "ContinuityA",
-             "-f", str(config_a_file),
+             "-f", str(config_a_file),  # Percorso relativo completo: results_continuity/ContinuityA.ini
              "-u", "Cmdenv"]
     
     try:
@@ -122,7 +122,7 @@ repeat = 25
     
     cmd_b = [str(out_dir), "-n", str(src_dir) + ":.",
              "-c", "ContinuityB",
-             "-f", str(config_b_file),
+             "-f", str(config_b_file),  # Percorso relativo completo: results_continuity/ContinuityB.ini
              "-u", "Cmdenv"]
     
     try:
