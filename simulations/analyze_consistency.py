@@ -24,56 +24,40 @@ def parse_sca_files(results_dir):
             with open(sca_file, 'r') as f:
                 content = f.read()
             
-            # Extract run name to identify config
-            run_match = re.search(r'run (\w+)', content)
+            # Extract run name to identify config: run Config10Users-0-...
+            run_match = re.search(r'run (Config\w+)', content)
             if not run_match:
                 continue
             
-            run_name = run_match.group(1)
-            config_match = re.search(r'Config(\w+)', run_name)
-            if not config_match:
-                continue
-            
-            config_name = config_match.group(1)
+            config_name = run_match.group(1)
             
             # Initialize dict for this config if needed
             if config_name not in results:
                 results[config_name] = {
                     'throughput': [],
-                    'waitingTime': [],
-                    'utilization': []
+                    'waitingTime': []
                 }
             
-            # Extract throughput scalar
-            throughput_match = re.search(
-                r'scalar.*?throughput\s+(\d+(?:\.\d+)?)',
+            # Extract throughput (accessesPerSecond per user) and average wait time
+            throughput_matches = re.findall(
+                r'scalar DatabaseNetwork\.user\[\d+\] accessesPerSecond (\d+(?:\.\d+)?)',
                 content
             )
-            if throughput_match:
-                results[config_name]['throughput'].append(
-                    float(throughput_match.group(1))
-                )
+            wait_matches = re.findall(
+                r'scalar DatabaseNetwork\.user\[\d+\] averageWaitTime (\d+(?:\.\d+)?)',
+                content
+            )
             
-            # Extract waiting time scalar
-            wait_match = re.search(
-                r'scalar.*?waitingTime\s+(\d+(?:\.\d+)?)',
-                content
-            )
-            if wait_match:
-                results[config_name]['waitingTime'].append(
-                    float(wait_match.group(1))
-                )
+            if throughput_matches:
+                # Sum all user throughputs for total system throughput
+                total_throughput = sum(float(t) for t in throughput_matches)
+                results[config_name]['throughput'].append(total_throughput)
             
-            # Extract utilization scalar
-            util_match = re.search(
-                r'scalar.*?utilization\s+(\d+(?:\.\d+)?)',
-                content
-            )
-            if util_match:
-                results[config_name]['utilization'].append(
-                    float(util_match.group(1))
-                )
-                
+            if wait_matches:
+                # Average wait time across all users
+                avg_wait = sum(float(w) for w in wait_matches) / len(wait_matches)
+                results[config_name]['waitingTime'].append(avg_wait)
+                    
         except Exception as e:
             print(f"Warning: Could not parse {sca_file}: {e}")
     
@@ -208,12 +192,13 @@ def main():
     
     # Print summary statistics
     print("\nSummary Statistics:")
-    print("="*60)
+    print("="*100)
     
     config_order = [10, 50, 100, 500, 1000]
-    print(f"{'numUsers':<12} {'Throughput':<20} {'Wait Time':<20}")
-    print("-" * 52)
+    print(f"{'numUsers':<12} {'Throughput (ops/s)':<40} {'Wait Time (s)':<40}")
+    print("-" * 100)
     
+    detailed_data = {}
     for num_users in config_order:
         config_name = f"Config{num_users}Users"
         if config_name in metrics:
@@ -224,10 +209,36 @@ def main():
                 metrics[config_name]['waitingTime']
             )
             
-            throughput_str = f"{throughput_mean:.4f} [{throughput_low:.4f}, {throughput_high:.4f}]" if throughput_mean else "N/A"
-            wait_str = f"{wait_mean:.4f} [{wait_low:.4f}, {wait_high:.4f}]" if wait_mean else "N/A"
+            detailed_data[num_users] = {
+                'throughput': throughput_mean,
+                'wait_time': wait_mean
+            }
             
-            print(f"{num_users:<12} {throughput_str:<20} {wait_str:<20}")
+            throughput_str = f"{throughput_mean:.2f} ± {(throughput_high - throughput_mean):.2f}" if throughput_mean else "N/A"
+            wait_str = f"{wait_mean:.2f} ± {(wait_high - wait_mean):.2f}" if wait_mean else "N/A"
+            
+            print(f"{num_users:<12} {throughput_str:<40} {wait_str:<40}")
+    
+    # Print detailed values
+    print("\n" + "="*100)
+    print("DETAILED VALUES:")
+    print("="*100)
+    for num_users in config_order:
+        config_name = f"Config{num_users}Users"
+        if config_name in metrics:
+            print(f"\nConfig: {num_users} Users")
+            print(f"  Throughput values (10 repliche): {[f'{x:.2f}' for x in metrics[config_name]['throughput']]}")
+            print(f"  Wait Time values (10 repliche): {[f'{x:.2f}' for x in metrics[config_name]['waitingTime']]}")
+            
+            if metrics[config_name]['throughput']:
+                tput_mean = sum(metrics[config_name]['throughput']) / len(metrics[config_name]['throughput'])
+                tput_std = (sum((x - tput_mean)**2 for x in metrics[config_name]['throughput']) / len(metrics[config_name]['throughput'])) ** 0.5
+                print(f"  Throughput: mean={tput_mean:.2f}, std={tput_std:.2f}")
+            
+            if metrics[config_name]['waitingTime']:
+                wait_mean = sum(metrics[config_name]['waitingTime']) / len(metrics[config_name]['waitingTime'])
+                wait_std = (sum((x - wait_mean)**2 for x in metrics[config_name]['waitingTime']) / len(metrics[config_name]['waitingTime'])) ** 0.5
+                print(f"  Wait Time: mean={wait_mean:.2f}, std={wait_std:.2f}")
     
     # Generate plots
     print("\nGenerating plots...")

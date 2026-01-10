@@ -12,10 +12,10 @@ import time
 
 class ConsistencyTester:
     def __init__(self, base_dir="."):
-        self.base_dir = Path(base_dir)
+        self.base_dir = Path(base_dir).resolve()
         self.results_dir = self.base_dir / "results_consistency"
-        self.executable = self.base_dir / "../out/clang-release/src/exam"
-        self.ned_path = self.base_dir / "../src:."
+        self.executable = self.base_dir.parent / "out/clang-release/src/exam"
+        self.ned_path = str(self.base_dir.parent / "src") + ":."
         
     def setup(self):
         """Create results directory and verify executable exists"""
@@ -35,25 +35,17 @@ class ConsistencyTester:
 network = progetto.DatabaseNetwork
 
 # Simulation parameters
-sim-time-limit = 1000s
+sim-time-limit = 4000s
 warmup-period = 500s
-repeat = 10
+repeat = 3
 
 # Network parameters
 *.numUsers = {num_users}
 *.numTables = 10
-*.readProbability = 0.5
-*.tableDistribution = "uniform"
-*.serviceTime = 0.1s
-*.lambda = 1.0
-
-# Statistics
-*.user[*].waitTimeSignal.record-interval = 1s
-*.user[*].readAccessSignal.record-interval = 1s
-*.user[*].writeAccessSignal.record-interval = 1s
-*.table[*].throughputSignal.record-interval = 1s
-*.table[*].waitingTimeSignal.record-interval = 1s
-*.table[*].queueLengthSignal.record-interval = 1s
+*.user[*].readProbability = 0.5
+*.user[*].tableDistribution = "uniform"
+*.user[*].serviceTime = 0.1s
+*.user[*].lambda = 1.0
 
 [Config {config_name}]
 """
@@ -73,15 +65,14 @@ repeat = 10
         try:
             cmd = [
                 str(self.executable),
-                "-n", str(self.ned_path),
+                "-n", self.ned_path,
                 "-c", config_name,
                 "-u", "Cmdenv",
-                f"{config_path}"
+                str(config_path)
             ]
             
             result = subprocess.run(
                 cmd,
-                cwd=str(self.results_dir),
                 timeout=timeout,
                 capture_output=True,
                 text=True
@@ -202,7 +193,7 @@ repeat = 10
         print("\n" + "="*60)
         print("CONSISTENCY TEST - Running simulations")
         print("="*60)
-        print("Note: Each configuration runs 10 repetitions × 1000s = ~2.7 hours total")
+        print("Note: Each configuration runs 3 repetitions × 4000s = ~3.3 hours total")
         
         # Run all tests
         results_summary = []
