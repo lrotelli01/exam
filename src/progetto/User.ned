@@ -3,16 +3,24 @@ package progetto;
 simple User
 {
     parameters:
-        int userId;                    // ID dell'utente (0 a N-1)
-        double lambda;                 // Rate del processo di Poisson (1/T) - accessi al secondo
-        double readProbability;        // Probabilità di operazione di lettura (p)
-        int numTables;                 // Numero totale di tabelle (M)
-        string tableDistribution;      // "uniform" o "lognormal" per scegliere la distribuzione di m
-        double serviceTime @unit(s);   // Durata fissa dell'operazione (S secondi)
+        int userId;
+        double lambda;
+        double readProbability;
+        int numTables;
+        string tableDistribution;
+        double serviceTime @unit(s);
         double lognormalM = default(0.5);
         double lognormalS = default(1.0);
-        
+        @signal[waitTime](type="double");
+        @signal[readAccess](type="int");
+        @signal[writeAccess](type="int");
+        @signal[accessInterval](type="double");
+        @statistic[waitTime](source="waitTime"; record=mean,max,min,vector);
+        @statistic[readAccess](source="readAccess"; record=count);
+        @statistic[writeAccess](source="writeAccess"; record=count);
+        @statistic[accessInterval](source="accessInterval"; record=mean,vector);
+
     gates:
-        output tableOut[];             // Uscite verso tutte le tabelle
-        input tableIn[];               // Ingressi dalle tabelle
+        output tableOut[];
+        input tableIn[];
 }

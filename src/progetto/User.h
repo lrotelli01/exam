@@ -6,38 +6,38 @@
 
 using namespace omnetpp;
 
-// Struttura per rappresentare un'operazione sul database
+// Structure representing a database operation
 struct DatabaseOperation {
-    int tableId;           // ID della tabella da accedere
-    bool isRead;           // true = lettura, false = scrittura
-    double arrivalTime;    // Tempo di arrivo della richiesta
-    double startTime;      // Tempo di inizio effettivo dell'operazione
+    int tableId;           // ID of the table to access
+    bool isRead;           // true = read, false = write
+    double arrivalTime;    // Time when request arrived
+    double startTime;      // Time when operation actually started
 };
 
 class User : public cSimpleModule {
 private:
-    // Parametri della simulazione
+    // Simulation parameters
     int userId;
-    double lambda;                      // Rate di accesso (1/T)
-    double readProbability;             // Probabilità di lettura (p)
-    int numTables;                      // Numero di tabelle (M)
-    std::string tableDistribution;      // "uniform" o "lognormal"
-    double serviceTime;                 // Durata fissa operazione (S)
+    double lambda;                      // Access rate (1/T)
+    double readProbability;             // Read probability (p)
+    int numTables;                      // Number of tables (M)
+    std::string tableDistribution;      // "uniform" or "lognormal"
+    double serviceTime;                 // Fixed operation duration (S)
     
-    // Variabili per statistiche
-    long totalAccesses;                 // Totale operazioni completate
-    long totalReads;                    // Totale operazioni di lettura
-    long totalWrites;                   // Totale operazioni di scrittura
-    double totalWaitTime;               // Tempo totale di attesa
+    // Statistics variables
+    long totalAccesses;                 // Total completed operations
+    long totalReads;                    // Total read operations
+    long totalWrites;                   // Total write operations
+    double totalWaitTime;               // Total waiting time
     
-    // Messaggi
-    cMessage *accessTimer;              // Timer per il prossimo accesso
+    // Messages
+    cMessage *accessTimer;              // Timer for next access
     
-    // Statistiche di raccolta
-    cOutVector readAccessVector;        // Numero di letture nel tempo
-    cOutVector writeAccessVector;       // Numero di scritture nel tempo
-    cOutVector waitTimeVector;          // Tempo di attesa per ogni operazione
-    cOutVector accessIntervalVector;    // Intervallo tra accessi consecutivi
+    // Signals for statistics collection (course-standard method)
+    simsignal_t waitTimeSignal;         // Signal for wait time
+    simsignal_t readAccessSignal;       // Signal for read accesses
+    simsignal_t writeAccessSignal;      // Signal for write accesses
+    simsignal_t accessIntervalSignal;   // Signal for access interval
     
 protected:
     virtual void initialize() override;
@@ -45,15 +45,15 @@ protected:
     virtual void finish() override;
     
 private:
-    // Metodi helper
+    // Helper methods
     void scheduleNextAccess();
-    int selectTableId();                // Seleziona ID tabella secondo la distribuzione
-    int selectTableUniform();           // Distribuizione uniforme
-    int selectTableLognormal();         // Distribuzione lognormale
-    bool isReadOperation();             // Decide se è lettura (probabilità p)
+    int selectTableId();                // Select table ID according to distribution
+    int selectTableUniform();           // Uniform distribution
+    int selectTableLognormal();         // Lognormal distribution
+    bool isReadOperation();             // Decide if read operation (probability p)
     void sendAccessRequest(int tableId, bool isRead);
     void processTableResponse(cMessage *msg);
-    double getExponentialDelay();       // Genera variabile esponenziale
+    double getExponentialDelay();       // Generate exponential random variable
 };
 
 #endif

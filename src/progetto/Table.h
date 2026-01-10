@@ -24,19 +24,25 @@ private:
     // Track scheduled service completion events so they can be canceled/cleaned up
     std::vector<cMessage*> serviceEvents;
 
-    // Statistics
-    long totalServed; // total accesses served by this table
-    long totalReads;
-    long totalWrites;
-    simtime_t busyTimeStart; // optional to measure utilization
-    simtime_t totalBusyTime;
-    simtime_t lastStateChange;
+    // Signals for statistics collection (course-standard method)
+    simsignal_t queueLengthSignal;      // Queue length
+    simsignal_t waitingTimeSignal;      // Wait time per request
+    simsignal_t throughputSignal;       // Throughput
+    simsignal_t utilizationSignal;      // Utilization
     
-    // Statistiche code
+    // Queue statistics
     int maxQueueLength;
     double totalQueueLength;
     int queueLengthSamples;
     double totalWaitingTime;
+    
+    // Service statistics
+    long totalServed;                   // Total requests served
+    long totalReads;                    // Total read operations served
+    long totalWrites;                   // Total write operations served
+    simtime_t busyTimeStart;            // Start of busy period
+    simtime_t totalBusyTime;            // Total busy time accumulated
+    simtime_t lastStateChange;          // Last time state changed
 
 protected:
     virtual void initialize() override;

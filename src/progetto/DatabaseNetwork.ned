@@ -3,7 +3,7 @@ package progetto;
 network DatabaseNetwork
 {
     parameters:
-        // Calibrazione: 60 utenti e 20 tabelle per avere un carico medio sensato
+        // Configuration: 60 users and 20 tables for reasonable average load
         int numUsers = default(60); 
         int numTables = default(20);
 
@@ -11,7 +11,7 @@ network DatabaseNetwork
         user[numUsers]: User {
             parameters:
                 userId = index;
-                // CORREZIONE: Usa 'parent.numTables' per prendere il valore dalla rete
+                // CORRECTION: Use 'parent.numTables' to get value from network
                 numTables = parent.numTables;
             gates:
                 tableOut[parent.numTables];
