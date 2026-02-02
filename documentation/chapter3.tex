@@ -253,8 +253,7 @@ Collecting utilization data from our simulations, we compare with theoretical pr
 \caption{Comparison of empirical vs theoretical utilization}
 \label{tab:utilization_comparison}
 \end{table}
-
-The empirical and theoretical values closely align, with errors below 3\% for most configurations [Figure~\ref{fig:empirical_vs_theoretical}]:
+The growing discrepancy at high loads ($N=1000$) is attributed to the concurrency of read operations. The theoretical model assumes strict serialization of all tasks ($U_{load}$), whereas the simulation allows parallel processing of reads, resulting in a lower physical busy time ($U_{busy}$) compared to the offered load.
 
 \begin{figure}[H]
 \centering
@@ -319,7 +318,7 @@ The verification tests confirm that our simulation model is:
     \item \textbf{Correct}: Degeneracy tests show expected behavior at extreme values
     \item \textbf{Continuous}: Small parameter changes produce small output changes
     \item \textbf{Consistent}: Results scale predictably with system load
-    \item \textbf{Accurate}: Theoretical predictions match empirical results within 5\%
+    \item \textbf{Accurate}: Theoretical predictions match empirical results
 \end{enumerate}
 
 \begin{tcolorbox}[title=Key Formulas for Open Queueing Network]
