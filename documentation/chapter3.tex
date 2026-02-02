@@ -110,14 +110,14 @@ Simulating both configurations with 25 repetitions, the following chart [Figure~
 \label{fig:continuity_test}
 \end{figure}
 
-The results show that adding just 1 user (+1\%) produces proportionally small changes in all metrics:
+The results [Figure~\ref{fig:continuity_test}] show that adding just 1 user (+1\%) produces proportionally small changes in throughput:
 \begin{itemize}
-    \item Throughput: +1.0\%
-    \item Waiting Time: +1.1\%
-    \item Utilization: +0.9\%
+    \item Configuration A (N=100): mean throughput $\approx 5.0$ req/s
+    \item Configuration B (N=101): mean throughput $\approx 5.05$ req/s
+    \item Variation: $\approx +1\%$
 \end{itemize}
 
-Since all variations are small and proportional to the input change, the \textbf{continuity test passes}.
+The 95\% confidence intervals of the two configurations \textbf{overlap}, confirming that the small input change produces a correspondingly small output change. The \textbf{continuity test passes}.
 
 \subsection{Consistency Test}
 
