@@ -81,45 +81,32 @@ def plot_response_time_vs_utilization():
     print("Created: response_time_vs_utilization.pdf/png")
 
 def plot_utilization_vs_users():
-    """Plot theoretical utilization vs number of users with think time"""
+    """Plot theoretical utilization vs number of users - OPEN QUEUE MODEL"""
     # System parameters
-    M = 10  # Number of tables
-    Z = 20  # Think time (seconds)
-    S = 0.1  # Service time (seconds)
+    M = 10       # Number of tables
+    lam = 0.05   # Request rate per user (λ = 1/20 = 0.05 req/s)
+    S = 0.1      # Service time (seconds)
     
-    K_values = np.arange(1, 2500, 10)
+    N_values = np.arange(1, 1200, 10)
     
-    # Theoretical utilization with think time
-    U_theory = (K_values * S) / (M * (Z + S))
-    U_theory = np.minimum(U_theory, 1.0)  # Cap at 100%
-    
-    # Buzen (without think time) - incorrect
-    U_buzen = K_values / M
-    U_buzen = np.minimum(U_buzen, 1.0)
+    # Theoretical utilization for OPEN queue: U = (N * λ * S) / M
+    U_theory = (N_values * lam * S) / M
     
     # Empirical data points (from simulation)
-    K_empirical = [10, 50, 100, 500, 1000]
+    N_empirical = [10, 50, 100, 500, 1000]
     U_empirical = [0.50, 2.53, 5.00, 24.19, 46.44]
     
     fig, ax = plt.subplots(figsize=(10, 6))
     
-    ax.plot(K_values, U_theory * 100, 'b-', linewidth=2, label='Theoretical (with think time)')
-    ax.plot(K_values, U_buzen * 100, 'r--', linewidth=2, alpha=0.7, label='Buzen (no think time) - INCORRECT')
-    ax.scatter(K_empirical, U_empirical, s=100, c='green', marker='o', zorder=5, 
+    ax.plot(N_values, U_theory * 100, 'b-', linewidth=2, label='Theoretical (Open Queue)')
+    ax.scatter(N_empirical, U_empirical, s=100, c='green', marker='o', zorder=5, 
                edgecolors='black', linewidths=1.5, label='Simulation Results')
     
-    # Saturation line
-    ax.axhline(y=100, color='red', linestyle=':', alpha=0.5, label='Saturation (100%)')
-    
-    # K_sat line
-    K_sat = M * (Z + S) / S
-    ax.axvline(x=K_sat, color='purple', linestyle='--', alpha=0.5, label=f'$K_{{sat}}$ = {K_sat:.0f}')
-    
-    ax.set_xlabel('Number of Users (K)')
+    ax.set_xlabel('Number of Users (N)')
     ax.set_ylabel('Utilization (%)')
-    ax.set_title(f'Utilization vs Users (M={M}, Z={Z}s, S={S}s)')
-    ax.set_xlim(0, 2500)
-    ax.set_ylim(0, 110)
+    ax.set_title(f'Utilization vs Users (M={M}, λ={lam} req/s, S={S}s)')
+    ax.set_xlim(0, 1200)
+    ax.set_ylim(0, 60)
     ax.legend(loc='upper left')
     ax.grid(True, alpha=0.3)
     
@@ -130,18 +117,19 @@ def plot_utilization_vs_users():
     print("Created: utilization_vs_users.pdf/png")
 
 def plot_empirical_vs_theoretical():
-    """Bar chart comparing empirical vs theoretical utilization"""
-    K_values = [10, 50, 100, 500, 1000]
+    """Bar chart comparing empirical vs theoretical utilization - OPEN QUEUE MODEL"""
+    N_values = [10, 50, 100, 500, 1000]
     empirical = [0.50, 2.53, 5.00, 24.19, 46.44]
     
-    # System parameters
-    M = 10
-    Z = 20
-    S = 0.1
+    # System parameters for OPEN queue
+    M = 10       # Number of tables
+    lam = 0.05   # Request rate per user (λ)
+    S = 0.1      # Service time
     
-    theoretical = [(K * S) / (M * (Z + S)) * 100 for K in K_values]
+    # Theoretical: U = (N * λ * S) / M * 100%
+    theoretical = [(N * lam * S) / M * 100 for N in N_values]
     
-    x = np.arange(len(K_values))
+    x = np.arange(len(N_values))
     width = 0.35
     
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -154,11 +142,11 @@ def plot_empirical_vs_theoretical():
         error = abs(e - t) / t * 100
         ax.annotate(f'{error:.1f}%', xy=(i, max(e, t) + 1), ha='center', fontsize=9, color='gray')
     
-    ax.set_xlabel('Number of Users (K)')
+    ax.set_xlabel('Number of Users (N)')
     ax.set_ylabel('Utilization (%)')
-    ax.set_title('Empirical vs Theoretical Utilization Comparison')
+    ax.set_title('Empirical vs Theoretical Utilization (Open Queue Model)')
     ax.set_xticks(x)
-    ax.set_xticklabels([f'K={k}' for k in K_values])
+    ax.set_xticklabels([f'N={n}' for n in N_values])
     ax.legend()
     ax.grid(True, alpha=0.3, axis='y')
     
@@ -169,11 +157,13 @@ def plot_empirical_vs_theoretical():
     print("Created: empirical_vs_theoretical.pdf/png")
 
 def plot_per_table_utilization():
-    """Plot per-table utilization for K=500"""
+    """Plot per-table utilization for N=500"""
     tables = list(range(10))
     table_labels = [f'Table {i}' for i in tables]
     empirical = [23.95, 24.22, 23.90, 24.33, 24.27, 24.46, 24.17, 24.05, 24.31, 24.21]
-    theoretical = [24.88] * 10
+    
+    # Open queue: U = (N * λ * S) / M = (500 * 0.05 * 0.1) / 10 * 100 = 25%
+    theoretical = [25.0] * 10
     
     x = np.arange(len(tables))
     width = 0.35
@@ -184,11 +174,11 @@ def plot_per_table_utilization():
     bars2 = ax.bar(x + width/2, theoretical, width, label='Theoretical', color='coral', edgecolor='black')
     
     ax.axhline(y=np.mean(empirical), color='blue', linestyle='--', alpha=0.7, label=f'Empirical Mean ({np.mean(empirical):.2f}%)')
-    ax.axhline(y=24.88, color='red', linestyle='--', alpha=0.7, label='Theoretical (24.88%)')
+    ax.axhline(y=25.0, color='red', linestyle='--', alpha=0.7, label='Theoretical (25.0%)')
     
     ax.set_xlabel('Table')
     ax.set_ylabel('Utilization (%)')
-    ax.set_title('Per-Table Utilization for K=500 Users')
+    ax.set_title('Per-Table Utilization for N=500 Users')
     ax.set_xticks(x)
     ax.set_xticklabels(table_labels, rotation=45, ha='right')
     ax.set_ylim(20, 28)
@@ -202,38 +192,36 @@ def plot_per_table_utilization():
     print("Created: per_table_utilization.pdf/png")
 
 def plot_throughput_vs_users():
-    """Plot system throughput vs number of users"""
-    # System parameters
-    M = 10
-    Z = 20
-    S = 0.1
+    """Plot system throughput vs number of users - OPEN QUEUE MODEL"""
+    # System parameters for OPEN queue
+    M = 10       # Number of tables
+    lam = 0.05   # Request rate per user (λ)
+    S = 0.1      # Service time
     
-    K_values = np.arange(1, 3000, 10)
+    N_values = np.arange(1, 1200, 10)
     
-    # Theoretical throughput
-    gamma_theory = K_values / (Z + S)
-    
-    # Maximum throughput (saturation)
-    gamma_max = M / S  # 100 req/s
-    
-    # Actual throughput (capped at gamma_max)
-    gamma_actual = np.minimum(gamma_theory, gamma_max)
+    # Theoretical throughput for OPEN queue: γ = N * λ
+    gamma_theory = N_values * lam
     
     fig, ax = plt.subplots(figsize=(10, 6))
     
-    ax.plot(K_values, gamma_theory, 'b--', linewidth=2, alpha=0.7, label='Theoretical (infinite capacity)')
-    ax.plot(K_values, gamma_actual, 'g-', linewidth=2, label='Actual (capped at saturation)')
+    ax.plot(N_values, gamma_theory, 'b-', linewidth=2, label=r'$\gamma = N \cdot \lambda$')
     
-    ax.axhline(y=gamma_max, color='red', linestyle=':', alpha=0.7, label=f'Max throughput = {gamma_max:.0f} req/s')
+    # Add some example points
+    N_examples = [100, 500, 1000]
+    gamma_examples = [n * lam for n in N_examples]
+    ax.scatter(N_examples, gamma_examples, s=100, c='green', marker='o', zorder=5, 
+               edgecolors='black', linewidths=1.5)
     
-    K_sat = M * (Z + S) / S
-    ax.axvline(x=K_sat, color='purple', linestyle='--', alpha=0.5, label=f'$K_{{sat}}$ = {K_sat:.0f}')
+    for n, g in zip(N_examples, gamma_examples):
+        ax.annotate(f'N={n}: {g:.0f} req/s', xy=(n, g), xytext=(n+50, g+2),
+                   fontsize=10, color='green')
     
-    ax.set_xlabel('Number of Users (K)')
+    ax.set_xlabel('Number of Users (N)')
     ax.set_ylabel('System Throughput γ (requests/second)')
-    ax.set_title('Throughput vs Number of Users')
-    ax.set_xlim(0, 3000)
-    ax.set_ylim(0, 160)
+    ax.set_title('Throughput vs Number of Users (Open Queue)')
+    ax.set_xlim(0, 1200)
+    ax.set_ylim(0, 70)
     ax.legend()
     ax.grid(True, alpha=0.3)
     
@@ -244,18 +232,18 @@ def plot_throughput_vs_users():
     print("Created: throughput_vs_users.pdf/png")
 
 def plot_interactive_system_model():
-    """Create a diagram of the interactive system model"""
+    """Create a diagram of the OPEN system model"""
     fig, ax = plt.subplots(figsize=(12, 4))
     ax.set_xlim(0, 12)
     ax.set_ylim(0, 4)
     ax.axis('off')
     
-    # Think time box (users/terminals)
-    think_rect = plt.Rectangle((1, 1), 3, 2, fill=True, facecolor='lightblue', 
+    # Users box
+    users_rect = plt.Rectangle((1, 1), 3, 2, fill=True, facecolor='lightblue', 
                                  edgecolor='black', linewidth=2)
-    ax.add_patch(think_rect)
-    ax.text(2.5, 2, 'Think Time\nZ = 20s', ha='center', va='center', fontsize=12, fontweight='bold')
-    ax.text(2.5, 0.5, 'K users', ha='center', va='center', fontsize=10)
+    ax.add_patch(users_rect)
+    ax.text(2.5, 2, 'N Users\n(Poisson arrivals)', ha='center', va='center', fontsize=12, fontweight='bold')
+    ax.text(2.5, 0.5, 'λ = 0.05 req/s each', ha='center', va='center', fontsize=10)
     
     # Service center box
     service_rect = plt.Rectangle((7, 1), 3, 2, fill=True, facecolor='lightyellow',
@@ -264,16 +252,12 @@ def plot_interactive_system_model():
     ax.text(8.5, 2, 'Service\nS = 0.1s', ha='center', va='center', fontsize=12, fontweight='bold')
     ax.text(8.5, 0.5, 'M = 10 tables', ha='center', va='center', fontsize=10)
     
-    # Arrows
-    ax.annotate('', xy=(7, 2.5), xytext=(4, 2.5),
+    # Arrows (requests only - no feedback for open queue)
+    ax.annotate('', xy=(7, 2), xytext=(4, 2),
                 arrowprops=dict(arrowstyle='->', color='green', lw=2))
-    ax.text(5.5, 2.8, 'Request', ha='center', fontsize=10, color='green')
+    ax.text(5.5, 2.3, 'Total rate: N·λ', ha='center', fontsize=10, color='green')
     
-    ax.annotate('', xy=(4, 1.5), xytext=(7, 1.5),
-                arrowprops=dict(arrowstyle='->', color='blue', lw=2))
-    ax.text(5.5, 1.2, 'Response', ha='center', fontsize=10, color='blue')
-    
-    ax.set_title('Interactive System Model (Closed Queueing Network)', fontsize=14, fontweight='bold', y=1.05)
+    ax.set_title('Open Queueing Network Model', fontsize=14, fontweight='bold', y=1.05)
     
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / 'interactive_system_model.pdf', dpi=300, bbox_inches='tight')
@@ -282,20 +266,22 @@ def plot_interactive_system_model():
     print("Created: interactive_system_model.pdf/png")
 
 def plot_error_analysis():
-    """Plot error percentage vs number of users"""
-    K_values = [10, 50, 100, 500, 1000]
+    """Plot error percentage vs number of users - OPEN QUEUE MODEL"""
+    N_values = [10, 50, 100, 500, 1000]
     empirical = [0.50, 2.53, 5.00, 24.19, 46.44]
     
-    M = 10
-    Z = 20
-    S = 0.1
+    # Open queue parameters
+    M = 10       # Number of tables
+    lam = 0.05   # Request rate per user
+    S = 0.1      # Service time
     
-    theoretical = [(K * S) / (M * (Z + S)) * 100 for K in K_values]
+    # Open queue: U = (N * λ * S) / M * 100%
+    theoretical = [(N * lam * S) / M * 100 for N in N_values]
     errors = [abs(e - t) / t * 100 for e, t in zip(empirical, theoretical)]
     
     fig, ax = plt.subplots(figsize=(8, 5))
     
-    bars = ax.bar(range(len(K_values)), errors, color='steelblue', edgecolor='black')
+    bars = ax.bar(range(len(N_values)), errors, color='steelblue', edgecolor='black')
     
     # Color bars based on error threshold
     for bar, err in zip(bars, errors):
@@ -309,11 +295,11 @@ def plot_error_analysis():
     ax.axhline(y=3, color='green', linestyle='--', alpha=0.7, label='Target: < 3%')
     ax.axhline(y=5, color='orange', linestyle='--', alpha=0.7, label='Acceptable: < 5%')
     
-    ax.set_xlabel('Number of Users (K)')
+    ax.set_xlabel('Number of Users (N)')
     ax.set_ylabel('Relative Error (%)')
     ax.set_title('Model Accuracy: Relative Error vs Number of Users')
-    ax.set_xticks(range(len(K_values)))
-    ax.set_xticklabels([f'K={k}' for k in K_values])
+    ax.set_xticks(range(len(N_values)))
+    ax.set_xticklabels([f'N={n}' for n in N_values])
     ax.legend()
     ax.grid(True, alpha=0.3, axis='y')
     

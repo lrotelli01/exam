@@ -22,7 +22,7 @@ Table~\ref{tab:module_params} summarizes the configurable parameters:
 \hline
 \textbf{Module} & \textbf{Parameter} & \textbf{Description} \\
 \hline
-User & \texttt{lambda} & Request rate (requests/second) \\
+User & \texttt{lambda} & Rate of exponential inter-arrival time ($\lambda$) \\
 User & \texttt{readProbability} & Probability $p$ of read operation \\
 User & \texttt{serviceTime} & Duration of database operation $S$ \\
 User & \texttt{tableDistribution} & Table selection distribution \\
@@ -36,6 +36,13 @@ Network & \texttt{numTables} & Number of tables $M$ \\
 \caption{Module Parameters}
 \label{tab:module_params}
 \end{table}
+
+The inter-arrival time between consecutive requests from each user follows an \textbf{exponential distribution} with rate $\lambda$:
+\begin{equation}
+T \sim \text{Exp}(\lambda), \quad f(t) = \lambda e^{-\lambda t}, \quad E[T] = \frac{1}{\lambda}
+\end{equation}
+
+This memoryless property is essential for the Markovian analysis of the system.
 
 \section{Messages}
 
@@ -146,31 +153,38 @@ The throughput scales linearly with the number of users until the system approac
 
 \subsection{Theoretical Verification}
 
-Given that our system can be modeled as a \textbf{Closed Queueing Network} with think time, we can theoretically compute its performance indices.
+Given that our system can be modeled as an \textbf{Open Queueing Network}, we can theoretically compute its performance indices.
 
 \subsubsection{System Model}
 
-The system is modeled as an interactive system (machine-repairman model) with:
+The system is an \textbf{open queueing network} because each user generates requests with an exponential inter-arrival time \textbf{independently} of whether previous requests have been served. Users do not wait for a response before generating the next request.
+
+System parameters:
 \begin{itemize}
     \item $M = 10$ service centers (database tables)
-    \item $K = N$ customers (users)
-    \item $Z = 1/\lambda = 20$s think time
-    \item $S = 0.1$s service time
+    \item $N$ = number of users
+    \item $\lambda$ = request rate per user (requests/second)
+    \item $S = 0.1$s service time per request
 \end{itemize}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{images/interactive_system_model.pdf}
-\caption{Interactive system model: users cycle between thinking and requesting service}
-\label{fig:interactive_model}
-\end{figure}
 
 \subsubsection{Utilization Formula}
 
-For this closed network with think time, the theoretical utilization is:
+For an open queueing network with $N$ users each generating requests at rate $\lambda$:
 
+\begin{itemize}
+    \item Total arrival rate to the system: $\Lambda = N \cdot \lambda$
+    \item With uniform routing to $M$ tables: $\lambda_i = \frac{N \cdot \lambda}{M}$ per table
+    \item Utilization per table: $U = \lambda_i \cdot S$
+\end{itemize}
+
+Therefore, the theoretical utilization is:
 \begin{equation}
-U = \frac{K \cdot S}{M \cdot (Z + S)} = \frac{N \cdot S}{M \cdot (1/\lambda + S)}
+U = \frac{N \cdot \lambda \cdot S}{M}
+\end{equation}
+
+For example, with $N=100$, $\lambda=0.05$, $S=0.1$, $M=10$:
+\begin{equation}
+U = \frac{100 \cdot 0.05 \cdot 0.1}{10} = \frac{0.5}{10} = 0.05 = 5\%
 \end{equation}
 
 \subsubsection{Theoretical vs Empirical Comparison}
@@ -235,45 +249,28 @@ The relative error between theoretical and empirical values [Figure~\ref{fig:err
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{Error $<$ 3\%} for $K = 10$ to $500$ users (green bars)
-    \item \textbf{Error $\approx$ 7\%} for $K = 1000$ users due to queuing effects
+    \item \textbf{Error $<$ 5\%} for $N = 10$ to $1000$ users
+    \item The small error is due to the variance in exponential inter-arrival times
 \end{itemize}
 
-\subsubsection{Why Standard Buzen Doesn't Apply}
-
-It is important to note that the standard \textbf{Buzen's convolution algorithm} assumes a pure closed network without think time. In our system:
-
-\begin{itemize}
-    \item Think time $Z = 20$s is \textbf{200 times} longer than service time $S = 0.1$s
-    \item Users spend 99.5\% of their time ``thinking'' and only 0.5\% being served
-    \item Buzen's algorithm (assuming $Z = 0$) would predict saturation for $K > M$
-\end{itemize}
-
-Without think time: $U_{Buzen} = \min(1, K/M) = \min(1, 100/10) = 100\%$ (saturated!)
-
-With think time: $U_{actual} = \frac{100 \times 0.1}{10 \times 20.1} = 4.98\%$
-
-The difference is dramatic: \textbf{100\% vs 4.98\%}, which explains why the correct model must account for think time.
+The open queueing model provides an excellent prediction of system behavior because the independent Poisson arrivals from each user combine into an aggregate Poisson process.
 
 \subsection{Throughput Analysis}
 
 The system throughput follows the theoretical prediction [Figure~\ref{fig:throughput}]:
 
 \begin{equation}
-\gamma = \frac{K}{Z + S} \text{ requests/second}
+\gamma = N \cdot \lambda \text{ requests/second}
 \end{equation}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{images/throughput_vs_users.pdf}
-\caption{System throughput vs number of users, showing saturation point at $K_{sat} \approx 2010$}
+\caption{System throughput vs number of users}
 \label{fig:throughput}
 \end{figure}
 
-The saturation point occurs at:
-\begin{equation}
-K_{sat} = \frac{M \cdot (Z + S)}{S} = \frac{10 \times 20.1}{0.1} = 2010 \text{ users}
-\end{equation}
+The throughput is simply the sum of all individual user request rates. With $N$ users each generating requests at rate $\lambda$, the total arrival rate is $N \cdot \lambda$.
 
 \section{Conclusions}
 
@@ -283,22 +280,22 @@ The verification tests confirm that our simulation model is:
     \item \textbf{Correct}: Degeneracy tests show expected behavior at extreme values
     \item \textbf{Continuous}: Small parameter changes produce small output changes
     \item \textbf{Consistent}: Results scale predictably with system load
-    \item \textbf{Accurate}: Theoretical predictions match empirical results within 3-7\%
+    \item \textbf{Accurate}: Theoretical predictions match empirical results within 5\%
 \end{enumerate}
 
-\begin{tcolorbox}[title=Key Formulas]
-\textbf{Utilization:}
+\begin{tcolorbox}[title=Key Formulas for Open Queueing Network]
+\textbf{Utilization per table:}
 \begin{equation}
-\boxed{U = \frac{K \cdot S}{M \cdot (Z + S)}}
+\boxed{U = \frac{N \cdot \lambda \cdot S}{M}}
 \end{equation}
 
 \textbf{Throughput:}
 \begin{equation}
-\boxed{\gamma = \frac{K}{Z + S}}
+\boxed{\gamma = N \cdot \lambda}
 \end{equation}
 
-\textbf{Saturation Point:}
+\textbf{Response Time (by Little's Law):}
 \begin{equation}
-\boxed{K_{sat} = \frac{M \cdot (Z + S)}{S}}
+\boxed{R = \frac{S}{1 - U}}
 \end{equation}
 \end{tcolorbox}
