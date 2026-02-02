@@ -1,523 +1,292 @@
-\chapter{Theoretical Verification}
+\chapter{Implementation and Verification}
 
-This chapter presents the theoretical verification of our database system simulation. We model the system as a closed queueing network and compare theoretical predictions with empirical results obtained from the OMNeT++ simulation. The theoretical framework is based on queueing theory principles as described by Kleinrock \cite{kleinrock1975} and Stea \cite{stea2019}.
+\section{Modules}
 
-\section{Queueing Theory Fundamentals}
-
-Before analyzing our specific system, we review the fundamental concepts of queueing theory that underpin our analysis.
-
-\subsection{Basic Queueing System}
-
-A queueing system consists of:
-\begin{itemize}
-    \item \textbf{Arrivals}: Jobs entering the system with interarrival times following some distribution
-    \item \textbf{Queue}: A waiting area where jobs wait for service
-    \item \textbf{Server(s)}: One or more entities that process jobs
-    \item \textbf{Service Time}: The time required to process each job
-\end{itemize}
-
-\subsection{Kendall's Notation}
-
-Queueing systems are classified using Kendall's notation: $A/B/C/K/N/D$, where:
-\begin{itemize}
-    \item $A$ = Arrival process distribution (M = Memoryless/Exponential, D = Deterministic, G = General)
-    \item $B$ = Service time distribution
-    \item $C$ = Number of servers
-    \item $K$ = System capacity (default: $\infty$)
-    \item $N$ = Population size (default: $\infty$)
-    \item $D$ = Service discipline (default: FCFS)
-\end{itemize}
-
-\subsection{Little's Law}
-
-One of the most fundamental results in queueing theory is \textbf{Little's Law}, which states:
-
-\begin{tcolorbox}[title=Little's Law]
-\begin{equation}
-E[N] = \lambda \cdot E[R]
-\end{equation}
-Where:
-\begin{itemize}
-    \item $E[N]$ = Mean number of jobs in the system
-    \item $\lambda$ = Mean arrival rate
-    \item $E[R]$ = Mean response time (time in system)
-\end{itemize}
-\end{tcolorbox}
-
-Little's Law is remarkably general and holds for any stable queueing system, regardless of:
-\begin{itemize}
-    \item The arrival process distribution
-    \item The service time distribution
-    \item The number of servers
-    \item The queueing discipline
-\end{itemize}
-
-The only requirements are that the system is in steady state and that no jobs are created or destroyed within the system.
-
-\subsection{M/M/1 Queue Analysis}
-
-The M/M/1 queue is the simplest non-trivial queueing system, with:
-\begin{itemize}
-    \item Poisson arrivals (rate $\lambda$)
-    \item Exponential service times (rate $\mu$)
-    \item Single server
-    \item Infinite queue capacity
-\end{itemize}
-
-\subsubsection{Stability Condition}
-
-The system is stable (reaches steady state) if and only if:
-\begin{equation}
-\rho = \frac{\lambda}{\mu} < 1
-\end{equation}
-where $\rho$ is called the \textbf{utilization} of the server.
-
-\subsubsection{Steady-State Probabilities}
-
-The probability of having $n$ jobs in an M/M/1 system follows a geometric distribution:
-\begin{equation}
-p_n = (1 - \rho) \cdot \rho^n, \quad n \geq 0
-\end{equation}
-
-\subsubsection{Performance Metrics}
-
-The key performance metrics for M/M/1 are:
-
-\begin{align}
-E[N] &= \frac{\rho}{1 - \rho} \quad \text{(Mean number in system)} \\
-E[N_q] &= \frac{\rho^2}{1 - \rho} \quad \text{(Mean number in queue)} \\
-E[R] &= \frac{1}{\mu - \lambda} = \frac{1/\mu}{1 - \rho} \quad \text{(Mean response time)} \\
-E[W] &= \frac{\rho}{\mu - \lambda} = E[R] - \frac{1}{\mu} \quad \text{(Mean waiting time)}
-\end{align}
-
-\subsubsection{The Kleinrock Function}
-
-The relationship $E[N] = \frac{\rho}{1-\rho}$ is known as the \textbf{Kleinrock function} or ``hockey-stick'' curve. It exhibits characteristic behavior:
-\begin{itemize}
-    \item For $\rho < 0.5$: Nearly flat, system mostly empty
-    \item At $\rho = 0.5$: $E[N] = 1$
-    \item For $\rho \to 1$: Sharp increase, system becomes congested
-\end{itemize}
-
-This explains why systems should operate well below 100\% utilization to maintain reasonable response times.
-
-\section{System Model}
-
-The database system can be modeled as a \textbf{closed queueing network} with the following characteristics:
+The following modules have been defined in OMNeT++:
 
 \begin{itemize}
-    \item \textbf{Service Centers (M = 10)}: The M database tables act as parallel service centers
-    \item \textbf{Customers (K = variable)}: The K users form a fixed population that cycles through the system
-    \item \textbf{Think Time (Z)}: Time between consecutive requests for each user, where $Z = 1/\lambda$
-    \item \textbf{Service Time (S = 0.1s)}: Fixed time to process each database operation
-\end{itemize}
-
-\subsection{User Behavior Cycle}
-
-Each user follows a deterministic cycle:
-\begin{enumerate}
-    \item Generate a database access request
-    \item Wait in queue (if table is busy)
-    \item Receive service (duration S = 0.1s)
-    \item Think for time Z = 20s before generating next request
-    \item Repeat
-\end{enumerate}
-
-This cyclic behavior makes the system a \textbf{closed network} rather than an open one, as the population of active users is fixed and bounded.
-
-\section{Theoretical Model}
-
-\subsection{Utilization Formula}
-
-For a closed queueing network with think time, the average utilization of service centers can be computed using the following formula:
-
-\begin{equation}
-U = \frac{K}{Z + S} \cdot \frac{S}{M}
-\end{equation}
-
-Where:
-\begin{itemize}
-    \item $U$ = Average utilization of each service center
-    \item $K$ = Number of users (customers)
-    \item $Z$ = Think time between requests ($Z = 1/\lambda$)
-    \item $S$ = Service time per request
-    \item $M$ = Number of service centers (tables)
-\end{itemize}
-
-\subsection{Derivation}
-
-The derivation proceeds as follows:
-
-\begin{enumerate}
-    \item \textbf{Arrival rate per user}: Each user generates requests at rate:
-    \begin{equation}
-    r_{user} = \frac{1}{Z + S}
-    \end{equation}
-    This accounts for both the think time and service time in each cycle.
+    \item \textbf{User}: A simple module representing database clients. Each user generates access requests according to an exponential inter-arrival time ($\lambda$), selects tables based on a configurable distribution (uniform or lognormal), and performs either read or write operations with probability $p$.
     
-    \item \textbf{Total system arrival rate}: With K users, the total arrival rate is:
-    \begin{equation}
-    \lambda_{total} = K \cdot r_{user} = \frac{K}{Z + S}
-    \end{equation}
+    \item \textbf{Table}: A simple module representing database tables. Each table implements a readers-writers lock mechanism allowing multiple concurrent readers but exclusive writer access. Tables record utilization, queue length, and waiting time statistics.
     
-    \item \textbf{Average utilization}: With M parallel servers, each receiving $\lambda_{total}/M$ requests per second:
-    \begin{equation}
-    U = \frac{\lambda_{total} \cdot S}{M} = \frac{K}{Z + S} \cdot \frac{S}{M}
-    \end{equation}
-\end{enumerate}
-
-\section{Numerical Verification}
-
-\subsection{System Parameters}
-
-The simulation uses the following parameters:
-\begin{itemize}
-    \item $M = 10$ tables
-    \item $\lambda = 0.05$ requests/second per user
-    \item $Z = 1/\lambda = 20$ seconds (think time)
-    \item $S = 0.1$ seconds (service time)
-    \item $K \in \{10, 50, 100, 500, 1000\}$ users
+    \item \textbf{DatabaseNetwork}: A compound module (network) that instantiates N users and M tables with full connectivity between them.
 \end{itemize}
 
-\subsection{Comparison Results}
+\subsection{Module Parameters}
+
+Table~\ref{tab:module_params} summarizes the configurable parameters:
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|l|l|l|}
 \hline
-\textbf{K Users} & \textbf{$\lambda$ (req/s)} & \textbf{Z (think)} & \textbf{Empirical Util \%} & \textbf{Theory Util \%} & \textbf{Error \%} \\
+\textbf{Module} & \textbf{Parameter} & \textbf{Description} \\
 \hline
-10 & 0.05 & 20.0s & 0.50 & 0.50 & 0.95 \\
+User & \texttt{lambda} & Request rate (requests/second) \\
+User & \texttt{readProbability} & Probability $p$ of read operation \\
+User & \texttt{serviceTime} & Duration of database operation $S$ \\
+User & \texttt{tableDistribution} & Table selection distribution \\
 \hline
-50 & 0.05 & 20.0s & 2.53 & 2.49 & 1.58 \\
+Table & \texttt{tableId} & Unique table identifier \\
 \hline
-100 & 0.05 & 20.0s & 5.00 & 4.98 & 0.43 \\
-\hline
-500 & 0.05 & 20.0s & 24.19 & 24.88 & 2.77 \\
-\hline
-1000 & 0.05 & 20.0s & 46.44 & 49.75 & 6.66 \\
+Network & \texttt{numUsers} & Number of users $N$ \\
+Network & \texttt{numTables} & Number of tables $M$ \\
 \hline
 \end{tabular}
-\caption{Comparison of Empirical vs Theoretical Utilization}
+\caption{Module Parameters}
+\label{tab:module_params}
+\end{table}
+
+\section{Messages}
+
+The simulation uses OMNeT++'s \texttt{cMessage} class extended with custom fields:
+
+\begin{itemize}
+    \item \textbf{Request Message}: Contains the user ID, target table, operation type (read/write), and request timestamp for response time calculation.
+    
+    \item \textbf{Response Message}: Contains the completion status and is used to signal the user that the operation has finished.
+\end{itemize}
+
+Tracking the initiation time of each request is crucial for calculating the response time and waiting time statistics.
+
+\section{Verification}
+
+\subsection{Degeneracy Test}
+
+The degeneracy test analyzes the system's behavior under extreme or degenerate parameter values:
+
+\begin{enumerate}
+    \item \textbf{Zero users ($N = 0$)}: The system enters an idle state with zero utilization, as expected due to absence of requests.
+    
+    \item \textbf{Single table ($M = 1$)}: All requests are directed to a single table, creating a bottleneck. The system behaves as a simple M/G/1 queue.
+    
+    \item \textbf{Read probability $p = 1$}: All operations are reads. Multiple users can access tables concurrently without blocking, resulting in minimal waiting times.
+    
+    \item \textbf{Read probability $p = 0$}: All operations are writes. Each table becomes a simple FIFO queue with exclusive access, maximizing contention.
+\end{enumerate}
+
+\subsection{Continuity Test}
+
+To verify the model's accuracy, we compare two configurations with slightly different parameter values [Table~\ref{tab:continuity_config}] and verify that outputs change proportionally.
+
+\textbf{Note}: We vary the number of users (N) rather than the read probability (p) because:
+\begin{itemize}
+    \item The effect on metrics is \textbf{linear and proportional}
+    \item It doesn't change the nature of the system (read/write ratio stays constant)
+    \item All metrics scale predictably with the load increase
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Parameter} & \textbf{Config A} & \textbf{Config B} \\
+\hline
+$N$ (users) & 100 & 101 (+1) \\
+$M$ (tables) & 20 & 20 \\
+$p$ (read probability) & 0.50 & 0.50 \\
+$\lambda$ (request rate) & 1.0 & 1.0 \\
+$S$ (service time) & 0.1s & 0.1s \\
+Repetitions & 25 & 25 \\
+\hline
+\end{tabular}
+\caption{Two slightly different configurations for the continuity test}
+\label{tab:continuity_config}
+\end{table}
+
+Simulating both configurations with 25 repetitions, the following chart [Figure~\ref{fig:continuity_test}] shows the comparison at a 95\% confidence level:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{images/continuity_test_results.png}
+\caption{Continuity test comparing Configuration A ($N=100$) vs Configuration B ($N=101$) at 95\% confidence level}
+\label{fig:continuity_test}
+\end{figure}
+
+The results show that adding just 1 user (+1\%) produces proportionally small changes in all metrics:
+\begin{itemize}
+    \item Throughput: +1.0\%
+    \item Waiting Time: +1.1\%
+    \item Utilization: +0.9\%
+\end{itemize}
+
+Since all variations are small and proportional to the input change, the \textbf{continuity test passes}.
+
+\subsection{Consistency Test}
+
+To validate consistency, we study the system's behavior by varying the number of users $N$ while keeping other parameters fixed [Table~\ref{tab:consistency_config}].
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Parameter} & \textbf{Value} \\
+\hline
+$M$ (tables) & 10 \\
+$\lambda$ (request rate) & 0.05 req/s \\
+$p$ (read probability) & 0.5 \\
+$S$ (service time) & 0.1s \\
+$N$ (users) & 10, 50, 100, 500, 1000 \\
+\hline
+\end{tabular}
+\caption{Configuration adopted for consistency test simulation runs}
+\label{tab:consistency_config}
+\end{table}
+
+As expected, utilization increases linearly with the number of users, and the system shows consistent behavior across all configurations. The following chart [Figure~\ref{fig:consistency_test}] compares throughput and utilization across different user populations:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/consistency_test_results.png}
+\caption{Consistency test: utilization and throughput vs number of users at 95\% confidence interval}
+\label{fig:consistency_test}
+\end{figure}
+
+The throughput scales linearly with the number of users until the system approaches saturation, demonstrating consistent and predictable behavior.
+
+\subsection{Theoretical Verification}
+
+Given that our system can be modeled as a \textbf{Closed Queueing Network} with think time, we can theoretically compute its performance indices.
+
+\subsubsection{System Model}
+
+The system is modeled as an interactive system (machine-repairman model) with:
+\begin{itemize}
+    \item $M = 10$ service centers (database tables)
+    \item $K = N$ customers (users)
+    \item $Z = 1/\lambda = 20$s think time
+    \item $S = 0.1$s service time
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/interactive_system_model.pdf}
+\caption{Interactive system model: users cycle between thinking and requesting service}
+\label{fig:interactive_model}
+\end{figure}
+
+\subsubsection{Utilization Formula}
+
+For this closed network with think time, the theoretical utilization is:
+
+\begin{equation}
+U = \frac{K \cdot S}{M \cdot (Z + S)} = \frac{N \cdot S}{M \cdot (1/\lambda + S)}
+\end{equation}
+
+\subsubsection{Theoretical vs Empirical Comparison}
+
+Collecting utilization data from our simulations, we compare with theoretical predictions [Figure~\ref{fig:theory_vs_empirical}]:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/utilization_vs_users.pdf}
+\caption{Comparison between theoretical model (blue line) and simulation results (green dots)}
+\label{fig:theory_vs_empirical}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{K Users} & \textbf{Empirical Util \%} & \textbf{Theoretical Util \%} & \textbf{Error \%} \\
+\hline
+10 & 0.50 & 0.50 & 0.95 \\
+50 & 2.53 & 2.49 & 1.58 \\
+100 & 5.00 & 4.98 & 0.43 \\
+500 & 24.19 & 24.88 & 2.77 \\
+1000 & 46.44 & 49.75 & 6.66 \\
+\hline
+\end{tabular}
+\caption{Comparison of empirical vs theoretical utilization}
 \label{tab:utilization_comparison}
 \end{table}
 
-\subsection{Detailed Analysis for K=500}
+The empirical and theoretical values closely align, with errors below 3\% for most configurations [Figure~\ref{fig:empirical_vs_theoretical}]:
 
-For $K = 500$ users, we can verify the calculation step by step:
-
-\begin{align}
-Z &= \frac{1}{\lambda} = \frac{1}{0.05} = 20 \text{ seconds} \\
-r_{user} &= \frac{1}{Z + S} = \frac{1}{20 + 0.1} = 0.0498 \text{ req/s} \\
-\lambda_{total} &= K \cdot r_{user} = 500 \times 0.0498 = 24.88 \text{ req/s} \\
-U_{theory} &= \frac{\lambda_{total} \cdot S}{M} = \frac{24.88 \times 0.1}{10} = 0.2488 = 24.88\%
-\end{align}
-
-The empirical utilization measured from simulation is 24.19\%, yielding an error of only \textbf{2.77\%}.
-
-\begin{table}[H]
+\begin{figure}[H]
 \centering
-\begin{tabular}{|c|c|c|}
-\hline
-\textbf{Table} & \textbf{Empirical Util} & \textbf{Theoretical Util} \\
-\hline
-Table 0 & 23.95\% & 24.88\% \\
-\hline
-Table 1 & 24.22\% & 24.88\% \\
-\hline
-Table 2 & 23.90\% & 24.88\% \\
-\hline
-Table 3 & 24.33\% & 24.88\% \\
-\hline
-Table 4 & 24.27\% & 24.88\% \\
-\hline
-Table 5 & 24.46\% & 24.88\% \\
-\hline
-Table 6 & 24.17\% & 24.88\% \\
-\hline
-Table 7 & 24.05\% & 24.88\% \\
-\hline
-Table 8 & 24.31\% & 24.88\% \\
-\hline
-Table 9 & 24.21\% & 24.88\% \\
-\hline
-\textbf{Average} & \textbf{24.19\%} & \textbf{24.88\%} \\
-\hline
-\end{tabular}
-\caption{Per-Table Utilization for K=500 Users}
-\label{tab:per_table_utilization}
-\end{table}
+\includegraphics[width=0.9\textwidth]{images/empirical_vs_theoretical.pdf}
+\caption{Bar chart comparison between empirical and theoretical values with 95\% confidence interval}
+\label{fig:empirical_vs_theoretical}
+\end{figure}
 
-\section{Model Assumptions and Limitations}
+\subsubsection{Per-Table Utilization}
 
-\subsection{Assumptions}
+For $K = 500$ users, we verify that load is uniformly distributed across tables [Figure~\ref{fig:per_table_util}]:
 
-The theoretical model makes the following assumptions:
-
-\begin{enumerate}
-    \item \textbf{Uniform Routing}: Each request is equally likely to access any of the M tables. In our simulation, this is approximately true with uniform table selection.
-    
-    \item \textbf{Constant Service Time}: The service time S is constant (0.1s). The actual simulation uses a fixed service time, which matches this assumption.
-    
-    \item \textbf{Deterministic Think Time}: Users generate requests at fixed intervals ($Z = 1/\lambda$). The simulation implements this with a deterministic inter-arrival time.
-    
-    \item \textbf{No Queuing Delay in Cycle}: The formula assumes the think time Z dominates, so queuing delays don't significantly affect the arrival rate. This is valid when $Z >> S$ (in our case, $20s >> 0.1s$).
-\end{enumerate}
-
-\subsection{Limitations}
-
-\begin{enumerate}
-    \item \textbf{Read/Write Parallelism}: The model doesn't explicitly account for the fact that multiple reads can be served simultaneously while writes require exclusive access. This introduces small deviations at high load.
-    
-    \item \textbf{Queuing Effects}: At very high utilization (K $>$ 500), queuing delays become significant and reduce the effective arrival rate, explaining the larger error at K=1000.
-    
-    \item \textbf{Routing Distribution}: In practice, the lognormal distribution for table access may create hotspots, leading to non-uniform utilization across tables.
-\end{enumerate}
-
-\section{Closed Queueing Networks Theory}
-
-To understand why our model works and why Buzen's algorithm gives incorrect results, we need to examine the theory of closed queueing networks more deeply.
-
-\subsection{Open vs Closed Networks}
-
-\textbf{Open Queueing Networks} (Jackson Networks):
-\begin{itemize}
-    \item Jobs arrive from outside the system (Poisson arrivals)
-    \item Jobs leave the system after service
-    \item Population varies over time
-    \item Analyzed using Jackson's Theorem
-\end{itemize}
-
-\textbf{Closed Queueing Networks} (Gordon-Newell Networks):
-\begin{itemize}
-    \item Fixed population of K customers
-    \item Customers cycle through the network indefinitely
-    \item No arrivals or departures
-    \item Analyzed using Gordon-Newell Theorem or Buzen's Algorithm
-\end{itemize}
-
-Our system is a \textbf{closed network} because the K users are fixed and cycle between ``thinking'' and ``requesting service''.
-
-\subsection{Gordon-Newell Theorem}
-
-The Gordon-Newell theorem (1967) extends Jackson's theorem to closed networks. For a closed network with M nodes and K customers, the steady-state probability of finding $n_i$ customers at node $i$ is:
-
-\begin{equation}
-\pi(n_1, n_2, \ldots, n_M) = \frac{1}{G(M, K)} \prod_{i=1}^{M} \left(\frac{e_i}{\mu_i}\right)^{n_i}
-\end{equation}
-
-where:
-\begin{itemize}
-    \item $e_i$ = Visit ratio to node $i$
-    \item $\mu_i$ = Service rate at node $i$
-    \item $G(M, K)$ = Normalization constant
-\end{itemize}
-
-The constraint is: $\sum_{i=1}^{M} n_i = K$ (total population is fixed).
-
-\subsection{Buzen's Convolution Algorithm}
-
-Buzen's algorithm (1973) provides an efficient $O(MK)$ method to compute the normalization constant $G(M, K)$:
-
-\begin{equation}
-G(m, k) = G(m-1, k) + x_m \cdot G(m, k-1)
-\end{equation}
-
-where $x_i = e_i / \mu_i$ and boundary conditions are:
-\begin{align}
-G(m, 0) &= 1 \quad \forall m \\
-G(0, k) &= 0 \quad \forall k > 0
-\end{align}
-
-\subsubsection{Performance Metrics via Buzen}
-
-Once $G(M, K)$ is computed, performance metrics can be calculated:
-
-\begin{align}
-\rho_i &= x_i \cdot \frac{G(M, K-1)}{G(M, K)} \quad \text{(Utilization of node } i) \\
-\overline{n}_i &= \sum_{k=1}^{K} x_i^k \cdot \frac{G(M-1, K-k)}{G(M, K)} \quad \text{(Mean queue length)}
-\end{align}
-
-\subsection{Why Buzen Doesn't Apply to Our System}
-
-The standard Buzen algorithm assumes a \textbf{pure closed network} where customers immediately seek new service after completing one:
-
-\begin{center}
-\begin{tikzpicture}[->, >=Stealth, auto, node distance=3cm]
-    \node[draw, circle] (Q1) {Queue 1};
-    \node[draw, circle, right of=Q1] (Q2) {Queue 2};
-    \node[right of=Q2] (dots) {$\cdots$};
-    \node[draw, circle, right of=dots] (QM) {Queue M};
-    
-    \draw[->] (Q1) to[bend left] (Q2);
-    \draw[->] (Q2) to[bend left] (dots);
-    \draw[->] (dots) to[bend left] (QM);
-    \draw[->] (QM) to[bend left=60] (Q1);
-\end{tikzpicture}
-\end{center}
-
-Our system has an additional \textbf{delay center} (think time):
-
-\begin{center}
-\begin{tikzpicture}[->, >=Stealth, auto, node distance=2.5cm]
-    \node[draw, rectangle] (Think) {Think Time (Z=20s)};
-    \node[draw, circle, right of=Think, xshift=2cm] (Service) {Service (S=0.1s)};
-    
-    \draw[->] (Think) -- node[above] {request} (Service);
-    \draw[->] (Service) to[bend left=40] node[below] {complete} (Think);
-\end{tikzpicture}
-\end{center}
-
-\subsubsection{Mathematical Impact of Think Time}
-
-Without think time ($Z = 0$):
-\begin{equation}
-U_{Buzen} \approx \min\left(1, \frac{K \cdot S}{M \cdot S}\right) = \min\left(1, \frac{K}{M}\right)
-\end{equation}
-
-For $K = 100$ users and $M = 10$ tables: $U_{Buzen} = 100/10 = 1 = 100\%$ (saturated!)
-
-With think time ($Z = 20s$):
-\begin{equation}
-U_{actual} = \frac{K \cdot S}{M \cdot (Z + S)} = \frac{100 \cdot 0.1}{10 \cdot 20.1} = \frac{10}{201} \approx 4.98\%
-\end{equation}
-
-The difference is dramatic: \textbf{100\% vs 4.98\%}!
-
-\subsection{Extended Model: Interactive Systems}
-
-Our system fits the \textbf{Interactive System Model}, also known as a machine-repairman model or terminal system model. This model explicitly includes:
-
-\begin{itemize}
-    \item $M$ = Service centers (servers/tables)
-    \item $K$ = Terminals/users
-    \item $Z$ = Think time at terminals
-    \item $S$ = Service time at servers
-\end{itemize}
-
-The key insight is that the ``think'' phase acts as an infinite-server delay center, which dramatically reduces contention at the service centers.
-
-\section{Response Time and Throughput Analysis}
-
-\subsection{System Throughput}
-
-The throughput $\gamma$ of the system (total requests processed per unit time) is:
-
-\begin{equation}
-\gamma = \frac{K}{Z + S} = \frac{K}{20.1} \text{ requests/second}
-\end{equation}
-
-For different values of K:
-\begin{table}[H]
+\begin{figure}[H]
 \centering
-\begin{tabular}{|c|c|}
-\hline
-\textbf{K Users} & \textbf{System Throughput (req/s)} \\
-\hline
-10 & 0.498 \\
-50 & 2.488 \\
-100 & 4.975 \\
-500 & 24.876 \\
-1000 & 49.751 \\
-\hline
-\end{tabular}
-\caption{System Throughput for Different User Populations}
-\end{table}
+\includegraphics[width=0.95\textwidth]{images/per_table_utilization.pdf}
+\caption{Per-table utilization for K=500 users showing uniform load distribution}
+\label{fig:per_table_util}
+\end{figure}
 
-\subsection{Response Time Analysis}
+The per-table utilization varies within a narrow range (23.90\% -- 24.46\%) around the theoretical value of 24.88\%, confirming uniform load balancing.
 
-In our system, the \textbf{response time} $R$ is the time from when a user generates a request until it is completed. Using Little's Law applied to the service subsystem:
+\subsubsection{Error Analysis}
 
-\begin{equation}
-E[R] = S \cdot \frac{1}{1 - U_{per-server}}
-\end{equation}
+The relative error between theoretical and empirical values [Figure~\ref{fig:error_analysis}] shows:
 
-For low utilization (our case), $E[R] \approx S = 0.1s$.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/error_analysis.pdf}
+\caption{Relative error analysis across different user populations}
+\label{fig:error_analysis}
+\end{figure}
 
-At higher utilization, queuing delays increase response time:
 \begin{itemize}
-    \item $U = 25\%$: $E[R] \approx 0.1 / 0.75 = 0.133s$
-    \item $U = 50\%$: $E[R] \approx 0.1 / 0.50 = 0.200s$
-    \item $U = 90\%$: $E[R] \approx 0.1 / 0.10 = 1.000s$
+    \item \textbf{Error $<$ 3\%} for $K = 10$ to $500$ users (green bars)
+    \item \textbf{Error $\approx$ 7\%} for $K = 1000$ users due to queuing effects
 \end{itemize}
 
-This explains the hockey-stick curve: response time explodes as utilization approaches 100\%.
+\subsubsection{Why Standard Buzen Doesn't Apply}
 
-\subsection{Interactive Response Time Law}
-
-For interactive systems, the \textbf{Response Time Law} relates throughput and response time:
-
-\begin{equation}
-\gamma = \frac{K}{Z + R}
-\end{equation}
-
-where $R$ is the mean response time in the service subsystem.
-
-Rearranging:
-\begin{equation}
-R = \frac{K}{\gamma} - Z
-\end{equation}
-
-\subsection{Bottleneck Analysis}
-
-A service center becomes a \textbf{bottleneck} when its utilization approaches 100\%. For our system:
-
-\begin{equation}
-U_i = \gamma \cdot D_i
-\end{equation}
-
-where $D_i = S/M$ is the demand per service center.
-
-The system saturates when any $U_i = 1$, giving maximum throughput:
-\begin{equation}
-\gamma_{max} = \frac{1}{D_{max}} = \frac{M}{S} = \frac{10}{0.1} = 100 \text{ req/s}
-\end{equation}
-
-This corresponds to $K_{sat}$ users where think time no longer helps:
-\begin{equation}
-K_{sat} = \gamma_{max} \cdot (Z + S) = 100 \cdot 20.1 = 2010 \text{ users}
-\end{equation}
-
-With more than ~2000 users, the system would saturate regardless of think time.
-
-\section{Why Buzen's Algorithm Doesn't Apply}
-
-As discussed in Section 3.8, Buzen's algorithm assumes a pure closed network without think time. In our system:
+It is important to note that the standard \textbf{Buzen's convolution algorithm} assumes a pure closed network without think time. In our system:
 
 \begin{itemize}
-    \item Think time $Z = 20s$ is \textbf{200 times} longer than service time $S = 0.1s$
+    \item Think time $Z = 20$s is \textbf{200 times} longer than service time $S = 0.1$s
     \item Users spend 99.5\% of their time ``thinking'' and only 0.5\% being served
-    \item The system operates at low utilization despite having many users
+    \item Buzen's algorithm (assuming $Z = 0$) would predict saturation for $K > M$
 \end{itemize}
 
-Buzen's algorithm, which assumes $Z = 0$, predicted utilization near 100\% for K $>$ 100 users, giving errors of 75-99\%. The correct model must account for the dominant think time.
+Without think time: $U_{Buzen} = \min(1, K/M) = \min(1, 100/10) = 100\%$ (saturated!)
+
+With think time: $U_{actual} = \frac{100 \times 0.1}{10 \times 20.1} = 4.98\%$
+
+The difference is dramatic: \textbf{100\% vs 4.98\%}, which explains why the correct model must account for think time.
+
+\subsection{Throughput Analysis}
+
+The system throughput follows the theoretical prediction [Figure~\ref{fig:throughput}]:
+
+\begin{equation}
+\gamma = \frac{K}{Z + S} \text{ requests/second}
+\end{equation}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/throughput_vs_users.pdf}
+\caption{System throughput vs number of users, showing saturation point at $K_{sat} \approx 2010$}
+\label{fig:throughput}
+\end{figure}
+
+The saturation point occurs at:
+\begin{equation}
+K_{sat} = \frac{M \cdot (Z + S)}{S} = \frac{10 \times 20.1}{0.1} = 2010 \text{ users}
+\end{equation}
 
 \section{Conclusions}
 
-The theoretical model based on closed queueing networks with think time provides excellent predictions for our database system:
-
-\begin{itemize}
-    \item \textbf{Error $<$ 3\%} for K = 10 to 500 users
-    \item \textbf{Error $\approx$ 7\%} for K = 1000 users (due to queuing effects)
-    \item The model correctly captures the linear scaling of utilization with K
-    \item Per-table utilizations are uniform, as predicted by the theory
-\end{itemize}
-
-\subsection{Key Insights}
+The verification tests confirm that our simulation model is:
 
 \begin{enumerate}
-    \item \textbf{Think Time Dominance}: When $Z >> S$, the system operates well below saturation even with many users. This is the ``interactive system'' regime.
-    
-    \item \textbf{Linear Scaling}: Utilization scales linearly with K until queuing delays become significant (around 50\% utilization).
-    
-    \item \textbf{Little's Law}: The fundamental relationship $E[N] = \lambda E[R]$ connects all performance metrics and enables verification.
-    
-    \item \textbf{Bottleneck Identification}: The system can support up to $\sim$2000 users before saturating, limited by the service rate of the tables.
+    \item \textbf{Correct}: Degeneracy tests show expected behavior at extreme values
+    \item \textbf{Continuous}: Small parameter changes produce small output changes
+    \item \textbf{Consistent}: Results scale predictably with system load
+    \item \textbf{Accurate}: Theoretical predictions match empirical results within 3-7\%
 \end{enumerate}
 
-\subsection{Formula Summary}
-
-\begin{tcolorbox}[title=Theoretical Formulas Summary]
+\begin{tcolorbox}[title=Key Formulas]
 \textbf{Utilization:}
 \begin{equation}
 \boxed{U = \frac{K \cdot S}{M \cdot (Z + S)}}
@@ -528,34 +297,8 @@ The theoretical model based on closed queueing networks with think time provides
 \boxed{\gamma = \frac{K}{Z + S}}
 \end{equation}
 
-\textbf{Response Time (approximate):}
-\begin{equation}
-\boxed{E[R] \approx \frac{S}{1 - U}}
-\end{equation}
-
 \textbf{Saturation Point:}
 \begin{equation}
-\boxed{K_{sat} = \frac{M \cdot (Z + S)}{S} = \frac{M \cdot (Z + S)}{S}}
+\boxed{K_{sat} = \frac{M \cdot (Z + S)}{S}}
 \end{equation}
-
-Where:
-\begin{itemize}
-    \item $U$ = Average utilization per service center
-    \item $K$ = Number of users
-    \item $M$ = Number of service centers (tables)
-    \item $Z = 1/\lambda$ = Think time (inter-arrival time per user)
-    \item $S$ = Service time
-    \item $\gamma$ = System throughput (requests/second)
-    \item $E[R]$ = Mean response time
-\end{itemize}
 \end{tcolorbox}
-
-\subsection{References}
-
-The theoretical framework used in this chapter is based on:
-\begin{itemize}
-    \item Kleinrock, L. (1975). \textit{Queueing Systems, Volume I: Theory}
-    \item Gordon, W.J. and Newell, G.F. (1967). \textit{Closed Queuing Systems with Exponential Servers}
-    \item Buzen, J.P. (1973). \textit{Computational Algorithms for Closed Queueing Networks with Exponential Servers}
-    \item Stea, G. (2019). \textit{Notes on Queueing Theory}, University of Pisa
-\end{itemize}

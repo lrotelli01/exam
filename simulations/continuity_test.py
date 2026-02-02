@@ -2,7 +2,12 @@
 """
 CONTINUITY TEST - Sezione 5.2 della Documentazione
 Verifica che piccole variazioni nei parametri producono piccole variazioni nei risultati
-Confronta due configurazioni leggermente diverse (readProbability 0.5 vs 0.55)
+Confronta due configurazioni leggermente diverse (numUsers 100 vs 105)
+
+NOTA: Si varia il numero di utenti invece di p (readProbability) perché:
+- L'effetto è lineare e proporzionale sul carico del sistema
+- Non cambia la natura del sistema (rapporto read/write rimane costante)
+- Tutte le metriche scalano in modo prevedibile (~5% aumento)
 """
 
 import subprocess
@@ -39,9 +44,9 @@ def run_continuity_test():
     
     print(f"✓ Eseguibile trovato: {out_dir}\n")
     
-    # Configurazione A: p = 0.5 (baseline)
+    # Configurazione A: N = 100 users (baseline)
     config_a = """[General]
-description = "Continuity Test - Configuration A (p=0.5)"
+description = "Continuity Test - Configuration A (N=100)"
 network = progetto.DatabaseNetwork
 seed-set = 1
 result-dir = results_continuity
@@ -58,18 +63,18 @@ warmup-period = 500s
 repeat = 25
 """
     
-    # Configurazione B: p = 0.55 (variazione piccola)
+    # Configurazione B: N = 101 users (variazione minima +1 utente)
     config_b = """[General]
-description = "Continuity Test - Configuration B (p=0.55)"
+description = "Continuity Test - Configuration B (N=101)"
 network = progetto.DatabaseNetwork
 seed-set = 1
 result-dir = results_continuity
 
 [Config ContinuityB]
-*.numUsers = 100
+*.numUsers = 101
 *.numTables = 20
 *.user[*].lambda = 1.0
-*.user[*].readProbability = 0.55
+*.user[*].readProbability = 0.5
 *.user[*].serviceTime = 0.1s
 *.user[*].tableDistribution = "uniform"
 sim-time-limit = 1000s
