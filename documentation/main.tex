@@ -47,6 +47,10 @@
 \usepackage{amsmath}  % For align environment
 \usepackage[english]{babel}
 \usepackage[skins,theorems]{tcolorbox}
+\usepackage{titlesec}
+
+% Reduce vertical space before chapter titles
+\titlespacing*{\chapter}{0pt}{-50pt}{20pt}
 
 % --- CONFIGURATIONS ---
 \tcbset{highlight math style={enhanced, colframe=red,colback=gray,arc=0pt,boxrule=1pt}}
@@ -94,9 +98,9 @@
 
 \include{Chapter1}
 \include{Chapter2}
-\include{Chapter3}
-\include{Chapter4}
 \include{Chapter5}
+\include{Chapter6}
+\include{Chapter7}
 
 
 \end{document}
