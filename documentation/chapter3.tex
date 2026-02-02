@@ -1,301 +1,55 @@
-\chapter{Implementation and Verification}
+\chapter{System Model}
 
-\section{Modules}
-
-The following modules have been defined in OMNeT++:
-
+\section{Architecture}
 \begin{itemize}
-    \item \textbf{User}: A simple module representing database clients. Each user generates access requests according to an exponential inter-arrival time ($\lambda$), selects tables based on a configurable distribution (uniform or lognormal), and performs either read or write operations with probability $p$.
-    
-    \item \textbf{Table}: A simple module representing database tables. Each table implements a readers-writers lock mechanism allowing multiple concurrent readers but exclusive writer access. Tables record utilization, queue length, and waiting time statistics.
-    
-    \item \textbf{DatabaseNetwork}: A compound module (network) that instantiates N users and M tables with full connectivity between them.
+    \item \textbf{Network:} Fully-connected mesh topology with $N$ users and $M$ tables.
+    \item \textbf{Communication:} Asynchronous message-passing between modules.
+    \item \textbf{Timing:} Discrete event simulation with \texttt{simTime()} in seconds.
 \end{itemize}
 
-\subsection{Module Parameters}
+\section{Main Components}
 
-Table~\ref{tab:module_params} summarizes the configurable parameters:
+\subsection{User Module}
+Defined in \texttt{User.h/cc, User.ned}. It generates database access requests.
+\begin{description}
+    \item[Parameters:] \hfill
+    \begin{itemize}
+        \item \texttt{userId}: User identifier (0 to $N-1$).
+        \item \texttt{lambda}: Poisson rate for inter-arrivals (accesses/second).
+        \item \texttt{readProbability}: Probability of read operation (0 to 1).
+        \item \texttt{numTables}: Total number of tables ($M$).
+        \item \texttt{tableDistribution}: "uniform" or "lognormal".
+        \item \texttt{serviceTime}: Fixed operation duration (seconds).
+    \end{itemize}
+    \item[Behavior:] Schedules accesses per Poisson process with rate $\lambda$. For each access, it selects a table and type (read/write), sends the request, and records statistics upon response.
+\end{description}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Module} & \textbf{Parameter} & \textbf{Description} \\
-\hline
-User & \texttt{lambda} & Rate of exponential inter-arrival time ($\lambda$) \\
-User & \texttt{readProbability} & Probability $p$ of read operation \\
-User & \texttt{serviceTime} & Duration of database operation $S$ \\
-User & \texttt{tableDistribution} & Table selection distribution \\
-\hline
-Table & \texttt{tableId} & Unique table identifier \\
-\hline
-Network & \texttt{numUsers} & Number of users $N$ \\
-Network & \texttt{numTables} & Number of tables $M$ \\
-\hline
-\end{tabular}
-\caption{Module Parameters}
-\label{tab:module_params}
-\end{table}
+\subsection{Table Module}
+Defined in \texttt{Table.h/cc, Table.ned}. Simulates concurrent access to a single table.
+\begin{description}
+    \item[Internal State:] \texttt{activeReaders}, \texttt{writeActive}, \texttt{requestQueue} (FCFS), \texttt{serviceEvents}.
+    \item[Mutual Exclusion Logic:]
+    \begin{itemize}
+        \item If \texttt{writeActive=true}: all new accesses blocked.
+        \item If \texttt{activeReaders>0}: new reads OK, new writes blocked.
+        \item If \texttt{activeReaders=0} and \texttt{writeActive=false}: both reads and writes OK.
+    \end{itemize}
+\end{description}
 
-The inter-arrival time between consecutive requests from each user follows an \textbf{exponential distribution} with rate $\lambda$:
-\begin{equation}
-T \sim \text{Exp}(\lambda), \quad f(t) = \lambda e^{-\lambda t}, \quad E[T] = \frac{1}{\lambda}
-\end{equation}
-
-This memoryless property is essential for the Markovian analysis of the system.
-
-\section{Messages}
-
-The simulation uses OMNeT++'s \texttt{cMessage} class extended with custom fields:
-
+\subsection{Network}
+Defined in \texttt{DatabaseNetwork.ned}. 
 \begin{itemize}
-    \item \textbf{Request Message}: Contains the user ID, target table, operation type (read/write), and request timestamp for response time calculation.
-    
-    \item \textbf{Response Message}: Contains the completion status and is used to signal the user that the operation has finished.
+    \item \textbf{Parameters:} \texttt{numUsers} (default 60), \texttt{numTables} (default 20).
+    \item \textbf{Topology:} Fully-connected mesh where each \texttt{user[i]} sends requests to any \texttt{table[j]}.
 \end{itemize}
 
-Tracking the initiation time of each request is crucial for calculating the response time and waiting time statistics.
-
-\section{Verification}
-
-\subsection{Degeneracy Test}
-
-The degeneracy test analyzes the system's behavior under extreme or degenerate parameter values:
-
-\begin{enumerate}
-    \item \textbf{Zero users ($N = 0$)}: The system enters an idle state with zero utilization, as expected due to absence of requests.
-    
-    \item \textbf{Single table ($M = 1$)}: All requests are directed to a single table, creating a bottleneck. The system behaves as a simple M/G/1 queue.
-    
-    \item \textbf{Read probability $p = 1$}: All operations are reads. Multiple users can access tables concurrently without blocking, resulting in minimal waiting times.
-    
-    \item \textbf{Read probability $p = 0$}: All operations are writes. Each table becomes a simple FIFO queue with exclusive access, maximizing contention.
-\end{enumerate}
-
-\subsection{Continuity Test}
-
-To verify the model's accuracy, we compare two configurations with slightly different parameter values [Table~\ref{tab:continuity_config}] and verify that outputs change proportionally.
-
-\textbf{Note}: We vary the number of users (N) rather than the read probability (p) because:
+\section{Temporal Model}
 \begin{itemize}
-    \item The effect on metrics is \textbf{linear and proportional}
-    \item It doesn't change the nature of the system (read/write ratio stays constant)
-    \item All metrics scale predictably with the load increase
+    \item \textbf{Inter-arrival times:} Exponential with rate $\lambda = 1/T_{inter}$. Generator: \texttt{exponential(1/lambda)}.
+    \item \textbf{Table selection:} 
+    \begin{itemize}
+        \item Uniform: \texttt{intuniform(0, numTables-1)}.
+        \item Lognormal: \texttt{lognormal(m, s)} mapped to $[0, M-1]$.
+    \end{itemize}
+    \item \textbf{Response time:} Queueing time + Service time.
 \end{itemize}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Parameter} & \textbf{Config A} & \textbf{Config B} \\
-\hline
-$N$ (users) & 100 & 101 (+1) \\
-$M$ (tables) & 20 & 20 \\
-$p$ (read probability) & 0.50 & 0.50 \\
-$\lambda$ (request rate) & 1.0 & 1.0 \\
-$S$ (service time) & 0.1s & 0.1s \\
-Repetitions & 25 & 25 \\
-\hline
-\end{tabular}
-\caption{Two slightly different configurations for the continuity test}
-\label{tab:continuity_config}
-\end{table}
-
-Simulating both configurations with 25 repetitions, the following chart [Figure~\ref{fig:continuity_test}] shows the comparison at a 95\% confidence level:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{images/continuity_test_results.png}
-\caption{Continuity test comparing Configuration A ($N=100$) vs Configuration B ($N=101$) at 95\% confidence level}
-\label{fig:continuity_test}
-\end{figure}
-
-The results [Figure~\ref{fig:continuity_test}] show that adding just 1 user (+1\%) produces proportionally small changes in throughput:
-\begin{itemize}
-    \item Configuration A (N=100): mean throughput $\approx 5.0$ req/s
-    \item Configuration B (N=101): mean throughput $\approx 5.05$ req/s
-    \item Variation: $\approx +1\%$
-\end{itemize}
-
-The 95\% confidence intervals of the two configurations \textbf{overlap}, confirming that the small input change produces a correspondingly small output change. The \textbf{continuity test passes}.
-
-\subsection{Consistency Test}
-
-To validate consistency, we study the system's behavior by varying the number of users $N$ while keeping other parameters fixed [Table~\ref{tab:consistency_config}].
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|c|}
-\hline
-\textbf{Parameter} & \textbf{Value} \\
-\hline
-$M$ (tables) & 10 \\
-$\lambda$ (request rate) & 0.05 req/s \\
-$p$ (read probability) & 0.5 \\
-$S$ (service time) & 0.1s \\
-$N$ (users) & 10, 50, 100, 500, 1000 \\
-\hline
-\end{tabular}
-\caption{Configuration adopted for consistency test simulation runs}
-\label{tab:consistency_config}
-\end{table}
-
-As expected, utilization increases linearly with the number of users, and the system shows consistent behavior across all configurations. The following chart [Figure~\ref{fig:consistency_test}] compares throughput and utilization across different user populations:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{images/consistency_test_results.png}
-\caption{Consistency test: utilization and throughput vs number of users at 95\% confidence interval}
-\label{fig:consistency_test}
-\end{figure}
-
-The throughput scales linearly with the number of users until the system approaches saturation, demonstrating consistent and predictable behavior.
-
-\subsection{Theoretical Verification}
-
-Given that our system can be modeled as an \textbf{Open Queueing Network}, we can theoretically compute its performance indices.
-
-\subsubsection{System Model}
-
-The system is an \textbf{open queueing network} because each user generates requests with an exponential inter-arrival time \textbf{independently} of whether previous requests have been served. Users do not wait for a response before generating the next request.
-
-System parameters:
-\begin{itemize}
-    \item $M = 10$ service centers (database tables)
-    \item $N$ = number of users
-    \item $\lambda$ = request rate per user (requests/second)
-    \item $S = 0.1$s service time per request
-\end{itemize}
-
-\subsubsection{Utilization Formula}
-
-For an open queueing network with $N$ users each generating requests at rate $\lambda$:
-
-\begin{itemize}
-    \item Total arrival rate to the system: $\Lambda = N \cdot \lambda$
-    \item With uniform routing to $M$ tables: $\lambda_i = \frac{N \cdot \lambda}{M}$ per table
-    \item Utilization per table: $U = \lambda_i \cdot S$
-\end{itemize}
-
-Therefore, the theoretical utilization is:
-\begin{equation}
-U = \frac{N \cdot \lambda \cdot S}{M}
-\end{equation}
-
-For example, with $N=100$, $\lambda=0.05$, $S=0.1$, $M=10$:
-\begin{equation}
-U = \frac{100 \cdot 0.05 \cdot 0.1}{10} = \frac{0.5}{10} = 0.05 = 5\%
-\end{equation}
-
-\subsubsection{Theoretical vs Empirical Comparison}
-
-Collecting utilization data from our simulations, we compare with theoretical predictions [Figure~\ref{fig:theory_vs_empirical}]:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{images/utilization_vs_users.pdf}
-\caption{Comparison between theoretical model (blue line) and simulation results (green dots)}
-\label{fig:theory_vs_empirical}
-\end{figure}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|c|}
-\hline
-\textbf{K Users} & \textbf{Empirical Util \%} & \textbf{Theoretical Util \%} & \textbf{Error \%} \\
-\hline
-10 & 0.50 & 0.50 & 0.95 \\
-50 & 2.53 & 2.49 & 1.58 \\
-100 & 5.00 & 4.98 & 0.43 \\
-500 & 24.19 & 24.88 & 2.77 \\
-1000 & 46.44 & 49.75 & 6.66 \\
-\hline
-\end{tabular}
-\caption{Comparison of empirical vs theoretical utilization}
-\label{tab:utilization_comparison}
-\end{table}
-
-The empirical and theoretical values closely align, with errors below 3\% for most configurations [Figure~\ref{fig:empirical_vs_theoretical}]:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{images/empirical_vs_theoretical.pdf}
-\caption{Bar chart comparison between empirical and theoretical values with 95\% confidence interval}
-\label{fig:empirical_vs_theoretical}
-\end{figure}
-
-\subsubsection{Per-Table Utilization}
-
-For $K = 500$ users, we verify that load is uniformly distributed across tables [Figure~\ref{fig:per_table_util}]:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{images/per_table_utilization.pdf}
-\caption{Per-table utilization for K=500 users showing uniform load distribution}
-\label{fig:per_table_util}
-\end{figure}
-
-The per-table utilization varies within a narrow range (23.90\% -- 24.46\%) around the theoretical value of 24.88\%, confirming uniform load balancing.
-
-\subsubsection{Error Analysis}
-
-The relative error between theoretical and empirical values [Figure~\ref{fig:error_analysis}] shows:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{images/error_analysis.pdf}
-\caption{Relative error analysis across different user populations}
-\label{fig:error_analysis}
-\end{figure}
-
-\begin{itemize}
-    \item \textbf{Error $<$ 5\%} for $N = 10$ to $1000$ users
-    \item The small error is due to the variance in exponential inter-arrival times
-\end{itemize}
-
-The open queueing model provides an excellent prediction of system behavior because the independent Poisson arrivals from each user combine into an aggregate Poisson process.
-
-\subsection{Throughput Analysis}
-
-The system throughput follows the theoretical prediction [Figure~\ref{fig:throughput}]:
-
-\begin{equation}
-\gamma = N \cdot \lambda \text{ requests/second}
-\end{equation}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{images/throughput_vs_users.pdf}
-\caption{System throughput vs number of users}
-\label{fig:throughput}
-\end{figure}
-
-The throughput is simply the sum of all individual user request rates. With $N$ users each generating requests at rate $\lambda$, the total arrival rate is $N \cdot \lambda$.
-
-\section{Conclusions}
-
-The verification tests confirm that our simulation model is:
-
-\begin{enumerate}
-    \item \textbf{Correct}: Degeneracy tests show expected behavior at extreme values
-    \item \textbf{Continuous}: Small parameter changes produce small output changes
-    \item \textbf{Consistent}: Results scale predictably with system load
-    \item \textbf{Accurate}: Theoretical predictions match empirical results within 5\%
-\end{enumerate}
-
-\begin{tcolorbox}[title=Key Formulas for Open Queueing Network]
-\textbf{Utilization per table:}
-\begin{equation}
-\boxed{U = \frac{N \cdot \lambda \cdot S}{M}}
-\end{equation}
-
-\textbf{Throughput:}
-\begin{equation}
-\boxed{\gamma = N \cdot \lambda}
-\end{equation}
-
-\textbf{Response Time (by Little's Law):}
-\begin{equation}
-\boxed{R = \frac{S}{1 - U}}
-\end{equation}
-\end{tcolorbox}
