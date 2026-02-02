@@ -33,13 +33,20 @@ def generate_warmup_analysis():
     num_replications = 5
     np.random.seed(42)
     
+    # Configuration parameters (N=100, M=10, lambda=0.25, S=0.1)
+    # U = N * lambda * S / M = 100 * 0.25 * 0.1 / 10 = 25%
+    N = 100
+    M = 10
+    lam = 0.25  # lambda
+    S = 0.1
+    
     # Generate synthetic data that mimics transient behavior
     # In reality, this would come from .vec files
     time_points = np.linspace(0, sim_time, 1000)
     
     # Generate utilization data with transient period
     # U = steady_state * (1 - exp(-t/tau)) + noise
-    steady_state_util = 0.25  # 25% utilization
+    steady_state_util = (N * lam * S) / M  # 25% utilization
     tau = 200  # time constant for transient (seconds)
     
     util_replications = []
@@ -97,7 +104,7 @@ def generate_warmup_analysis():
     
     # Create plots
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-    fig.suptitle("Warm-Up Period Analysis (Welch's Graphical Procedure)", fontsize=14, fontweight='bold')
+    fig.suptitle(f"Warm-Up Period Analysis (N={N}, M={M}, λ={lam}, S={S}s)", fontsize=14, fontweight='bold')
     
     # Plot 1: Utilization over time with replications
     ax1 = axes[0, 0]
