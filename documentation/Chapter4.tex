@@ -48,7 +48,8 @@ Each configuration was replicated 5 times with different random seeds, resulting
 
 \section{Factor Impact Analysis}
 
-Using the $2^k$ factorial design methodology, we computed the effect of each factor on the system throughput. The pie chart [Figure~\ref{fig:factor_pie}] illustrates the relative contribution of each factor to the total variation in throughput.
+The pie chart [Figure~\ref{fig:factor_pie}] shows how much each factor contributes to throughput variability.
+The key message is that the largest slice is \textbf{Number of Users ($N$)} (about \textbf{72.5\%}), so system load is the main driver of performance.
 
 \begin{figure}[H]
 \centering
@@ -62,31 +63,13 @@ Using the $2^k$ factorial design methodology, we computed the effect of each fac
 The analysis reveals that:
 
 \begin{itemize}
-    \item \textbf{Number of Users ($N$)}: The dominant factor affecting throughput, as expected from queueing theory. More users generate more requests, directly increasing throughput until saturation.
+    \item \textbf{Number of Users ($N$)}: This is the most significant factor by far. In practice, throughput behavior is mostly determined by how many users are active.
     
-    \item \textbf{Read Probability ($p$)}: Has a moderate effect. Higher read probabilities reduce contention since reads can be served concurrently, improving overall throughput.
+    \item \textbf{Read Probability ($p$)}: Secondary effect. It influences performance, but much less than $N$.
     
-    \item \textbf{Interaction Effects}: The $N \times M$ interaction shows that the effect of adding users depends on the number of available tables (service capacity).
+    \item \textbf{Distribution effect}: The distribution does not heavily affect global throughput, but it creates hotspots; on the most requested table this can generate practically infinite queue growth under high load.
 \end{itemize}
 
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|r|r|r|r|r|}
-\hline
-\textbf{Source} & \textbf{SS} & \textbf{df} & \textbf{MS} & \textbf{F} & \textbf{p-value} \\
-\hline
-Between groups & $1.36 \times 10^{14}$ & 71 & $1.91 \times 10^{12}$ & 204.02 & $< 0.001$ \\
-Within groups & $6.16 \times 10^{12}$ & 288 & $2.14 \times 10^{10}$ & - & - \\
-\hline
-Total & $1.42 \times 10^{14}$ & 359 & - & - & - \\
-\hline
-\end{tabular}
-\caption{ANOVA table for throughput analysis}
-\label{tab:anova}
-\end{table}
-
-The F-statistic of 204.02 with p-value $< 0.001$ indicates that the factor effects are \textbf{highly significant}. The between-groups variation accounts for \textbf{95.7\%} of the total variation.
 
 \section{Model Validation}
 
@@ -113,7 +96,8 @@ The Shapiro-Wilk test confirms this departure from normality (p-value $< 0.05$).
 
 \subsection{Homoskedasticity}
 
-The scatter plot of residuals vs predicted response [Figure~\ref{fig:residuals_pred}] shows the relationship between model predictions and errors.
+The residuals-vs-predicted plot [Figure~\ref{fig:residuals_pred}] is used to check whether error variance is constant across operating conditions.
+With perfect homoskedasticity, residuals should form a horizontal band around zero with similar vertical spread for all predicted values.
 
 \begin{figure}[H]
 \centering
@@ -122,11 +106,18 @@ The scatter plot of residuals vs predicted response [Figure~\ref{fig:residuals_p
 \label{fig:residuals_pred}
 \end{figure}
 
-A visible trend is present, indicating \textbf{heteroskedasticity}: the variance of residuals increases with the predicted response. This is typical in simulation studies where higher throughput configurations have larger absolute variations.
+In our case, residuals remain centered around zero, but the spread increases at higher predicted throughput (funnel shape). This indicates \textbf{moderate heteroskedasticity}, typical when the system approaches saturation and queueing dynamics amplify variability.
+
+Implications:
+\begin{itemize}
+    \item Point predictions are still useful (no strong systematic bias in the mean residual).
+    \item Uncertainty is higher in high-load configurations.
+    \item Inference assuming constant variance can be optimistic; robust errors or weighted models are preferable for strict statistical testing.
+\end{itemize}
 
 \subsection{Residual Magnitude Analysis}
 
-Essentially, we can ignore trends if the errors are one or more orders of magnitude below the predicted response. Figure~\ref{fig:residual_mag} shows this analysis:
+To quantify this effect, we also examine the relative error magnitude $|$residual$| / |$predicted$|$ [Figure~\ref{fig:residual_mag}].
 
 \begin{figure}[H]
 \centering
@@ -135,7 +126,8 @@ Essentially, we can ignore trends if the errors are one or more orders of magnit
 \label{fig:residual_mag}
 \end{figure}
 
-The analysis shows that most residuals are \textbf{well below 10\%} of the predicted values, indicating that despite the heteroskedasticity, the model provides accurate predictions.
+Most observations remain \textbf{below 10\%}, while larger ratios are concentrated in stressed/hotspot scenarios.
+Therefore, heteroskedasticity is present but does not invalidate the core conclusions of this study: the number of users is the dominant driver, and distribution mostly affects tail behavior (localized queue explosions).
 
 \section{Performance Summary}
 
