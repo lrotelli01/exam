@@ -48,27 +48,56 @@ Each configuration was replicated 5 times with different random seeds, resulting
 
 \section{Factor Impact Analysis}
 
-The pie chart [Figure~\ref{fig:factor_pie}] is computed directly from the \texttt{.sca} runs and shows how much each factor contributes to \textbf{throughput} variability.
-The dominant slice is \textbf{Number of Users ($N$)} (numerically almost all the variance), so system load is the main driver of throughput.
-This is coherent with the capacity results: distribution has little impact on aggregate throughput, but a strong impact on waiting-time tails and stall threshold.
+The pie chart [Figure~\ref{fig:factor_pie}] shows how much each factor contributes to \textbf{waiting-time} variability.
+The largest contribution is still \textbf{Number of Users ($N$)}, but \textbf{Distribution} and interaction terms are also relevant.
+This is coherent with the capacity results: hotspot traffic has a strong impact on delay growth and stall threshold.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{images/factor_effects_pie.pdf}
-\caption{The pie chart illustrates the impact of each factor on the throughput of the system.}
+\caption{The pie chart illustrates the impact of each factor on waiting-time variability.}
 \label{fig:factor_pie}
 \end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|r|}
+\hline
+\textbf{Effect term} & \textbf{Contribution (\%)} \\
+\hline
+$N$ & 33.51 \\
+$p$ & 9.39 \\
+Distribution & 22.56 \\
+$N \times p$ & 7.16 \\
+$N \times$ Distribution & 14.46 \\
+$p \times$ Distribution & 3.73 \\
+Residual & 9.19 \\
+\hline
+\end{tabular}
+\caption{ANOVA-style contribution on $\log_{10}(W+1)$, where $W$ is waiting time in ms.}
+\label{tab:factor_contrib_wait}
+\end{table}
+
+\noindent Important interpretation: the \textbf{main effect} of read probability is $9.39\%$, but the overall impact of read probability is larger if interactions are included:
+\[
+p + (N \times p) + (p \times \text{Distribution}) \approx 9.39 + 7.16 + 3.73 = 20.28\%.
+\]
+So read probability does not act ``in isolation''; it becomes much more influential when load and hotspot distribution change.
 
 \subsection{Key Findings}
 
 The analysis reveals that:
 
 \begin{itemize}
-    \item \textbf{Number of Users ($N$)}: This is the most significant factor by far. In practice, throughput behavior is mostly determined by how many users are active.
+    \item \textbf{Number of Users ($N$)}: This is the single largest driver (33.51\%). Increasing users pushes the system toward saturation and raises queueing delay.
     
-    \item \textbf{Read Probability ($p$)}: Secondary effect on throughput.
+    \item \textbf{Read Probability ($p$)}: The direct term is 9.39\%, but the effective impact reaches about 20.28\% when interactions are considered. This explains why changing $p$ can strongly improve delay in stressed scenarios.
     
-    \item \textbf{Distribution effect}: Small impact on global throughput, but strong impact on delay and stability. Lognormal hotspots can trigger queue explosion and early stall under high load.
+    \item \textbf{Distribution}: A strong standalone contribution (22.56\%). Uniform access keeps delay controlled, while Lognormal hotspots amplify contention.
+
+    \item \textbf{Interactions}: $N \times$ Distribution (14.46\%) and $N \times p$ (7.16\%) are substantial, meaning that the effect of one factor depends on the operating point of the others.
+
+    \item \textbf{Residual}: 9.19\% indicates remaining variability not explained by first-order terms only (e.g., stochastic effects near threshold conditions), which is expected in saturation regions.
 \end{itemize}
 
 
@@ -76,7 +105,7 @@ The analysis reveals that:
 
 \subsection{Testing Normality Hypothesis}
 
-Residual analysis is built only from real simulation replications (no synthetic data): for each $(N,p,\text{distribution})$ configuration, the predicted waiting time is the mean over the 5 runs, and residuals are measured as percentage deviations from that configuration mean.
+For each $(N,p,\text{distribution})$ configuration, the predicted waiting time is the mean over the 5 runs, and residuals are measured as percentage deviations from that configuration mean.
 
 The QQ-Plot [Figure~\ref{fig:qqplot}] compares the distribution of residuals against a theoretical normal distribution.
 
@@ -125,7 +154,7 @@ To quantify this effect, we examine the absolute residual percentage $|e|$ acros
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{images/residual_magnitude.pdf}
-\caption{Residual magnitude analysis from \texttt{.sca} data: histogram of $|$residual$|$ (\%) and boxplots grouped by distribution and $p$.}
+\caption{Residual magnitude analysis: histogram of $|$residual$|$ (\%) and boxplots grouped by distribution and $p$.}
 \label{fig:residual_mag}
 \end{figure}
 

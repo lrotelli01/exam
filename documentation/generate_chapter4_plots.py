@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Chapter 4 plots directly from OMNeT++ .sca results (no synthetic data)."""
+"""Generate Chapter 4 plots."""
 
 from collections import defaultdict
 from pathlib import Path
@@ -17,11 +17,11 @@ plt.rcParams["figure.figsize"] = (8, 6)
 plt.rcParams["font.size"] = 11
 
 
-def load_runs_from_sca(results_dir):
+def load_runs_from_results(results_dir):
     """Read all runs and extract dist, N, p, avg wait (ms), and throughput (req/s)."""
     sca_files = sorted(results_dir.glob("*.sca"))
     if not sca_files:
-        raise FileNotFoundError(f"No .sca files found in {results_dir}")
+        raise FileNotFoundError(f"No result files found in {results_dir}")
 
     runs = []
     for filepath in sca_files:
@@ -62,8 +62,8 @@ def load_runs_from_sca(results_dir):
     return runs
 
 
-def compute_factor_effects_throughput(runs):
-    """Balanced 3-factor ANOVA decomposition for throughput (N, p, distribution)."""
+def compute_factor_effects_waiting_time(runs):
+    """Balanced 3-factor ANOVA decomposition for log10(wait_ms+1)."""
     levels_n = sorted({r["N"] for r in runs})
     levels_p = sorted({r["p"] for r in runs})
     levels_d = sorted({r["dist"] for r in runs})
@@ -71,18 +71,18 @@ def compute_factor_effects_throughput(runs):
 
     cells = defaultdict(list)
     for run in runs:
-        cells[(run["N"], run["p"], run["dist"])].append(run["throughput"])
+        cells[(run["N"], run["p"], run["dist"])].append(np.log10(run["wait_ms"] + 1.0))
 
     reps = min(len(v) for v in cells.values())
-    y = np.array([r["throughput"] for r in runs], dtype=float)
+    y = np.array([np.log10(r["wait_ms"] + 1.0) for r in runs], dtype=float)
     mu = float(np.mean(y))
 
-    mean_n = {n: np.mean([r["throughput"] for r in runs if r["N"] == n]) for n in levels_n}
-    mean_p = {p: np.mean([r["throughput"] for r in runs if r["p"] == p]) for p in levels_p}
-    mean_d = {d: np.mean([r["throughput"] for r in runs if r["dist"] == d]) for d in levels_d}
-    mean_np = {(n, p): np.mean([r["throughput"] for r in runs if r["N"] == n and r["p"] == p]) for n in levels_n for p in levels_p}
-    mean_nd = {(n, d): np.mean([r["throughput"] for r in runs if r["N"] == n and r["dist"] == d]) for n in levels_n for d in levels_d}
-    mean_pd = {(p, d): np.mean([r["throughput"] for r in runs if r["p"] == p and r["dist"] == d]) for p in levels_p for d in levels_d}
+    mean_n = {n: np.mean([np.log10(r["wait_ms"] + 1.0) for r in runs if r["N"] == n]) for n in levels_n}
+    mean_p = {p: np.mean([np.log10(r["wait_ms"] + 1.0) for r in runs if r["p"] == p]) for p in levels_p}
+    mean_d = {d: np.mean([np.log10(r["wait_ms"] + 1.0) for r in runs if r["dist"] == d]) for d in levels_d}
+    mean_np = {(n, p): np.mean([np.log10(r["wait_ms"] + 1.0) for r in runs if r["N"] == n and r["p"] == p]) for n in levels_n for p in levels_p}
+    mean_nd = {(n, d): np.mean([np.log10(r["wait_ms"] + 1.0) for r in runs if r["N"] == n and r["dist"] == d]) for n in levels_n for d in levels_d}
+    mean_pd = {(p, d): np.mean([np.log10(r["wait_ms"] + 1.0) for r in runs if r["p"] == p and r["dist"] == d]) for p in levels_p for d in levels_d}
     mean_npd = {(n, p, d): np.mean(cells[(n, p, d)]) for n in levels_n for p in levels_p for d in levels_d}
 
     ss_total = np.sum((y - mu) ** 2)
@@ -167,10 +167,7 @@ def generate_factor_effects_pie(effects):
     labels = list(effects.keys())
     sizes = list(effects.values())
     colors = ["#2ecc71", "#3498db", "#9b59b6", "#e74c3c", "#f39c12", "#1abc9c", "#95a5a6"]
-    explode = (0.06, 0, 0, 0, 0, 0, 0)
-
-    def autopct_fmt(value):
-        return f"{value:.2f}%" if value >= 0.01 else "<0.01%"
+    explode = (0.05, 0, 0, 0, 0, 0, 0)
 
     fig, ax = plt.subplots(figsize=(10, 8))
     wedges, _, autotexts = ax.pie(
@@ -178,7 +175,7 @@ def generate_factor_effects_pie(effects):
         explode=explode,
         labels=labels,
         colors=colors,
-        autopct=autopct_fmt,
+        autopct="%1.1f%%",
         startangle=90,
         pctdistance=0.75,
     )
@@ -187,10 +184,14 @@ def generate_factor_effects_pie(effects):
         autotext.set_fontsize(10)
         autotext.set_fontweight("bold")
 
-    ax.set_title("Factor Effects on Throughput (from .sca runs)", fontsize=14, fontweight="bold")
+    ax.set_title(
+        "Factor Effects on Waiting Time\n(Contribution to Total Variation, log10(W+1))",
+        fontsize=14,
+        fontweight="bold",
+    )
     ax.legend(
         wedges,
-        [f"{label}: {value:.4f}%" for label, value in zip(labels, sizes)],
+        [f"{label}: {value:.1f}%" for label, value in zip(labels, sizes)],
         title="Factors",
         loc="center left",
         bbox_to_anchor=(1, 0, 0.5, 1),
@@ -213,7 +214,7 @@ def generate_qq_plot(z_residual):
 
     ax.set_xlabel("Theoretical Quantiles (Normal)")
     ax.set_ylabel("Sample Quantiles (Standardized residual %)")
-    ax.set_title("QQ-Plot of Residual Percentages (from .sca data)", fontsize=14, fontweight="bold")
+    ax.set_title("QQ-Plot of Residual Percentages", fontsize=14, fontweight="bold")
     ax.text(
         0.03,
         0.96,
@@ -259,7 +260,7 @@ def generate_residuals_vs_predicted(predicted_wait_ms, residual_pct, dist):
     ax.set_xscale("log")
     ax.set_xlabel("Predicted waiting time per configuration (ms, log scale)")
     ax.set_ylabel("Residual percentage (%)")
-    ax.set_title("Residuals vs Predicted Waiting Time (.sca replications)", fontsize=14, fontweight="bold")
+    ax.set_title("Residuals vs Predicted Waiting Time", fontsize=14, fontweight="bold")
 
     rho, p_value = stats.spearmanr(np.log10(predicted_wait_ms + 1.0), np.abs(residual_pct))
     ax.text(
@@ -347,14 +348,18 @@ def print_residual_summary(abs_residual_pct, dist, read_p):
 
 
 if __name__ == "__main__":
-    print("Generating Chapter 4 plots from .sca data...")
+    print("Generating Chapter 4 plots from simulation results...")
     print(f"Results directory: {RESULTS_DIR}")
     print(f"Output directory: {OUTPUT_DIR}\n")
 
-    all_runs = load_runs_from_sca(RESULTS_DIR)
+    all_runs = load_runs_from_results(RESULTS_DIR)
     print(f"Loaded {len(all_runs)} runs.")
 
-    effects = compute_factor_effects_throughput(all_runs)
+    effects = compute_factor_effects_waiting_time(all_runs)
+    print("Factor effects (%):")
+    for name, value in effects.items():
+        print(f"  {name:12s} {value:10.6f}")
+
     residual_data = build_residual_dataset(all_runs)
 
     generate_factor_effects_pie(effects)
