@@ -161,6 +161,15 @@ To quantify this effect, we examine the absolute residual percentage $|e|$ acros
 Most replications are very stable (median $|e| = 0.068\%$, 90th percentile $= 0.715\%$), while the largest deviations are concentrated in hotspot cases (up to about $19\%$).
 Therefore, variability is mostly localized in stressed scenarios and does not change the core conclusions: the number of users is the dominant driver, while distribution mainly affects tails and stall risk.
 
+\paragraph{Why residuals do not always increase with load}
+In this analysis, residuals are computed \emph{within each fixed configuration} $(N,p,\text{distribution})$ as deviations from that configuration mean (across 5 replications).  
+For this reason, residual magnitude is not required to be monotonic in $N$: it measures replication variability at the same operating point, not the global increase of waiting time with load.
+
+\paragraph{Interpretation of Lognormal, $p=0.3$}
+The largest relative residuals appear near the transition to saturation (around $N \approx 1500$), where runs can diverge in how quickly queues explode.  
+After the system is fully stalled (larger $N$), all replications become consistently very large, so \emph{relative} residuals can decrease even if \emph{absolute} waiting times remain enormous (hundreds of seconds in ms scale).  
+So the pattern is: peak variability at the instability threshold, then high but more uniform delay in deep-stall regimes.
+
 \section{Conclusions}
 
 This simulation study has successfully analyzed the performance of a distributed database system under various configurations. The main conclusions are:
