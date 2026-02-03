@@ -48,9 +48,9 @@ Each configuration was replicated 5 times with different random seeds, resulting
 
 \section{Factor Impact Analysis}
 
-The pie chart [Figure~\ref{fig:factor_pie}] shows how much each factor contributes to \textbf{throughput} variability.
-The key message is that the largest slice is \textbf{Number of Users ($N$)} (about \textbf{72.5\%}), so system load is the main driver of throughput.
-This does not contradict the capacity results: distribution has limited impact on aggregate throughput, but a strong impact on waiting-time tails and stall threshold.
+The pie chart [Figure~\ref{fig:factor_pie}] is computed directly from the \texttt{.sca} runs and shows how much each factor contributes to \textbf{throughput} variability.
+The dominant slice is \textbf{Number of Users ($N$)} (numerically almost all the variance), so system load is the main driver of throughput.
+This is coherent with the capacity results: distribution has little impact on aggregate throughput, but a strong impact on waiting-time tails and stall threshold.
 
 \begin{figure}[H]
 \centering
@@ -66,9 +66,9 @@ The analysis reveals that:
 \begin{itemize}
     \item \textbf{Number of Users ($N$)}: This is the most significant factor by far. In practice, throughput behavior is mostly determined by how many users are active.
     
-    \item \textbf{Read Probability ($p$)}: Secondary effect. It influences performance, but much less than $N$.
+    \item \textbf{Read Probability ($p$)}: Secondary effect on throughput.
     
-    \item \textbf{Distribution effect}: The distribution has a moderate impact on global throughput, but a strong impact on delay and stability. Lognormal hotspots can trigger queue explosion and early stall under high load.
+    \item \textbf{Distribution effect}: Small impact on global throughput, but strong impact on delay and stability. Lognormal hotspots can trigger queue explosion and early stall under high load.
 \end{itemize}
 
 
@@ -76,12 +76,14 @@ The analysis reveals that:
 
 \subsection{Testing Normality Hypothesis}
 
+Residual analysis is built only from real simulation replications (no synthetic data): for each $(N,p,\text{distribution})$ configuration, the predicted waiting time is the mean over the 5 runs, and residuals are measured as percentage deviations from that configuration mean.
+
 The QQ-Plot [Figure~\ref{fig:qqplot}] compares the distribution of residuals against a theoretical normal distribution.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\textwidth]{images/qq_plot_residuals.pdf}
-\caption{QQ-Plot: On Y-Axis the sample quantiles and X-Axis the theoretical quantiles of a normal distribution.}
+\caption{QQ-Plot of standardized residual percentages: sample quantiles (Y-axis) vs normal theoretical quantiles (X-axis).}
 \label{fig:qqplot}
 \end{figure}
 
@@ -93,42 +95,42 @@ The QQ-Plot shows a \textbf{non-linear behavior}, indicating that the residuals 
     \item The non-linear behavior near system saturation
 \end{itemize}
 
-The Shapiro-Wilk test confirms this departure from normality (p-value $< 0.05$).
+The Shapiro-Wilk test confirms this departure from normality (p-value $\ll 0.05$).
 
 \subsection{Homoskedasticity}
 
-The residuals-vs-predicted plot [Figure~\ref{fig:residuals_pred}] is used to check whether error variance is constant across operating conditions.
-With perfect homoskedasticity, residuals should form a horizontal band around zero with similar vertical spread for all predicted values.
+The residuals-vs-predicted plot [Figure~\ref{fig:residuals_pred}] checks whether residual variance is stable across operating conditions.
+With perfect homoskedasticity, residual percentages should form a horizontal band around zero with similar vertical spread.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{images/residuals_vs_predicted.pdf}
-\caption{The residuals are plotted along the Y-axis, while the predicted responses are represented on the X-axis.}
+\caption{Residual percentage (Y-axis) versus predicted waiting time per configuration in ms (X-axis, log scale).}
 \label{fig:residuals_pred}
 \end{figure}
 
-In our case, a clear funnel shape is not evident. Residuals remain centered around zero and the vertical spread is fairly stable across predicted values, with only slight widening at the highest loads. Overall, this is consistent with \textbf{approximately homoskedastic} behavior (at most weak heteroskedasticity in extreme scenarios).
+In our case, a clear funnel shape is not evident. Residuals stay centered around zero, with limited widening only in the most stressed hotspot regimes. The trend between residual magnitude and predicted wait is weak (Spearman $\rho \approx 0.18$), so behavior is \textbf{approximately homoskedastic} with mild heteroskedasticity at the extremes.
 
 Implications:
 \begin{itemize}
-    \item Point predictions are still useful (no strong systematic bias in the mean residual).
+    \item Point predictions are still useful (mean residual remains near zero).
     \item Uncertainty may grow only in the most stressed configurations.
     \item Main qualitative conclusions are unchanged.
 \end{itemize}
 
 \subsection{Residual Magnitude Analysis}
 
-To quantify this effect, we also examine the relative error magnitude $|$residual$| / |$predicted$|$ [Figure~\ref{fig:residual_mag}].
+To quantify this effect, we examine the absolute residual percentage $|e|$ across all runs and by groups [Figure~\ref{fig:residual_mag}].
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{images/residual_magnitude.pdf}
-\caption{Each residual varies by an order of magnitude or more below the predicted response. On Y-Axis the ratio $|$residual$|$ / $|$predicted$|$ and X-Axis the observation number.}
+\caption{Residual magnitude analysis from \texttt{.sca} data: histogram of $|$residual$|$ (\%) and boxplots grouped by distribution and $p$.}
 \label{fig:residual_mag}
 \end{figure}
 
-Most observations remain \textbf{below 10\%}, while larger ratios are concentrated in stressed/hotspot scenarios.
-Therefore, heteroskedasticity is present but does not invalidate the core conclusions of this study: the number of users is the dominant driver, and distribution mostly affects tail behavior (localized queue explosions).
+Most replications are very stable (median $|e| = 0.068\%$, 90th percentile $= 0.715\%$), while the largest deviations are concentrated in hotspot cases (up to about $19\%$).
+Therefore, variability is mostly localized in stressed scenarios and does not change the core conclusions: the number of users is the dominant driver, while distribution mainly affects tails and stall risk.
 
 \section{Conclusions}
 
