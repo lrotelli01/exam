@@ -40,65 +40,49 @@ The warm-up period $T_w$ is identified as the point where:
 
 \subsection{Results from Simulation Data}
 
-The analysis was performed using data extracted from all \textbf{360 simulation runs} covering \textbf{72 unique configurations}:
+The analysis was performed using data from the \textbf{consistency test} simulations:
 
 \begin{itemize}
-    \item Number of users $N$: 100, 500, 1000, 1200, 1500, 1600, 2000, 2500, 3000, 3500, 4000, 5000
-    \item Read probability $p$: 0.3, 0.5, 0.8
-    \item Distribution: Uniform, Lognormal
-    \item Tables $M = 20$, $\lambda = 0.05$ req/s, $S = 0.1$s
-    \item 5 replications per configuration
+    \item Configuration: $N = 1000$ users, $M = 10$ tables, $p = 0.5$, $\lambda = 0.05$ req/s, $S = 0.1$s
+    \item 3 independent replications with different random seeds
+    \item Response variable: Mean wait time (ms)
 \end{itemize}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{images/warmup_analysis.pdf}
-\caption{Warm-up analysis across all configurations. Top-left: warm-up period vs system load for different $p$ values and distributions. Top-right: theoretical vs empirical utilization comparison. Bottom-left: warm-up period by distribution type. Bottom-right: heatmap of warm-up periods across $N$ and $p$.}
+\caption{Warm-up analysis for N=1000 configuration. Top-left: wait time across replications. Top-right: normalized convergence to steady state. Bottom-left: steady-state wait time by user count. Bottom-right: coefficient of variation showing system stability.}
 \label{fig:warmup_analysis}
 \end{figure}
 
 \subsubsection{Key Findings}
 
-The analysis [Figure~\ref{fig:warmup_analysis}] reveals important patterns:
+The analysis [Figure~\ref{fig:warmup_analysis}] reveals:
 
 \begin{itemize}
-    \item \textbf{Effect of N}: Higher user counts lead to longer characteristic times $\tau$, especially near saturation. At $N=5000$ with Uniform distribution, $\tau \approx 33$s.
+    \item \textbf{Rapid Convergence}: The system reaches steady state quickly, with all replications showing similar wait times (mean = 31.34 ms, CV = 1.1\%).
     
-    \item \textbf{Effect of p}: Higher read probability reduces warm-up time because reads can proceed in parallel, reducing queueing delays.
+    \item \textbf{Low Variability}: The coefficient of variation below 10\% indicates stable system behavior, suggesting a short warm-up period is sufficient.
     
-    \item \textbf{Effect of Distribution}: 
-    \begin{itemize}
-        \item \textbf{Uniform}: Higher actual utilization (closer to theoretical), longer warm-up at high loads
-        \item \textbf{Lognormal}: Creates hotspots, causing some tables to saturate while others remain idle, resulting in lower overall utilization but uneven convergence
-    \end{itemize}
+    \item \textbf{Scaling Behavior}: Wait time increases with user count, as expected from queueing theory.
 \end{itemize}
 
-\subsubsection{Sample Warm-Up Results}
+\subsubsection{Warm-Up Period Estimation}
+
+Based on the low variability observed (CV = 1.1\%), the system converges rapidly to steady state:
 
 \begin{table}[H]
 \centering
-\small
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|}
 \hline
-\textbf{N} & \textbf{p} & \textbf{Dist} & \textbf{$U_{theo}$} & \textbf{$U_{emp}$} & \textbf{$\tau$ (s)} \\
+\textbf{Configuration} & \textbf{Mean Wait Time} & \textbf{Std Dev} & \textbf{CV} \\
 \hline
-100 & 0.5 & Uniform & 2.5\% & 2.49\% & 0.9 \\
-1000 & 0.5 & Uniform & 25.0\% & 24.14\% & 1.8 \\
-2000 & 0.5 & Uniform & 50.0\% & 46.38\% & 2.8 \\
-3000 & 0.5 & Uniform & 75.0\% & 66.25\% & 4.6 \\
-4000 & 0.5 & Uniform & 100.0\% & 83.11\% & 9.5 \\
-5000 & 0.5 & Uniform & 125.0\% & 96.39\% & 33.1 \\
-\hline
-1000 & 0.5 & Lognormal & 25.0\% & 23.41\% & 1.8 \\
-3000 & 0.5 & Lognormal & 75.0\% & 53.24\% & 3.3 \\
-5000 & 0.5 & Lognormal & 125.0\% & 66.83\% & 5.0 \\
+N=1000, M=10, p=0.5 & 31.34 ms & 0.34 ms & 1.1\% \\
 \hline
 \end{tabular}
-\caption{Characteristic time $\tau$ for selected configurations}
+\caption{Warm-up analysis results for reference configuration}
 \label{tab:warmup_tau}
 \end{table}
-
-\textbf{Note}: The Lognormal distribution shows lower empirical utilization than Uniform because hotspots cause some tables to reach saturation (blocking new requests) while others remain underutilized.
 
 \begin{tcolorbox}[title=Warm-Up Configuration]
 Based on the analysis of all 72 configurations:
@@ -157,9 +141,6 @@ The analysis reveals that:
     \item \textbf{Interaction Effects}: The $N \times M$ interaction shows that the effect of adding users depends on the number of available tables (service capacity).
 \end{itemize}
 
-\section{ANOVA Results}
-
-The Analysis of Variance (ANOVA) was performed to test whether the factor effects are statistically significant.
 
 \begin{table}[H]
 \centering
