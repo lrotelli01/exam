@@ -1,0 +1,27 @@
+\chapter{Problem Definition}
+
+\section{Problem Statement}
+\begin{itemize}
+    \item $N$ concurrent users randomly access $M$ database tables.
+    \item Each user generates requests according to a Poisson process (rate $\lambda$).
+    \item Each request is a \textbf{READ} with probability $p$, or \textbf{WRITE} with probability ($1-p$).
+    \item Table selection follows a specified distribution (uniform or lognormal).
+    \item Each access requires a fixed service time $S$.
+\end{itemize}
+
+\section{Constraints}
+\begin{itemize}
+    \item \textbf{Reads:} Multiple simultaneous reads on the same table are allowed (reader lock).
+    \item \textbf{Writes:} Exclusive access only (write lock), blocked by active readers.
+    \item \textbf{Queuing:} FCFS to handle conflicting requests.
+    \item \textbf{Mutual Exclusion:} Implemented via reader/writer counters.
+\end{itemize}
+
+\section{Key Performance Metrics}
+\begin{itemize}
+    \item Average wait time (from request submission to response).
+    \item Throughput (completed accesses per second).
+    \item Maximum/average queue length per table.
+    \item Table utilization (fraction of time occupied).
+    \item Read/write ratio of completed operations.
+\end{itemize}
