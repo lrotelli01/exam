@@ -48,8 +48,9 @@ Each configuration was replicated 5 times with different random seeds, resulting
 
 \section{Factor Impact Analysis}
 
-The pie chart [Figure~\ref{fig:factor_pie}] shows how much each factor contributes to throughput variability.
-The key message is that the largest slice is \textbf{Number of Users ($N$)} (about \textbf{72.5\%}), so system load is the main driver of performance.
+The pie chart [Figure~\ref{fig:factor_pie}] shows how much each factor contributes to \textbf{throughput} variability.
+The key message is that the largest slice is \textbf{Number of Users ($N$)} (about \textbf{72.5\%}), so system load is the main driver of throughput.
+This does not contradict the capacity results: distribution has limited impact on aggregate throughput, but a strong impact on waiting-time tails and stall threshold.
 
 \begin{figure}[H]
 \centering
@@ -67,7 +68,7 @@ The analysis reveals that:
     
     \item \textbf{Read Probability ($p$)}: Secondary effect. It influences performance, but much less than $N$.
     
-    \item \textbf{Distribution effect}: The distribution does not heavily affect global throughput, but it creates hotspots; on the most requested table this can generate practically infinite queue growth under high load.
+    \item \textbf{Distribution effect}: The distribution has a moderate impact on global throughput, but a strong impact on delay and stability. Lognormal hotspots can trigger queue explosion and early stall under high load.
 \end{itemize}
 
 
@@ -142,33 +143,16 @@ Based on the simulation results, we analyze system capacity using \textbf{averag
     \item \textbf{STALLED}: Waiting time $> 1000$ms (system overloaded)
 \end{itemize}
 
-\begin{table}[H]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|c|c|r|r|r|c|}
-\hline
-\textbf{p} & \textbf{Dist.} & \textbf{Max N (W$<$200ms)} & \textbf{Max N (W$<$1000ms)} & \textbf{W at N=5000 (ms)} & \textbf{Status} \\
-\hline
-0.3 & Lognormal & 1,200 & 1,200 & 829,577.91 & \textcolor{red}{STALLED} \\
-0.3 & Uniform & 2,500 & 4,000 & 526,727.45 & \textcolor{red}{STALLED} \\
-\hline
-0.5 & Lognormal & 1,200 & 1,600 & 782,955.64 & \textcolor{red}{STALLED} \\
-0.5 & Uniform & 3,000 & 5,000 & 960.93 & \textcolor{orange!80!black}{DEGRADED} \\
-\hline
-0.8 & Lognormal & 2,500 & 3,500 & 282,778.77 & \textcolor{red}{STALLED} \\
-0.8 & Uniform & 5,000+ & 5,000+ & 154.14 & \textcolor{green!50!black}{OK} \\
-\hline
-\end{tabular}
-}
-\caption{System capacity summary using waiting-time thresholds ($M=20$, $\lambda=0.05$, $S=0.1$s)}
-\label{tab:max_users}
-\end{table}
-
 \subsubsection{Detailed Throughput Analysis}
 
-Table~\ref{tab:throughput_detail} reports configurations in increasing load order and, for each $(p,\text{distribution})$ pair, stops at the first STALLED point. The overall throughput grows with load, while waiting time increases sharply under hotspot conditions.
+Figure~\ref{fig:capacity_heatmap} summarizes all 72 configurations as a waiting-time heatmap. The overall throughput grows with load, while waiting time increases sharply under hotspot conditions. The full detailed table is reported in Appendix~\ref{chap:appendix_table}.
 
-\input{tables/throughput_all_configs.tex}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{images/capacity_heatmap_waittime.pdf}
+\caption{Capacity heatmap for Uniform and Lognormal traffic. Colors represent mean waiting time (log scale). Numbers inside cells are mean waiting time in ms (compact format, e.g., 15k = 15,000ms).}
+\label{fig:capacity_heatmap}
+\end{figure}
 
 \subsubsection{Capacity Guidelines}
 
@@ -216,13 +200,5 @@ This highlights the critical importance of \textbf{load balancing} in production
     \end{itemize}
     
     \item \textbf{Read/Write Impact}: Higher read probability increases usable capacity, with the strongest gains under hotspot traffic.
-    
-    \item \textbf{Scaling Formula}: Maximum users for target waiting time $W_{max}$:
-    \begin{equation}
-    N_{max} \approx \frac{M \cdot (1 - p \cdot \alpha)}{\lambda \cdot S} \cdot f(W_{max})
-    \end{equation}
-    where $\alpha$ is the read parallelism factor and $f(W_{max})$ depends on acceptable waiting time.
 \end{enumerate}
 \end{tcolorbox}
-
-
