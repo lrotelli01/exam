@@ -6,90 +6,18 @@ This chapter presents a statistical analysis of the simulation results, includin
 
 Before collecting steady-state statistics, it is essential to identify and discard the \textbf{transient phase} (warm-up period) during which the system has not yet reached equilibrium.
 
-\subsection{Welch's Graphical Procedure}
-
-We applied \textbf{Welch's graphical method} to determine the warm-up period. This technique involves:
-
-\begin{enumerate}
-    \item Running $R$ independent replications with different random seeds
-    \item Recording the time series of the metric of interest (utilization)
-    \item Computing the ensemble average across replications at each time point
-    \item Applying a moving average filter to smooth fluctuations
-    \item Identifying the time $T_w$ at which the smoothed series stabilizes
-\end{enumerate}
-
-\subsubsection{Mathematical Formulation}
-
-Let $Y_{r,i}$ denote the observation at time step $i$ in replication $r$. The ensemble average is:
-\begin{equation}
-\bar{Y}_i = \frac{1}{R} \sum_{r=1}^{R} Y_{r,i}
-\end{equation}
-
-The moving average with window size $w$ is:
-\begin{equation}
-\bar{Y}_i(w) = \begin{cases}
-\frac{1}{2i+1} \sum_{s=-i}^{i} \bar{Y}_{i+s+1} & \text{if } i < w \\
-\frac{1}{2w+1} \sum_{s=-w}^{w} \bar{Y}_{i+s+1} & \text{if } i \geq w
-\end{cases}
-\end{equation}
-
-The warm-up period $T_w$ is identified as the point where:
-\begin{equation}
-\left| \frac{d\bar{Y}_i(w)}{dt} \right| < \epsilon
-\end{equation}
-
-\subsection{Results from Simulation Data}
-
-The analysis was performed using data from the \textbf{consistency test} simulations:
-
-\begin{itemize}
-    \item Configuration: $N = 1000$ users, $M = 10$ tables, $p = 0.5$, $\lambda = 0.05$ req/s, $S = 0.1$s
-    \item 3 independent replications with different random seeds
-    \item Response variable: Mean wait time (ms)
-\end{itemize}
+In this project, the warm-up period was estimated by \textbf{visual inspection} of the simulation trend.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{images/warmup_analysis.pdf}
-\caption{Warm-up analysis for N=1000 configuration. Top-left: wait time across replications. Top-right: normalized convergence to steady state. Bottom-left: steady-state wait time by user count. Bottom-right: coefficient of variation showing system stability.}
+\includegraphics[width=0.95\textwidth]{images/warmup_analysis.png}
+\caption{Warm-up behavior observed in the simulation output.}
 \label{fig:warmup_analysis}
 \end{figure}
 
-\subsubsection{Key Findings}
-
-The analysis [Figure~\ref{fig:warmup_analysis}] reveals:
-
-\begin{itemize}
-    \item \textbf{Rapid Convergence}: The system reaches steady state quickly, with all replications showing similar wait times (mean = 31.34 ms, CV = 1.1\%).
-    
-    \item \textbf{Low Variability}: The coefficient of variation below 10\% indicates stable system behavior, suggesting a short warm-up period is sufficient.
-    
-    \item \textbf{Scaling Behavior}: Wait time increases with user count, as expected from queueing theory.
-\end{itemize}
-
-\subsubsection{Warm-Up Period Estimation}
-
-Based on the low variability observed (CV = 1.1\%), the system converges rapidly to steady state:
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|c|}
-\hline
-\textbf{Configuration} & \textbf{Mean Wait Time} & \textbf{Std Dev} & \textbf{CV} \\
-\hline
-N=1000, M=10, p=0.5 & 31.34 ms & 0.34 ms & 1.1\% \\
-\hline
-\end{tabular}
-\caption{Warm-up analysis results for reference configuration}
-\label{tab:warmup_tau}
-\end{table}
+From Figure~\ref{fig:warmup_analysis}, it is clear that after the initial transient the curve stabilizes, so a \textbf{500 s warm-up} is considered sufficient.
 
 \begin{tcolorbox}[title=Warm-Up Configuration]
-Based on the analysis of all 72 configurations:
-\begin{itemize}
-    \item \textbf{Recommended warm-up}: 500 seconds (covers 90th percentile of $5\tau$)
-    \item \textbf{For high-load scenarios} ($N > 4000$): Consider 1000s warm-up
-\end{itemize}
 The OMNeT++ configuration includes:
 \begin{verbatim}
 warmup-period = 500s
