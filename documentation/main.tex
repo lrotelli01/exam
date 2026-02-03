@@ -49,8 +49,16 @@
 \usepackage[skins,theorems]{tcolorbox}
 \usepackage{titlesec}
 
-% Reduce vertical space before chapter titles
-\titlespacing*{\chapter}{0pt}{-50pt}{20pt}
+
+% Reduce vertical space before chapter titles (override default chapter head)
+\makeatletter
+\def\@makechapterhead#1{%
+  \vspace*{-30pt}%  % Modifica qui il valore per regolare lo spazio
+  {\parindent \z@ \raggedright \normalfont
+    \Huge\bfseries \thechapter\quad #1\par\nobreak
+    \vskip 20pt
+  }}
+\makeatother
 
 % --- CONFIGURATIONS ---
 \tcbset{highlight math style={enhanced, colframe=red,colback=gray,arc=0pt,boxrule=1pt}}
