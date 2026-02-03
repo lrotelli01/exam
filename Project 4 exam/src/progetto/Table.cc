@@ -37,7 +37,7 @@ Table::~Table()
 void Table::initialize()
 {
     tableId = par("tableId");
-    // numUsers is not strictly required here, but try to read it if set
+ 
     if (hasPar("numUsers"))
         numUsers = par("numUsers");
     else
@@ -58,7 +58,7 @@ void Table::initialize()
     queueLengthSamples = 0;
     totalWaitingTime = 0.0;
     
-    // Register signals (course-standard method)
+    
     queueLengthSignal = registerSignal("queueLength");
     waitingTimeSignal = registerSignal("waitingTime");
     throughputSignal = registerSignal("throughput");

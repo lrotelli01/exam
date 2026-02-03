@@ -103,7 +103,7 @@ int User::selectTableLognormal()
 {
     // Lognormal distribution
     // Parameters: m (mean of log) and s (std dev of log)
-    // Calibrate these values for your scenario
+    
     double m = par("lognormalM");
     double s = par("lognormalS");
     // Generate variable with lognormal distribution
@@ -141,7 +141,6 @@ void User::sendAccessRequest(int tableId, bool isRead)
     }
 
     // Add request information as parameters
-    // You can use cMessage::addPar() or custom data structure
     cMsgPar *userIdPar = new cMsgPar("userId");
     userIdPar->setLongValue(userId);
     request->addPar(userIdPar);
