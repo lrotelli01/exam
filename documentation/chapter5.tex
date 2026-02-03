@@ -1,0 +1,30 @@
+\chapter{Final Conclusions}
+
+This project analyzed a concurrent database-access system under increasing load, different read/write mixes, and two access distributions (Uniform and Lognormal). The simulation campaign confirms that the model is stable, reproducible, and useful for capacity-oriented decisions.
+
+\section{Main Results}
+
+\begin{itemize}
+    \item \textbf{User load is the dominant driver}: throughput grows with offered load, while waiting time becomes the key indicator of saturation.
+    \item \textbf{Hotspots are the main risk}: with Lognormal access, a subset of tables becomes overloaded and delays can explode even when aggregate throughput still appears high.
+    \item \textbf{Read-heavy traffic improves capacity}: higher read probability reduces contention and postpones degradation, especially in Uniform access conditions.
+    \item \textbf{Warm-up configuration is adequate}: using a 500s warm-up avoids transient bias in collected statistics.
+\end{itemize}
+
+\section{Operational Takeaways}
+
+\begin{itemize}
+    \item For this setup ($M=20$, $\lambda=0.05$, $S=0.1$s), \textbf{Uniform + high read probability} is the most robust operating region.
+    \item \textbf{Average waiting time} is the most practical control metric for early detection of instability and stall.
+    \item In hotspot scenarios, scaling only the number of users is unsafe without additional load-balancing strategies.
+\end{itemize}
+
+\section{Future Improvements}
+
+\begin{itemize}
+    \item Introduce explicit \textbf{load-balancing/routing policies} to mitigate hotspot concentration.
+    \item Extend the model with \textbf{dynamic table scaling} and adaptive admission control.
+    \item Add targeted stress experiments around the stall boundary to refine capacity thresholds.
+\end{itemize}
+
+In summary, the system can sustain high concurrency in balanced traffic conditions, while hotspot-driven contention is the critical bottleneck that must be addressed in production-oriented designs.

@@ -129,46 +129,6 @@ To quantify this effect, we also examine the relative error magnitude $|$residua
 Most observations remain \textbf{below 10\%}, while larger ratios are concentrated in stressed/hotspot scenarios.
 Therefore, heteroskedasticity is present but does not invalidate the core conclusions of this study: the number of users is the dominant driver, and distribution mostly affects tail behavior (localized queue explosions).
 
-\section{Performance Summary}
-
-Table~\ref{tab:perf_summary} summarizes the key performance metrics across different configurations:
-
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{|c|c|c|r|r|r|}
-\hline
-\textbf{N} & \textbf{p} & \textbf{Distribution} & \textbf{Throughput} & \textbf{Util. (\%)} & \textbf{Wait (ms)} \\
-\hline
-100 & 0.5 & Uniform & 49,865 & 2.49 & 0.97 \\
-500 & 0.5 & Uniform & 249,790 & 12.29 & 5.19 \\
-1000 & 0.5 & Uniform & 499,104 & 24.14 & 11.70 \\
-2000 & 0.5 & Uniform & 998,117 & 46.38 & 31.30 \\
-3000 & 0.5 & Uniform & 1,497,917 & 66.25 & 69.03 \\
-4000 & 0.5 & Uniform & 1,998,085 & 83.11 & 166.39 \\
-5000 & 0.5 & Uniform & 2,498,596 & 96.39 & 860.97 \\
-\hline
-1000 & 0.5 & Lognormal & 500,083 & 23.41 & 15.70 \\
-3000 & 0.5 & Lognormal & 1,283,611 & 53.24 & 264,303 \\
-5000 & 0.5 & Lognormal & 1,656,913 & 66.83 & 734,533 \\
-\hline
-\end{tabular}
-\caption{Performance summary for selected configurations}
-\label{tab:perf_summary}
-\end{table}
-
-\subsection{Observations}
-
-\begin{enumerate}
-    \item \textbf{Linear Scaling}: For low to moderate loads ($N \leq 2000$), throughput scales linearly with the number of users.
-    
-    \item \textbf{Saturation Effects}: As utilization approaches 100\%, waiting times increase dramatically due to queueing effects.
-    
-    \item \textbf{Distribution Impact}: The Lognormal distribution (modeling hotspots) causes significantly higher waiting times compared to Uniform distribution at high loads, due to load imbalance among tables.
-    
-    \item \textbf{Read Probability}: Higher read probabilities ($p = 0.8$) reduce waiting times since reads have less contention than writes.
-\end{enumerate}
-
 \section{Conclusions}
 
 This simulation study has successfully analyzed the performance of a distributed database system under various configurations. The main conclusions are:
@@ -177,8 +137,8 @@ This simulation study has successfully analyzed the performance of a distributed
 
 Based on the simulation results, we analyze system capacity using \textbf{average waiting time} as the primary metric for detecting stall conditions:
 \begin{itemize}
-    \item \textbf{OK}: Waiting time $< 100$ms (acceptable response time)
-    \item \textbf{DEGRADED}: Waiting time $100$--$1000$ms (noticeable delays)
+    \item \textbf{OK}: Waiting time $< 200$ms (acceptable response time)
+    \item \textbf{DEGRADED}: Waiting time $200$--$1000$ms (noticeable delays)
     \item \textbf{STALLED}: Waiting time $> 1000$ms (system overloaded)
 \end{itemize}
 
@@ -187,16 +147,16 @@ Based on the simulation results, we analyze system capacity using \textbf{averag
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{|c|c|r|r|r|c|}
 \hline
-\textbf{p} & \textbf{Dist.} & \textbf{Max N (W$<$100ms)} & \textbf{Max N (W$<$1000ms)} & \textbf{W at N=5000 (ms)} & \textbf{Status} \\
+\textbf{p} & \textbf{Dist.} & \textbf{Max N (W$<$200ms)} & \textbf{Max N (W$<$1000ms)} & \textbf{W at N=5000 (ms)} & \textbf{Status} \\
 \hline
-0.3 & Lognormal & 1,200 & 1,200 & 944,000 & \textcolor{red}{STALLED} \\
-0.3 & Uniform & 2,500 & 4,000 & 599,000 & \textcolor{red}{STALLED} \\
+0.3 & Lognormal & 1,200 & 1,200 & 829,577.91 & \textcolor{red}{STALLED} \\
+0.3 & Uniform & 2,500 & 4,000 & 526,727.45 & \textcolor{red}{STALLED} \\
 \hline
-0.5 & Lognormal & 1,600 & 1,600 & 735,000 & \textcolor{red}{STALLED} \\
-0.5 & Uniform & 3,000 & 5,000 & 861 & \textcolor{orange!80!black}{DEGRADED} \\
+0.5 & Lognormal & 1,200 & 1,600 & 782,955.64 & \textcolor{red}{STALLED} \\
+0.5 & Uniform & 3,000 & 5,000 & 960.93 & \textcolor{orange!80!black}{DEGRADED} \\
 \hline
-0.8 & Lognormal & 3,000 & 3,500 & 127,000 & \textcolor{red}{STALLED} \\
-0.8 & Uniform & 5,000+ & 5,000+ & 54 & \textcolor{green!50!black}{OK} \\
+0.8 & Lognormal & 2,500 & 3,500 & 282,778.77 & \textcolor{red}{STALLED} \\
+0.8 & Uniform & 5,000+ & 5,000+ & 154.14 & \textcolor{green!50!black}{OK} \\
 \hline
 \end{tabular}
 }
@@ -206,62 +166,41 @@ Based on the simulation results, we analyze system capacity using \textbf{averag
 
 \subsubsection{Detailed Throughput Analysis}
 
-Table~\ref{tab:throughput_detail} shows the throughput per user, which decreases when the system becomes saturated:
+Table~\ref{tab:throughput_detail} reports configurations in increasing load order and, for each $(p,\text{distribution})$ pair, stops at the first STALLED point. The overall throughput grows with load, while waiting time increases sharply under hotspot conditions.
 
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{|c|c|c|r|r|r|c|}
-\hline
-\textbf{p} & \textbf{Dist} & \textbf{N} & \textbf{Throughput} & \textbf{Wait (ms)} & \textbf{TP/User} & \textbf{Status} \\
-\hline
-0.5 & Uniform & 1,000 & 499,104 & 11.70 & 499.1 & OK \\
-0.5 & Uniform & 2,000 & 998,117 & 31.30 & 499.1 & OK \\
-0.5 & Uniform & 3,000 & 1,497,917 & 69.03 & 499.3 & OK \\
-0.5 & Uniform & 4,000 & 1,998,085 & 166.39 & 499.5 & DEGRADED \\
-0.5 & Uniform & 5,000 & 2,498,596 & 860.98 & 499.7 & DEGRADED \\
-\hline
-0.5 & Lognormal & 1,000 & 500,083 & 15.70 & 500.1 & OK \\
-0.5 & Lognormal & 1,600 & 799,534 & 60.91 & 499.7 & OK \\
-0.5 & Lognormal & 2,000 & 976,335 & 39,359 & 488.2 & \textcolor{red}{STALLED} \\
-0.5 & Lognormal & 3,000 & 1,283,611 & 264,306 & 427.9 & \textcolor{red}{STALLED} \\
-\hline
-\end{tabular}
-\caption{Throughput degradation under increasing load}
-\label{tab:throughput_detail}
-\end{table}
+\input{tables/throughput_all_configs.tex}
 
 \subsubsection{Capacity Guidelines}
 
 \begin{itemize}
     \item \textbf{Uniform Distribution}:
     \begin{itemize}
-        \item $p=0.3$: Max \textbf{2,500 users} (W$<$100ms), stalls at N$>$4,000
-        \item $p=0.5$: Max \textbf{3,000 users} (W$<$100ms), degrades but stable up to 5,000
-        \item $p=0.8$: Max \textbf{5,000+ users} (W=54ms at N=5,000) -- \textbf{best configuration}
+        \item $p=0.3$: Max \textbf{2,500 users} (W$<$200ms), stalls at N$>$4,000
+        \item $p=0.5$: Max \textbf{3,000 users} (W$<$200ms), degraded but stable up to 5,000
+        \item $p=0.8$: Max \textbf{5,000+ users} (W=154ms at N=5,000) -- \textbf{best configuration}
     \end{itemize}
     
     \item \textbf{Lognormal Distribution (hotspots)}:
     \begin{itemize}
         \item $p=0.3$: Max \textbf{1,200 users} only -- hotspots cause early saturation
-        \item $p=0.5$: Max \textbf{1,600 users} -- throughput/user drops at higher loads
-        \item $p=0.8$: Max \textbf{3,000 users} -- read parallelism mitigates hotspot effects
+        \item $p=0.5$: Max \textbf{1,200 users} for W$<$200ms (up to 1,600 for W$<$1s)
+        \item $p=0.8$: Max \textbf{2,500 users} for W$<$200ms (up to 3,500 for W$<$1s)
     \end{itemize}
 \end{itemize}
 
 \begin{tcolorbox}[colback=yellow!10, title=Critical Finding: Hotspot Impact]
-The \textbf{Lognormal distribution} (simulating hotspot access patterns) reduces system capacity by \textbf{50--75\%} compared to Uniform distribution:
+The \textbf{Lognormal distribution} (simulating hotspot access patterns) reduces system capacity by about \textbf{50--60\%} compared to Uniform distribution:
 \begin{itemize}
     \item At $p=0.3$: 1,200 vs 2,500 users (52\% reduction)
-    \item At $p=0.5$: 1,600 vs 3,000 users (47\% reduction)  
-    \item At $p=0.8$: 3,000 vs 5,000+ users (40\% reduction)
+    \item At $p=0.5$: 1,200 vs 3,000 users (60\% reduction)
+    \item At $p=0.8$: 2,500 vs 5,000+ users (50\% reduction)
 \end{itemize}
 This highlights the critical importance of \textbf{load balancing} in production systems.
 \end{tcolorbox}
 
 \begin{tcolorbox}[title=Key Conclusions]
 \begin{enumerate}
-    \item \textbf{Model Validity}: The simulation model produces statistically significant results with factor effects explaining 95.7\% of the total variation.
+    \item \textbf{Model Behavior}: Across all runs, throughput scales almost linearly with offered load, while waiting time captures saturation and hotspot effects.
     
     \item \textbf{Capacity Limits} (for $M=20$, $\lambda=0.05$, $S=0.1$s):
     \begin{itemize}
@@ -273,10 +212,10 @@ This highlights the critical importance of \textbf{load balancing} in production
     \item \textbf{Stall Detection}: System enters stall when:
     \begin{itemize}
         \item Average waiting time exceeds 1 second
-        \item Throughput per user decreases (queue buildup)
+        \item Queueing delay grows explosively in hotspot configurations
     \end{itemize}
     
-    \item \textbf{Read/Write Impact}: Each 10\% increase in read probability increases capacity by approximately \textbf{25--50\%} due to read parallelism.
+    \item \textbf{Read/Write Impact}: Higher read probability increases usable capacity, with the strongest gains under hotspot traffic.
     
     \item \textbf{Scaling Formula}: Maximum users for target waiting time $W_{max}$:
     \begin{equation}
@@ -286,13 +225,4 @@ This highlights the critical importance of \textbf{load balancing} in production
 \end{enumerate}
 \end{tcolorbox}
 
-\subsection{Recommendations}
 
-Based on the analysis, we recommend:
-
-\begin{itemize}
-    \item Keep system utilization below 70\% to maintain predictable response times
-    \item Implement load balancing when hotspot access patterns are expected
-    \item Scale the number of tables proportionally with expected user growth
-    \item Monitor the read/write ratio as it affects overall system capacity
-\end{itemize}
