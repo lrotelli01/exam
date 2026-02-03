@@ -255,12 +255,6 @@ Collecting utilization data from our simulations, we compare with theoretical pr
 \end{table}
 The growing discrepancy at high loads ($N=1000$) is attributed to the concurrency of read operations. The theoretical model assumes strict serialization of all tasks ($U_{load}$), whereas the simulation allows parallel processing of reads, resulting in a lower physical busy time ($U_{busy}$) compared to the offered load.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{images/empirical_vs_theoretical.pdf}
-\caption{Bar chart comparison between empirical and theoretical values with 95\% confidence interval}
-\label{fig:empirical_vs_theoretical}
-\end{figure}
 
 \subsubsection{Per-Table Utilization}
 
@@ -274,24 +268,6 @@ For $K = 500$ users, we verify that load is uniformly distributed across tables 
 \end{figure}
 
 The per-table utilization varies within a narrow range (23.90\% -- 24.46\%) around the theoretical value of 24.88\%, confirming uniform load balancing.
-
-\subsubsection{Error Analysis}
-
-The relative error between theoretical and empirical values [Figure~\ref{fig:error_analysis}] shows:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{images/error_analysis.pdf}
-\caption{Relative error analysis across different user populations}
-\label{fig:error_analysis}
-\end{figure}
-
-\begin{itemize}
-    \item \textbf{Error $<$ 5\%} for $N = 10$ to $1000$ users
-    \item The small error is due to the variance in exponential inter-arrival times
-\end{itemize}
-
-The open queueing model provides an excellent prediction of system behavior because the independent Poisson arrivals from each user combine into an aggregate Poisson process.
 
 \subsection{Throughput Analysis}
 
