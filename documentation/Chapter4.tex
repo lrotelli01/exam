@@ -106,13 +106,13 @@ With perfect homoskedasticity, residuals should form a horizontal band around ze
 \label{fig:residuals_pred}
 \end{figure}
 
-In our case, residuals remain centered around zero, but the spread increases at higher predicted throughput (funnel shape). This indicates \textbf{moderate heteroskedasticity}, typical when the system approaches saturation and queueing dynamics amplify variability.
+In our case, a clear funnel shape is not evident. Residuals remain centered around zero and the vertical spread is fairly stable across predicted values, with only slight widening at the highest loads. Overall, this is consistent with \textbf{approximately homoskedastic} behavior (at most weak heteroskedasticity in extreme scenarios).
 
 Implications:
 \begin{itemize}
     \item Point predictions are still useful (no strong systematic bias in the mean residual).
-    \item Uncertainty is higher in high-load configurations.
-    \item Inference assuming constant variance can be optimistic; robust errors or weighted models are preferable for strict statistical testing.
+    \item Uncertainty may grow only in the most stressed configurations.
+    \item Main qualitative conclusions are unchanged.
 \end{itemize}
 
 \subsection{Residual Magnitude Analysis}
@@ -184,21 +184,23 @@ Based on the simulation results, we analyze system capacity using \textbf{averag
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|c|c|r|r|c|}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|r|r|r|c|}
 \hline
-\textbf{p} & \textbf{Distribution} & \textbf{Max N (W$<$100ms)} & \textbf{Max N (W$<$1s)} & \textbf{Status at N=5000} \\
+\textbf{p} & \textbf{Dist.} & \textbf{Max N (W$<$100ms)} & \textbf{Max N (W$<$1000ms)} & \textbf{W at N=5000 (ms)} & \textbf{Status} \\
 \hline
-0.3 & Lognormal & 1,200 & 1,200 & \textcolor{red}{STALLED (944s wait)} \\
-0.3 & Uniform & 2,500 & 4,000 & \textcolor{red}{STALLED (599s wait)} \\
+0.3 & Lognormal & 1,200 & 1,200 & 944,000 & \textcolor{red}{STALLED} \\
+0.3 & Uniform & 2,500 & 4,000 & 599,000 & \textcolor{red}{STALLED} \\
 \hline
-0.5 & Lognormal & 1,600 & 1,600 & \textcolor{red}{STALLED (735s wait)} \\
-0.5 & Uniform & 3,000 & 5,000 & DEGRADED (861ms wait) \\
+0.5 & Lognormal & 1,600 & 1,600 & 735,000 & \textcolor{red}{STALLED} \\
+0.5 & Uniform & 3,000 & 5,000 & 861 & \textcolor{orange!80!black}{DEGRADED} \\
 \hline
-0.8 & Lognormal & 3,000 & 3,500 & \textcolor{red}{STALLED (127s wait)} \\
-0.8 & Uniform & 5,000+ & 5,000+ & OK (54ms wait) \\
+0.8 & Lognormal & 3,000 & 3,500 & 127,000 & \textcolor{red}{STALLED} \\
+0.8 & Uniform & 5,000+ & 5,000+ & 54 & \textcolor{green!50!black}{OK} \\
 \hline
 \end{tabular}
-\caption{Maximum concurrent users based on waiting time thresholds ($M=20$, $\lambda=0.05$, $S=0.1$s)}
+}
+\caption{System capacity summary using waiting-time thresholds ($M=20$, $\lambda=0.05$, $S=0.1$s)}
 \label{tab:max_users}
 \end{table}
 
