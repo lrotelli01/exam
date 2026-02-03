@@ -151,12 +151,12 @@ Simulating both configurations with 25 repetitions, the following chart [Figure~
 
 The results [Figure~\ref{fig:continuity_test}] show that adding just 1 user (+1\%) produces proportionally small changes in throughput:
 \begin{itemize}
-    \item Configuration A (N=100): mean throughput $\approx 5.0$ req/s
-    \item Configuration B (N=101): mean throughput $\approx 5.05$ req/s
-    \item Variation: $\approx +1\%$
+    \item Configuration A (N=100): mean throughput $\approx 100,009$ transactions
+    \item Configuration B (N=101): mean throughput $\approx 101,007$ transactions
+    \item Variation: $\approx +1\%$ (as expected from +1 user)
 \end{itemize}
 
-The 95\% confidence intervals of the two configurations \textbf{overlap}, confirming that the small input change produces a correspondingly small output change. The \textbf{continuity test passes}.
+The bar chart shows mean values with 95\% confidence intervals. The proportional increase in throughput (+1\%) exactly matches the proportional increase in users (+1\%), confirming that the system exhibits \textbf{linear scaling} behavior. The \textbf{continuity test passes}.
 
 \subsection{Consistency Test}
 
