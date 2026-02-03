@@ -111,12 +111,12 @@ def compute_factor_effects_waiting_time(runs):
     ss_error = sum(np.sum((np.array(vals) - np.mean(vals)) ** 2) for vals in cells.values())
 
     effects = {
-        "N (Users)": ss_n,
-        "p (Read Prob)": ss_p,
+        "N": ss_n,
+        "p": ss_p,
         "Distribution": ss_d,
-        "N × p": ss_np,
-        "N × Dist": ss_nd,
-        "p × Dist": ss_pd,
+        "N×p": ss_np,
+        "N×Dist": ss_nd,
+        "p×Dist": ss_pd,
         "Residual": ss_npd + ss_error,
     }
 
@@ -185,7 +185,7 @@ def generate_factor_effects_pie(effects):
         autotext.set_fontweight("bold")
 
     ax.set_title(
-        "Factor Effects on Waiting Time\n(Contribution to Total Variation, log10(W+1))",
+        "Factor Effects on Waiting Time\nContribution to Total Variation - log10(W+1)",
         fontsize=14,
         fontweight="bold",
     )

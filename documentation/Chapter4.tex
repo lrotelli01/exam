@@ -68,9 +68,9 @@ This is coherent with the capacity results: hotspot traffic has a strong impact 
 $N$ & 33.51 \\
 $p$ & 9.39 \\
 Distribution & 22.56 \\
-$N \times p$ & 7.16 \\
-$N \times$ Distribution & 14.46 \\
-$p \times$ Distribution & 3.73 \\
+$N\times p$ & 7.16 \\
+$N\times \mathrm{Dist}$ & 14.46 \\
+$p\times \mathrm{Dist}$ & 3.73 \\
 Residual & 9.19 \\
 \hline
 \end{tabular}
@@ -80,7 +80,7 @@ Residual & 9.19 \\
 
 \noindent Important interpretation: the \textbf{main effect} of read probability is $9.39\%$, but the overall impact of read probability is larger if interactions are included:
 \[
-p + (N \times p) + (p \times \text{Distribution}) \approx 9.39 + 7.16 + 3.73 = 20.28\%.
+p + (N\times p) + (p\times \mathrm{Dist}) \approx 9.39 + 7.16 + 3.73 = 20.28\%.
 \]
 So read probability does not act ``in isolation''; it becomes much more influential when load and hotspot distribution change.
 
@@ -95,7 +95,7 @@ The analysis reveals that:
     
     \item \textbf{Distribution}: A strong standalone contribution (22.56\%). Uniform access keeps delay controlled, while Lognormal hotspots amplify contention.
 
-    \item \textbf{Interactions}: $N \times$ Distribution (14.46\%) and $N \times p$ (7.16\%) are substantial, meaning that the effect of one factor depends on the operating point of the others.
+    \item \textbf{Interactions}: $N\times \mathrm{Dist}$ (14.46\%) and $N\times p$ (7.16\%) are substantial, meaning that the effect of one factor depends on the operating point of the others.
 
     \item \textbf{Residual}: 9.19\% indicates remaining variability not explained by first-order terms only (e.g., stochastic effects near threshold conditions), which is expected in saturation regions.
 \end{itemize}
@@ -138,7 +138,7 @@ With perfect homoskedasticity, residual percentages should form a horizontal ban
 \label{fig:residuals_pred}
 \end{figure}
 
-In our case, a clear funnel shape is not evident. Residuals stay centered around zero, with limited widening only in the most stressed hotspot regimes. The trend between residual magnitude and predicted wait is weak (Spearman $\rho \approx 0.18$), so behavior is \textbf{approximately homoskedastic} with mild heteroskedasticity at the extremes.
+In our case, a clear funnel shape is not sharp, but residual spread increases with predicted waiting time in stressed regimes. The rank trend between residual magnitude and predicted wait is positive and significant (Spearman $\rho \approx 0.63$, $p \ll 0.001$), indicating \textbf{weak-to-moderate heteroskedasticity} concentrated in high-load/hotspot conditions.
 
 Implications:
 \begin{itemize}
