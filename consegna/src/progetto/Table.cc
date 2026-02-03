@@ -1,4 +1,4 @@
-#include <algorithm> // <--- AGGIUNGI QUESTA RIGA
+#include <algorithm>
 #include "Table.h"
 Define_Module(Table);
 

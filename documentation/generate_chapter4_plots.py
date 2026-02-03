@@ -283,21 +283,7 @@ def generate_residuals_vs_predicted(predicted_wait_ms, residual_pct, dist):
 
 
 def generate_residual_magnitude(abs_residual_pct, dist, read_p):
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-
-    ax1 = axes[0]
-    ax1.hist(abs_residual_pct, bins=35, color="#4c78a8", alpha=0.8, edgecolor="white")
-    median = float(np.median(abs_residual_pct))
-    p90 = float(np.quantile(abs_residual_pct, 0.90))
-    ax1.axvline(median, color="#2ca02c", linewidth=2, label=f"Median = {median:.3f}%")
-    ax1.axvline(p90, color="#ff7f0e", linewidth=2, linestyle="--", label=f"P90 = {p90:.3f}%")
-    ax1.set_xlabel("|Residual| (%)")
-    ax1.set_ylabel("Count")
-    ax1.set_title("Absolute Residual Magnitude (all replications)")
-    ax1.legend()
-    ax1.grid(True, alpha=0.3)
-
-    ax2 = axes[1]
+    fig, ax2 = plt.subplots(figsize=(10, 5))
     group_order = [
         ("Uniform", 0.3),
         ("Uniform", 0.5),

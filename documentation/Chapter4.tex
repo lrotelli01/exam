@@ -105,7 +105,7 @@ The analysis reveals that:
 
 \subsection{Testing Normality Hypothesis}
 
-For each $(N,p,\text{distribution})$ configuration, the predicted waiting time is the mean over the 5 runs, and residuals are measured as percentage deviations from that configuration mean.
+For each $(N,p,\text{distribution})$ configuration, the reference waiting time is the mean over the 5 runs, and residuals are measured as percentage deviations from that configuration mean.
 
 The QQ-Plot [Figure~\ref{fig:qqplot}] compares the distribution of residuals against a theoretical normal distribution.
 
@@ -134,11 +134,11 @@ With perfect homoskedasticity, residual percentages should form a horizontal ban
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{images/residuals_vs_predicted.pdf}
-\caption{Residual percentage (Y-axis) versus predicted waiting time per configuration in ms (X-axis, log scale).}
+\caption{Residual percentage (Y-axis) versus configuration mean waiting time in ms (X-axis, log scale).}
 \label{fig:residuals_pred}
 \end{figure}
 
-In our case, a clear funnel shape is not sharp, but residual spread increases with predicted waiting time in stressed regimes. The rank trend between residual magnitude and predicted wait is positive and significant (Spearman $\rho \approx 0.63$, $p \ll 0.001$), indicating \textbf{weak-to-moderate heteroskedasticity} concentrated in high-load/hotspot conditions.
+In our case, a clear funnel shape is not sharp, but residual spread increases with configuration mean waiting time in stressed regimes. The rank trend between residual magnitude and this reference value is positive and significant (Spearman $\rho \approx 0.63$, $p \ll 0.001$), indicating \textbf{weak-to-moderate heteroskedasticity} concentrated in high-load/hotspot conditions.
 
 Implications:
 \begin{itemize}
@@ -154,7 +154,7 @@ To quantify this effect, we examine the absolute residual percentage $|e|$ acros
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{images/residual_magnitude.pdf}
-\caption{Residual magnitude analysis: histogram of $|$residual$|$ (\%) and boxplots grouped by distribution and $p$.}
+\caption{Residual magnitude analysis: boxplots of $|$residual$|$ (\%) grouped by distribution and $p$.}
 \label{fig:residual_mag}
 \end{figure}
 

@@ -11,7 +11,6 @@ network DatabaseNetwork
         user[numUsers]: User {
             parameters:
                 userId = index;
-                // CORRECTION: Use 'parent.numTables' to get value from network
                 numTables = parent.numTables;
             gates:
                 tableOut[parent.numTables];
